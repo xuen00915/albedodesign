@@ -40,7 +40,9 @@ test("Elementor snippet points at WordPress media and the preview maps it locall
   assert.match(snippet, /src="https:\/\/albedodesign\.com\.sg\/wp-content\/uploads\/alb\/house-3d-complete\.webp"/);
   const preview = await readProject("preview/index.html");
   assert.match(preview, /data-three-src="\.\.\/elementor\/vendor\/three\.min\.js"/);
-  assert.match(preview, /<script src="\.\.\/elementor\/alb-house3d\.js"><\/script>/);
+  assert.match(preview, /<script src="\.\.\/elementor\/alb-house3d\.js\?v=[0-9a-f]{10}"><\/script>/);
+  assert.match(preview, /<link rel="stylesheet" href="\.\.\/elementor\/alb-landing\.css\?v=[0-9a-f]{10}">/);
+  assert.match(preview, /<script src="\.\.\/elementor\/alb-landing\.js\?v=[0-9a-f]{10}"><\/script>/);
   assert.ok(await readProject("elementor/vendor/three.min.js"), "vendored three.js is missing");
 });
 

@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -48,6 +49,15 @@ for (const sectionIndex of [4, 7]) {
   );
 }
 
+// Content-hash query strings so browsers never pair a new page with a stale cached stylesheet or script.
+async function assetVersion(relativePath) {
+  const contents = await readFile(path.join(root, relativePath));
+  return createHash("sha256").update(contents).digest("hex").slice(0, 10);
+}
+const cssVersion = await assetVersion("elementor/alb-landing.css");
+const landingJsVersion = await assetVersion("elementor/alb-landing.js");
+const houseJsVersion = await assetVersion("elementor/alb-house3d.js");
+
 const document = String.raw`<!doctype html>
 <html lang="en-SG">
 <head>
@@ -56,7 +66,7 @@ const document = String.raw`<!doctype html>
   <title>Landed Home Renovation Singapore | Albedo Design</title>
   <meta name="description" content="Terrace, semi-D, bungalow and shophouse renovation by one trusted design & build team. 800+ projects, BCA & HDB licensed. Book a free consultation.">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%2300325D'/%3E%3Cpath d='M16 45 30 15h5l14 30h-8l-3-7H27l-3 7zm14-14h6l-3-8z' fill='white'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="../elementor/alb-landing.css">
+  <link rel="stylesheet" href="../elementor/alb-landing.css?v=${cssVersion}">
 </head>
 <body style="margin:0">
   <div class="alb-lp alb-page">
@@ -66,8 +76,8 @@ ${previewSections.slice(1, 13).join("\n")}
     </main>
 ${previewSections.slice(13).join("\n")}
   </div>
-  <script src="../elementor/alb-landing.js"></script>
-  <script src="../elementor/alb-house3d.js"></script>
+  <script src="../elementor/alb-landing.js?v=${landingJsVersion}"></script>
+  <script src="../elementor/alb-house3d.js?v=${houseJsVersion}"></script>
 </body>
 </html>
 `;

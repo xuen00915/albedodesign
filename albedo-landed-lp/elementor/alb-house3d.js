@@ -307,6 +307,10 @@
     var src = section.getAttribute("data-three-src");
     if (!canvas || !figure || !track || !steps.length || !src) return;
     if (!("IntersectionObserver" in window) || !supportsWebGL()) return;
+    // Only enhance when the matching stylesheet is present (e.g. not a stale cached
+    // alb-landing.css); otherwise keep the static illustration and list.
+    var pin = section.querySelector(".alb-why__pin");
+    if (!pin || window.getComputedStyle(pin).display !== "grid") return;
 
     var house = null;
     var active = -1;
