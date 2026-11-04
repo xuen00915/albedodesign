@@ -374,6 +374,34 @@
     if (document.readyState === "complete") observeWhenNear();
     else window.addEventListener("load", observeWhenNear, { once: true });
 
+    // Each step is clickable: jump straight to that stage, skipping the scroll animation.
+    function stepProgress(index) {
+      return index >= steps.length - 1 ? 1 : (index + 1) / steps.length - 0.02;
+    }
+    function goToStep(index) {
+      var p = stepProgress(index);
+      var span = Math.max(1, track.offsetHeight - window.innerHeight);
+      var trackTop = track.getBoundingClientRect().top + (window.pageYOffset || document.documentElement.scrollTop || 0);
+      var root = document.documentElement;
+      var previous = root.style.scrollBehavior;
+      root.style.scrollBehavior = "auto";
+      window.scrollTo(0, Math.round(trackTop + p * span));
+      root.style.scrollBehavior = previous;
+      if (house) house.jump(sceneProgress(p));
+      setActive(index);
+    }
+    steps.forEach(function (step, index) {
+      var heading = step.querySelector("h3");
+      if (heading && !heading.querySelector(".alb-why__jump")) {
+        var button = document.createElement("button");
+        button.type = "button";
+        button.className = "alb-why__jump";
+        while (heading.firstChild) button.appendChild(heading.firstChild);
+        heading.appendChild(button);
+      }
+      step.addEventListener("click", function () { goToStep(index); });
+    });
+
     window.addEventListener("scroll", requestUpdate, { passive: true });
     window.addEventListener("resize", function () {
       if (house) house.resize();

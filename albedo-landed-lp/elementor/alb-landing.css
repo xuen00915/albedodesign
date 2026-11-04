@@ -370,7 +370,8 @@
   font-size:13px;
   font-weight:700;
   gap:5px;
-  margin-top:3px;
+  margin:-4px 0 -6px;
+  min-height:28px;
   text-decoration:underline;
   text-underline-offset:3px;
   width:max-content;
@@ -765,10 +766,23 @@
 .alb-lp .alb-rating{
   align-items:center;
   background:#fff;
-  border-radius:var(--alb-r-md);
+  border:1px solid var(--alb-line-2);
+  border-radius:var(--alb-pill);
   display:flex;
+  flex:0 0 auto;
   gap:12px;
-  padding:16px 20px;
+  padding:10px 22px;
+}
+@media (min-width:761px){
+  .alb-lp.alb-testimonials .alb-section-head{
+    align-items:center;
+    flex-wrap:wrap;
+  }
+}
+.alb-lp .alb-rating__logo{
+  display:block;
+  height:24px;
+  width:auto;
 }
 .alb-lp .alb-rating > strong{
   color:var(--alb-navy);
@@ -871,26 +885,30 @@
   margin:48px 0;
 }
 .alb-lp .alb-process__grid article{
-  border-top:1px solid #2A5784;
-  padding-top:22px;
+  align-content:start;
+  column-gap:14px;
+  display:grid;
+  grid-template-columns:auto minmax(0,1fr);
+}
+.alb-lp .alb-process__grid article h3, .alb-lp .alb-process__grid article p{
+  grid-column:1 / -1;
 }
 .alb-lp .alb-process__icon{
-  background:rgba(255,255,255,.06);
-  border:1px solid #2A5784;
+  background:rgba(169,195,221,.1);
   border-radius:14px;
   box-sizing:border-box;
   display:block;
   fill:none;
-  height:52px;
-  margin-bottom:18px;
-  padding:13px;
-  stroke:var(--alb-orange);
+  height:48px;
+  padding:12px;
+  stroke:var(--alb-on-dark-3);
   stroke-linecap:round;
   stroke-linejoin:round;
   stroke-width:1.8;
-  width:52px;
+  width:48px;
 }
 .alb-lp .alb-process__grid span{
+  align-self:center;
   color:var(--alb-on-dark-3);
   display:block;
   font-size:14px;
@@ -959,6 +977,7 @@
 }
 .alb-lp .alb-contact-card .alb-btn{
   max-width:300px;
+  white-space:nowrap;
   width:100%;
 }
 .alb-lp .alb-contact-card h3{
@@ -1313,18 +1332,7 @@
   .alb-lp .alb-process__grid{
     grid-template-columns:1fr;
   }
-  .alb-lp .alb-process__grid article{
-    column-gap:16px;
-    display:grid;
-    grid-template-columns:52px minmax(0,1fr);
-  }
-  .alb-lp .alb-process__icon{
-    grid-row:1 / span 3;
-    margin-bottom:0;
-  }
-  .alb-lp .alb-process__grid h3{
-    margin-top:4px;
-  }
+
 }
 @media (prefers-reduced-motion:reduce){
   .alb-lp *, .alb-lp *::before, .alb-lp *::after{
@@ -1355,10 +1363,10 @@
    alb-house3d.js adds .is-3d, which turns the track into a pinned scroll scene.
    --------------------------------------------------------------------------- */
 .alb-lp.alb-why{
-  background:linear-gradient(180deg,#E9F0F8 0%,#F3F7FB 100%);
+  background:linear-gradient(180deg,#F3F7FB 0%,#F8FAFD 100%);
 }
 .alb-lp.alb-why .alb-why__step{
-  border-bottom-color:#C9D6E4;
+  border-bottom-color:#D8E2EC;
 }
 .alb-lp .alb-why__pin{
   align-items:center;
@@ -1451,6 +1459,27 @@
 }
 .alb-lp.alb-why.is-3d .alb-why__step.is-active{
   opacity:1;
+}
+.alb-lp.alb-why.is-3d .alb-why__step{
+  cursor:pointer;
+}
+.alb-lp.alb-why.is-3d .alb-why__step:not(.is-active):hover{
+  opacity:.75;
+}
+.alb-lp .alb-why__jump{
+  background:none;
+  border:0;
+  color:inherit;
+  cursor:pointer;
+  font:inherit;
+  letter-spacing:inherit;
+  padding:0;
+  text-align:left;
+}
+.alb-lp .alb-why__jump:focus-visible{
+  border-radius:4px;
+  outline:3px solid var(--alb-orange);
+  outline-offset:3px;
 }
 @media (max-width:1024px){
   .alb-lp .alb-why__pin{
@@ -1842,10 +1871,98 @@
     aspect-ratio:4/3;
   }
   .alb-lp .alb-offer__panel > img{
-    height:clamp(260px,38vw,380px);
+    height:clamp(220px,40vw,280px);
     min-height:0;
   }
   .alb-lp .alb-final__panel{
     min-height:400px;
+  }
+}
+/* Portrait tablets: reviews read better stacked than squeezed three across. */
+@media (max-width:900px){
+  .alb-lp .alb-quote-grid{
+    grid-template-columns:1fr;
+  }
+  .alb-lp .alb-quote-grid figure{
+    min-height:0;
+  }
+}
+/* Phones: fit all three comparison columns on screen instead of scrolling sideways. */
+@media (max-width:560px){
+  .alb-lp .alb-table-wrap table{
+    min-width:0;
+    table-layout:fixed;
+  }
+  .alb-lp .alb-table-wrap th, .alb-lp .alb-table-wrap td{
+    font-size:13px;
+    hyphens:auto;
+    line-height:1.4;
+    padding:12px 8px;
+  }
+  .alb-lp .alb-table-wrap thead th{
+    font-size:13px;
+  }
+  .alb-lp .alb-table-wrap thead th:first-child, .alb-lp .alb-table-wrap tbody th{
+    width:36%;
+  }
+}
+@media (max-width:360px){
+  .alb-lp .alb-table-wrap th, .alb-lp .alb-table-wrap td, .alb-lp .alb-table-wrap thead th{
+    font-size:12px;
+    padding:10px 6px;
+  }
+}
+/* Wider tablets: consultation photo sits beside the offer instead of above it. */
+@media (min-width:700px) and (max-width:1024px){
+  .alb-lp .alb-offer__panel{
+    grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);
+  }
+  .alb-lp .alb-offer__panel > img{
+    height:100%;
+  }
+  .alb-lp .alb-offer__copy{
+    padding:32px 28px;
+  }
+  .alb-lp .alb-offer__copy h2{
+    font-size:26px;
+  }
+}
+/* Tablets: FAQ goes full width, contact buttons sit side by side. */
+@media (min-width:561px) and (max-width:1024px){
+  .alb-lp .alb-editorial > div:first-child{
+    max-width:none;
+  }
+  .alb-lp .alb-contact-card{
+    align-items:center;
+    display:grid;
+    gap:12px 16px;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  .alb-lp .alb-contact-card h3{
+    grid-column:1 / -1;
+    margin:0;
+  }
+  .alb-lp .alb-contact-card .alb-btn{
+    max-width:none;
+  }
+  .alb-lp .alb-accordion details p{
+    max-width:none;
+  }
+}
+@media (min-width:860px) and (max-width:1024px){
+  .alb-lp .alb-contact-card{
+    grid-template-columns:minmax(0,1fr) repeat(2,minmax(230px,250px));
+  }
+  .alb-lp .alb-contact-card h3{
+    grid-column:auto;
+  }
+}
+/* Phones: contact buttons fill the card width. */
+@media (max-width:560px){
+  .alb-lp .alb-contact-card{
+    align-items:stretch;
+  }
+  .alb-lp .alb-contact-card .alb-btn{
+    max-width:none;
   }
 }

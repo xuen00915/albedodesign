@@ -496,3 +496,33 @@ for (const viewport of [{ width: 768, height: 1024 }, { width: 1024, height: 768
     }
   });
 }
+
+for (const viewport of [{ width: 1440, height: 900 }, { width: 390, height: 844 }]) {
+  test(`why-us steps jump straight to their stage when clicked (${viewport.width}px)`, async ({ page }) => {
+    await page.setViewportSize(viewport);
+    await page.goto(pageUrl, { waitUntil: "networkidle" });
+    const why = page.locator(".alb-why");
+    await expect(why).toHaveClass(/is-3d/);
+    await page.evaluate(() => {
+      const track = document.querySelector(".alb-why__track");
+      window.scrollTo(0, track.getBoundingClientRect().top + scrollY + 10);
+    });
+    const steps = page.locator(".alb-why__step");
+    await expect(steps.nth(0)).toHaveClass(/is-active/);
+    await expect(steps.nth(2).locator("button.alb-why__jump")).toHaveCount(1);
+
+    await steps.nth(2).locator("h3").click();
+    await expect(steps.nth(2)).toHaveClass(/is-active/);
+    const atEnd = await page.evaluate(() => {
+      const track = document.querySelector(".alb-why__track");
+      return Math.abs(track.getBoundingClientRect().bottom - innerHeight) < 4;
+    });
+    expect(atEnd).toBe(true);
+
+    await steps.nth(1).locator("h3").click();
+    await expect(steps.nth(1)).toHaveClass(/is-active/);
+    await steps.nth(0).locator("button.alb-why__jump").focus();
+    await page.keyboard.press("Enter");
+    await expect(steps.nth(0)).toHaveClass(/is-active/);
+  });
+}
