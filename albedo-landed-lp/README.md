@@ -1,63 +1,165 @@
-# Albedo Landed Home Renovation Landing Page
+# Edit the Albedo landed-home landing page
 
-Dependency-free HTML, CSS, and JavaScript for Albedo Design’s landed-home renovation Google Ads landing page, plus ordered Elementor HTML-widget snippets.
+This guide explains how to edit, preview, test, and deploy Albedo Design’s landed-home renovation page. The page uses dependency-free HTML, CSS, and JavaScript so its sections can also run inside Elementor HTML widgets.
 
-## Deliverables
+- **Live page**: [Albedo landed-home landing page](https://xuen00915.github.io/albedodesign/)
+- **Repository**: [xuen00915/albedodesign](https://github.com/xuen00915/albedodesign)
+- **Audience**: designers and developers maintaining page content, media, layout, or interactions
+- **Goal**: make later edits without breaking the static preview, Elementor version, accessibility, or GitHub Pages deployment
 
-- preview/index.html — complete static review page.
-- elementor/alb-landing.css — shared styles, fully scoped under .alb-lp.
-- elementor/alb-landing.js — carousel, attribution, CTA focus, tracking, and Elementor lifecycle behavior.
-- elementor/sections — 15 ordered HTML snippets.
-- elementor/INSTALL-ELEMENTOR.md — production installation guide.
-- docs/placeholders.md — launch-blocking business, review, pricing, privacy, claim, and asset inputs.
-- design/concept-overview.png — visual rhythm reference; the supplied written build specification remains the content authority.
+## Start editing
 
-## Preview locally
+Run these commands from `albedo-landed-lp`:
 
-From this directory:
+```bash
+npm install
+npx playwright install chromium
+npm run build:preview
+python3 -m http.server 4187
+```
 
-    npm install
-    npm run build:preview
-    python3 -m http.server 4187
+Open `http://localhost:4187/preview/`. Keep the local server running when you run browser tests.
 
-Open http://localhost:4187/preview/.
+## Know which files to change
 
-The preview references Albedo’s current WordPress media-library URLs, so an internet connection is required for those images. Project and accreditation slots intentionally remain labelled placeholders until Albedo supplies approved assets.
+Edit the source files, then regenerate the preview:
 
-## Test
+- `elementor/sections/01-header.html` through `15-mobile-bar.html`: page content and section markup, in display order
+- `elementor/alb-landing.css`: shared responsive styles, scoped under `.alb-lp`
+- `elementor/alb-landing.js`: slider behavior, lazy loading, attribution, form handling, and analytics events
+- `preview/assets/`: optimized local images used by the static preview and GitHub Pages
+- `scripts/build-preview.mjs`: assembles the section files and maps WordPress image URLs to local preview assets
+- `scripts/build-pages.mjs`: creates the GitHub Pages artifact
+- `preview/index.html`: generated review page; do not edit it directly
+- `pages-dist/`: generated deployment output; do not edit or commit it
+- `tests/`: structure, behavior, CSS, accessibility, and browser regression tests
 
-    npm test
-    npm run test:browser
+Run `npm run build:preview` after changing any section. Commit the regenerated `preview/index.html` with the source change.
 
-The unit/structure suite checks document order, field contracts, contact links, scoped CSS, carousel state, reduced-motion behavior, attribution persistence, tracking payloads, fallback-form behavior, and Elementor hooks. Browser tests add responsive overflow, console, and core-interaction checks.
+## Edit common page areas
 
-For performance, the first automatic carousel transition waits 9 seconds so it cannot replace the initial LCP candidate during page startup. After that, autoplay and all manual-interaction restarts use the specified 6-second cadence.
+Use the matching section file for each content change:
 
-## Preview form boundary
+| Area | File | Keep intact |
+| --- | --- | --- |
+| Header and navigation | `01-header.html` | Mobile label and consultation anchor |
+| Hero, form, and project slider | `02-hero.html` | Slide controls, `data-project` values, and form field names |
+| Credential logo strip | `03-trust-bar.html` | Six-logo accessible group and matching `aria-hidden` duplicate group |
+| Landed-home types | `05-property-types.html` | Links to the matching project IDs |
+| Consultation offer | `07-consultation-offer.html` | Consultation call to action |
+| Project showcases | `08-projects.html` | `project-terrace`, `project-semi-detached`, `project-bungalow`, and `project-shophouse` IDs |
+| Reviews | `09-testimonials.html` | Approved review and rating claims only |
+| Questions and answers | `12-faq.html` | Accessible question buttons and answer panels |
+| Footer contacts | `14-footer.html` | Phone, WhatsApp, address, and company details |
+| Mobile contact bar | `15-mobile-bar.html` | Tap target sizes and contact destinations |
 
-The static preview form never sends personal data. It validates locally, displays a local success message, and pushes the same alb_lead_submit dataLayer event used for QA. Production lead delivery must use the Elementor Pro Form widget (or the documented Fluent Forms/WPForms fallback) configured in elementor/INSTALL-ELEMENTOR.md.
+## Replace an image
 
-## Rebuild rule
+The Elementor snippets use WordPress media-library URLs. The static preview replaces those URLs with local optimized files through `previewAssetMap` in `scripts/build-preview.mjs`.
 
-The static preview is assembled from the ordered files in elementor/sections:
+To replace an image:
 
-    npm run build:preview
+1. Add an optimized `.webp` file to `preview/assets/`
+2. Update the WordPress media URL in the relevant section file
+3. Update the URL-to-file entry in `scripts/build-preview.mjs`
+4. Preserve useful `alt` text and the image `width` and `height`
+5. Run `npm run build:preview`
+6. Check desktop and mobile crops before committing
 
-Run that command after editing a section snippet and commit the regenerated preview/index.html with the snippet change.
+Keep the first hero image eager and high priority. Keep later hero and below-fold project images lazy-loaded so they do not compete with the first image.
 
-## Production checklist
+## Preserve linked project navigation
 
-Before launch:
+Each hero slide and property-type card points to one project showcase. Keep these values synchronized:
 
-1. Resolve every item in docs/placeholders.md.
-2. Replace condo/residential imagery with approved landed-home project photography.
-3. Configure the production form, email/submission actions, honeypot, and reCAPTCHA.
-4. Add the real privacy-policy URL.
-5. Confirm all claims, credentials, review data, response time, and any offer or urgency.
-6. Configure GTM and Google Ads conversion triggers.
-7. Test form delivery, WhatsApp, calls, mobile sticky actions, and consent on a real phone.
-8. Run browser QA and Lighthouse against the final WordPress page.
+| Home type | Link target |
+| --- | --- |
+| Terrace | `#project-terrace` |
+| Semi-detached | `#project-semi-detached` |
+| Bungalow | `#project-bungalow` |
+| Shophouse | `#project-shophouse` |
 
-## Source of truth
+If you rename a target, update the hero slide, property card, and project card together.
 
-The approved design record is ../docs/superpowers/specs/2026-11-04-albedo-landed-lp-design.md. The original detailed brief was supplied at /Users/dmsyx/Downloads/albedo-landed-landing-page-spec.md on 2026-11-04.
+## Maintain the credential strip
+
+The credential rail contains two identical logo groups to create a seamless loop. The first group has descriptive alternative text. The duplicate group uses `aria-hidden="true"` and empty `alt` attributes so assistive technology does not announce every logo twice.
+
+When you add, remove, or reorder a credential:
+
+1. Make the same change in both groups
+2. Keep descriptive `alt` text in the first group
+3. Keep empty `alt` text in the duplicate group
+4. Preserve hover and keyboard-focus pausing
+5. Preserve the static horizontal fallback for reduced-motion users
+
+## Handle forms and analytics
+
+The static preview form does not send personal data. It validates locally, shows a success state, and pushes an `alb_lead_submit` event for quality assurance.
+
+Production lead delivery uses the Elementor Pro Form widget or a documented fallback. Follow `elementor/INSTALL-ELEMENTOR.md` when connecting email delivery, spam protection, consent, Google Tag Manager, or Google Ads conversions.
+
+Do not rename these form fields without updating the JavaScript, production form, analytics, and tests:
+
+- `name`
+- `phone`
+- `property_type`
+- `start_when`
+- `pdpa_consent`
+- `utm_source`
+- `utm_medium`
+- `utm_campaign`
+- `utm_term`
+- `gclid`
+- `landing_page`
+
+## Test your changes
+
+Run the generated build and unit tests:
+
+```bash
+npm run build:pages
+npm test
+```
+
+With `python3 -m http.server 4187` still running in another terminal, run the browser suite:
+
+```bash
+npm run test:browser
+git diff --check
+```
+
+Before you commit, check:
+
+- The hero and its slider controls fit within the first desktop screen
+- The page has no horizontal overflow at 1440, 1024, 768, 390, or 360 pixels
+- The mobile header, form, slider, and sticky contact bar remain usable
+- Slider autoplay pauses on hover and focus and stops for reduced-motion users
+- The credential strip loops, pauses, and shows all six logos
+- Every property card opens its matching project showcase
+- Phone and WhatsApp links use the approved destinations
+- The browser console and network panel show no errors
+
+## Deploy through GitHub Pages
+
+Push an approved commit to `main`. The `Deploy GitHub Pages` workflow builds `pages-dist/` and publishes the live page automatically.
+
+```bash
+git add .
+git commit -m "describe the landing-page change"
+git push
+```
+
+Check the repository’s **Actions** tab before treating the deployment as complete. Then open the live page and verify the changed section.
+
+## Use the Elementor version
+
+The GitHub Pages build is the review and hosted static version. The production WordPress version uses the ordered HTML snippets plus the shared CSS and JavaScript.
+
+Follow `elementor/INSTALL-ELEMENTOR.md` for widget order, global CSS placement, script loading, form configuration, tracking, and launch checks.
+
+## Review unresolved launch content
+
+Check `docs/placeholders.md` before a production launch. It records business details, approved claims, reviews, offers, privacy links, and other content that needs confirmation.
+
+The design reference is `design/concept-overview.png`. The implementation inventory is `design/implementation-inventory.md`.
