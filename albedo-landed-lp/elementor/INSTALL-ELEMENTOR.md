@@ -32,17 +32,20 @@ Paste order:
 2. sections/02-hero.html
 3. sections/03-trust-bar.html
 4. sections/04-why-us.html
-5. sections/05-property-types.html
+5. sections/05-projects.html (Real landed homes: type tabs and project detail dialogs)
 6. sections/06-pricing.html
 7. sections/07-consultation-offer.html
-8. sections/08-projects.html
-9. sections/09-testimonials.html
-10. sections/10-process.html
-11. sections/11-comparison.html
-12. sections/12-faq.html
-13. sections/13-final-cta.html
-14. sections/14-footer.html
-15. sections/15-mobile-bar.html
+8. sections/09-testimonials.html
+9. sections/10-process.html
+10. sections/11-comparison.html
+11. sections/12-faq.html
+12. sections/13-final-cta.html
+13. sections/14-footer.html
+14. sections/15-mobile-bar.html
+
+There is no 08 snippet: the former property-types and projects sections are merged into 05-projects.html.
+
+The project detail dialogs use the native `<dialog>` element. Keep each dialog inside the 05 HTML widget so its "View project details" buttons can open it. "Get a design like this" pre-selects the matching option in the Property type field, so keep the form option labels Terrace, Semi-detached, Bungalow / detached and Shophouse.
 
 The pricing snippet is deliberately hidden with alb-is-hidden. Remove only that class after Albedo approves every price and the GST note.
 
@@ -126,7 +129,8 @@ The script:
 - pauses for hover, focus, hidden tabs, and reduced motion;
 - scrolls enquiry CTAs to the form and focuses the first field;
 - persists UTM values and gclid in sessionStorage;
-- pushes tracking events;
+- pushes tracking events, including alb_project_view when a project detail dialog opens;
+- switches the project type tabs and opens project details;
 - reinitializes Elementor HTML widgets in editor preview.
 
 ### 5a. Add the 3D house for the "See your landed home" section
@@ -171,6 +175,7 @@ alb-landing.js pushes:
 | WhatsApp link | alb_whatsapp_click | Lead – WhatsApp |
 | Telephone link | alb_call_click | Lead – Call |
 | #enquire CTA | alb_cta_click | Diagnostic/engagement unless the media plan says otherwise |
+| Project detail dialog opened | alb_project_view (project: terrace, semi-detached, bungalow or shophouse) | Engagement only; shows which home types interest visitors |
 
 Click events include the originating section where applicable. Form events include property_type and start_when.
 

@@ -266,7 +266,7 @@
       pushEvent(leadPayload(form));
       var status = form.querySelector('[role="status"]');
       if (status) {
-        status.textContent = "Thank you! An Albedo designer will contact you within [1 working day]. Want a faster reply? WhatsApp us at 9669 9319.";
+        status.textContent = "Thank you! An Albedo designer will contact you shortly. Want a faster reply? WhatsApp us at 9669 9319.";
       }
     });
   }
@@ -276,6 +276,7 @@
       if (image.dataset.albLazyReady === "true") return;
       image.dataset.albLazyReady = "true";
       function hydrate() {
+        if (!image.dataset.src) return;
         image.src = image.dataset.src;
         image.removeAttribute("data-src");
         image.removeAttribute("data-alb-lazy");
@@ -309,10 +310,161 @@
     });
   }
 
+
+  // ---------------------------------------------------------------------------
+  // Real landed homes: type tabs, project detail dialogs, gallery, before/after.
+  // ---------------------------------------------------------------------------
+  function selectPropertyType(value) {
+    if (!value) return;
+    nodesWithin(document, fieldSelector("property_type")).forEach(function (field) {
+      var match = Array.prototype.slice.call(field.options || []).some(function (option) {
+        return (option.value || option.textContent) === value;
+      });
+      if (match) {
+        field.value = value;
+        field.dispatchEvent(new Event("change", { bubbles: true }));
+      }
+    });
+  }
+
+  function lockScroll(locked) {
+    document.documentElement.style.overflow = locked ? "hidden" : "";
+  }
+
+  function openDialog(dialog, opener) {
+    if (!dialog || dialog.open) return;
+    dialog._albOpener = opener || document.activeElement;
+    nodesWithin(dialog, "img[data-src]").forEach(function (image) {
+      image.src = image.dataset.src;
+      image.removeAttribute("data-src");
+      image.removeAttribute("data-alb-lazy");
+    });
+    if (typeof dialog.showModal === "function") dialog.showModal();
+    else dialog.setAttribute("open", "");
+    lockScroll(true);
+    var close = dialog.querySelector("[data-alb-dialog-close]");
+    if (close) close.focus();
+    pushEvent({ event: "alb_project_view", project: dialog.dataset.projectKey || dialog.id });
+  }
+
+  function closeDialog(dialog) {
+    if (!dialog || !dialog.open) return;
+    if (typeof dialog.close === "function") dialog.close();
+    else dialog.removeAttribute("open");
+    lockScroll(false);
+  }
+
+  function initDialog(dialog) {
+    if (dialog.dataset.albReady === "true") return;
+    dialog.dataset.albReady = "true";
+    dialog.addEventListener("close", function () {
+      lockScroll(false);
+      var opener = dialog._albOpener;
+      if (opener && typeof opener.focus === "function" && !dialog._albSkipFocus) opener.focus();
+      dialog._albSkipFocus = false;
+    });
+    dialog.addEventListener("click", function (event) {
+      if (event.target === dialog) closeDialog(dialog);
+      if (event.target.closest("[data-alb-dialog-close]")) closeDialog(dialog);
+      var cta = event.target.closest("a[data-alb-property]");
+      if (cta) {
+        selectPropertyType(cta.dataset.albProperty);
+        dialog._albSkipFocus = true;
+        closeDialog(dialog);
+      }
+    });
+    var track = dialog.querySelector(".alb-gallery__track");
+    function step(direction) {
+      if (!track) return;
+      track.scrollBy({ left: direction * track.clientWidth, behavior: prefersReducedMotion() ? "auto" : "smooth" });
+    }
+    var prev = dialog.querySelector(".alb-gallery__prev");
+    var next = dialog.querySelector(".alb-gallery__next");
+    if (prev) prev.addEventListener("click", function () { step(-1); });
+    if (next) next.addEventListener("click", function () { step(1); });
+    nodesWithin(dialog, ".alb-compare").forEach(function (compare) {
+      var range = compare.querySelector(".alb-compare__range");
+      if (!range) return;
+      function sync() { compare.style.setProperty("--alb-compare", range.value + "%"); }
+      range.addEventListener("input", sync);
+      sync();
+    });
+  }
+
+  function initProjects(section) {
+    if (section.dataset.albReady === "true") return;
+    section.dataset.albReady = "true";
+    var tabs = Array.prototype.slice.call(section.querySelectorAll('[role="tab"]'));
+    var panels = tabs.map(function (tab) { return document.getElementById(tab.getAttribute("aria-controls")); });
+    if (!tabs.length || panels.some(function (panel) { return !panel; })) return;
+    section.classList.add("is-tabbed");
+
+    function activate(index, focus) {
+      tabs.forEach(function (tab, i) {
+        var selected = i === index;
+        tab.setAttribute("aria-selected", selected ? "true" : "false");
+        tab.tabIndex = selected ? 0 : -1;
+        panels[i].classList.toggle("is-active", selected);
+        panels[i].hidden = !selected;
+      });
+      if (focus) tabs[index].focus();
+    }
+
+    tabs.forEach(function (tab, index) {
+      tab.addEventListener("click", function () { activate(index, false); });
+      tab.addEventListener("keydown", function (event) {
+        var target = null;
+        if (event.key === "ArrowRight") target = (index + 1) % tabs.length;
+        if (event.key === "ArrowLeft") target = (index - 1 + tabs.length) % tabs.length;
+        if (event.key === "Home") target = 0;
+        if (event.key === "End") target = tabs.length - 1;
+        if (target === null) return;
+        event.preventDefault();
+        activate(target, true);
+      });
+    });
+
+    nodesWithin(section, "dialog.alb-project-dialog").forEach(initDialog);
+    section.addEventListener("click", function (event) {
+      var opener = event.target.closest("[data-alb-dialog]");
+      if (!opener) return;
+      openDialog(document.getElementById(opener.getAttribute("data-alb-dialog")), opener);
+    });
+
+    function showProject(hash, scroll) {
+      var index = panels.findIndex(function (panel) { return "#" + panel.id === hash; });
+      if (index < 0) return false;
+      activate(index, false);
+      if (scroll) panels[index].scrollIntoView({ behavior: prefersReducedMotion() ? "auto" : "smooth", block: "start" });
+      return true;
+    }
+    section._albShowProject = showProject;
+    var initialIndex = panels.findIndex(function (panel) { return "#" + panel.id === window.location.hash; });
+    activate(initialIndex >= 0 ? initialIndex : 0, false);
+  }
+
+  function initProjectLinks() {
+    if (document.documentElement.dataset.albProjectLinksReady === "true") return;
+    document.documentElement.dataset.albProjectLinksReady = "true";
+    document.addEventListener("click", function (event) {
+      var link = event.target.closest('a[href^="#project-"]');
+      if (!link) return;
+      var section = document.querySelector('[data-alb-section="projects"]');
+      if (!section || typeof section._albShowProject !== "function") return;
+      var hash = link.getAttribute("href");
+      if (section._albShowProject(hash, true)) {
+        event.preventDefault();
+        if (window.history && typeof window.history.replaceState === "function") window.history.replaceState(null, "", hash);
+      }
+    });
+  }
+
   function initAll(root) {
     var scope = root || document;
     nodesWithin(scope, ".alb-slider").forEach(initSlider);
     nodesWithin(scope, "[data-alb-preview-form]").forEach(initPreviewForm);
+    nodesWithin(scope, '[data-alb-section="projects"]').forEach(initProjects);
+    initProjectLinks();
     initLazyImages(scope);
     initAttribution(scope);
     initTracking();

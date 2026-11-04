@@ -327,3 +327,81 @@ test("an enquiry CTA inserted after initialization still scrolls and focuses the
   assert.match(window.document.querySelector("#enquire").dataset.scrolledWith, /"block":"start"/);
   assert.equal(window.document.activeElement, window.document.querySelector('[name="name"]'));
 });
+
+test("project tabs switch panels and support arrow, Home and End keys", async () => {
+  const { window } = await createPage();
+  const document = window.document;
+  const section = document.querySelector('[data-alb-section="projects"]');
+  assert.ok(section.classList.contains("is-tabbed"));
+  const tabs = [...section.querySelectorAll('[role="tab"]')];
+  const panelFor = (tab) => document.getElementById(tab.getAttribute("aria-controls"));
+  assert.equal(tabs[0].getAttribute("aria-selected"), "true");
+  assert.equal(panelFor(tabs[1]).hidden, true);
+
+  tabs[2].click();
+  assert.equal(tabs[2].getAttribute("aria-selected"), "true");
+  assert.equal(tabs[2].tabIndex, 0);
+  assert.equal(tabs[0].tabIndex, -1);
+  assert.equal(panelFor(tabs[2]).hidden, false);
+  assert.equal(panelFor(tabs[0]).hidden, true);
+
+  tabs[2].dispatchEvent(new window.KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true }));
+  assert.equal(tabs[3].getAttribute("aria-selected"), "true");
+  assert.equal(document.activeElement, tabs[3]);
+  tabs[3].dispatchEvent(new window.KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true }));
+  assert.equal(tabs[0].getAttribute("aria-selected"), "true");
+  tabs[0].dispatchEvent(new window.KeyboardEvent("keydown", { key: "End", bubbles: true }));
+  assert.equal(tabs[3].getAttribute("aria-selected"), "true");
+  tabs[3].dispatchEvent(new window.KeyboardEvent("keydown", { key: "Home", bubbles: true }));
+  assert.equal(tabs[0].getAttribute("aria-selected"), "true");
+});
+
+test("hero View project link activates the matching project tab", async () => {
+  const { window } = await createPage();
+  const document = window.document;
+  const link = document.querySelector(".alb-slider__project-link");
+  link.setAttribute("href", "#project-shophouse");
+  link.click();
+  const tab = document.getElementById("tab-shophouse");
+  assert.equal(tab.getAttribute("aria-selected"), "true");
+  assert.equal(document.getElementById("project-shophouse").hidden, false);
+  assert.ok(document.getElementById("project-shophouse").dataset.scrolledWith);
+});
+
+test("project details open, track the view, hydrate photos and close", async () => {
+  const { window } = await createPage();
+  const document = window.document;
+  window.dataLayer = [];
+  const opener = document.querySelector('#project-terrace [data-alb-dialog]');
+  opener.click();
+  const dialog = document.getElementById("project-terrace-details");
+  assert.ok(dialog.open || dialog.hasAttribute("open"), "dialog should open");
+  assert.equal(document.documentElement.style.overflow, "hidden");
+  assert.equal(dialog.querySelectorAll("img[data-src]").length, 0, "dialog photos load on open");
+  for (const image of dialog.querySelectorAll("img")) {
+    assert.match(image.getAttribute("src"), /^assets\/hero-1\.webp$/, "dialog photo source must survive lazy hydration");
+  }
+  assert.deepEqual({ ...window.dataLayer.at(-1) }, { event: "alb_project_view", project: "terrace" });
+
+  const range = dialog.querySelector(".alb-compare__range");
+  range.value = "30";
+  range.dispatchEvent(new window.Event("input", { bubbles: true }));
+  assert.equal(dialog.querySelector(".alb-compare").style.getPropertyValue("--alb-compare"), "30%");
+
+  dialog.querySelector("[data-alb-dialog-close]").click();
+  assert.equal(dialog.open || dialog.hasAttribute("open"), false);
+  assert.equal(document.documentElement.style.overflow, "");
+});
+
+test("Get a design like this pre-selects the property type and scrolls to the form", async () => {
+  const { window } = await createPage();
+  const document = window.document;
+  window.dataLayer = [];
+  document.querySelector('#project-semi-detached [data-alb-dialog]').click();
+  const dialog = document.getElementById("project-semi-detached-details");
+  dialog.querySelector("a[data-alb-property]").click();
+  assert.equal(dialog.open || dialog.hasAttribute("open"), false);
+  assert.equal(document.querySelector('#enquire [name="property_type"]').value, "Semi-detached");
+  assert.ok(document.getElementById("enquire").dataset.scrolledWith, "should scroll to the enquiry form");
+  assert.equal(window.dataLayer.at(-1).event, "alb_cta_click");
+});

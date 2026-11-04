@@ -188,15 +188,64 @@ test("credential motion stops when reduced motion is requested", async ({ page }
   await expect(page.locator(".alb-trust__track")).toHaveCSS("animation-name", "none");
 });
 
-test("property cards navigate to matching project showcases", async ({ page }) => {
-  await page.setViewportSize({ width: 1440, height: 900 });
+test("project tabs, details dialog and design CTA work in the rendered browser", async ({ page }) => {
+  const events = [];
+  await page.exposeFunction("albEvent", (payload) => events.push(payload));
+  await page.addInitScript(() => {
+    window.dataLayer = [];
+    const push = window.dataLayer.push.bind(window.dataLayer);
+    window.dataLayer.push = (payload) => { window.albEvent(payload); return push(payload); };
+  });
+  await page.setViewportSize({ width: 1440, height: 1000 });
   await page.goto(pageUrl, { waitUntil: "networkidle" });
 
-  await page.locator('.alb-property[href="#project-bungalow"]').click();
+  await page.locator("#tab-bungalow").click();
+  await expect(page.locator("#project-bungalow")).toBeVisible();
+  await expect(page.locator("#project-terrace")).toBeHidden();
+
+  await page.locator("#project-bungalow .alb-project-panel__open").click();
+  const dialog = page.locator("#project-bungalow-details");
+  await expect(dialog).toBeVisible();
+  await expect(dialog.locator(".alb-project-dialog__close")).toBeFocused();
+  await expect.poll(() => dialog.locator("img").evaluateAll((images) =>
+    images.every((image) => image.complete && image.naturalWidth > 0))).toBe(true);
+  await page.keyboard.press("Escape");
+  await expect(dialog).toBeHidden();
+  await expect(page.locator("#project-bungalow .alb-project-panel__open")).toBeFocused();
+
+  await page.locator("#project-bungalow .alb-project-panel__media").click();
+  await expect(dialog).toBeVisible();
+  await dialog.locator("a[data-alb-property]").click();
+  await expect(dialog).toBeHidden();
+  await expect(page.locator('#enquire [name="property_type"]')).toHaveValue("Bungalow / detached");
+  await expect.poll(() => page.evaluate(() => {
+    const top = document.getElementById("enquire").getBoundingClientRect().top;
+    return top > -10 && top < 220;
+  })).toBe(true);
+  expect(events.some((event) => event.event === "alb_project_view" && event.project === "bungalow")).toBe(true);
+});
+
+test("hero View project link opens the matching project tab", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto(pageUrl, { waitUntil: "networkidle" });
+  await page.locator('.alb-slider [data-slide="2"]').click();
+  await page.locator(".alb-slider__project-link").click();
+  await expect(page.locator("#tab-bungalow")).toHaveAttribute("aria-selected", "true");
+  await expect(page.locator("#project-bungalow")).toBeVisible();
   await expect(page).toHaveURL(/#project-bungalow$/);
-  const targetTop = await page.locator("#project-bungalow").evaluate((node) => node.getBoundingClientRect().top);
-  expect(targetTop).toBeGreaterThanOrEqual(70);
-  expect(targetTop).toBeLessThanOrEqual(180);
+});
+
+test("form labels keep the required star inline and buttons carry no arrow", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.goto(pageUrl, { waitUntil: "networkidle" });
+  const rows = await page.evaluate(() => [...document.querySelectorAll("#enquire .alb-form__label")].map((label) => {
+    const star = label.querySelector(".alb-req");
+    if (!star) return true;
+    return Math.abs(star.getBoundingClientRect().top - label.getBoundingClientRect().top) < 4;
+  }));
+  expect(rows.every(Boolean)).toBe(true);
+  await expect(page.locator('#enquire button[type="submit"] svg')).toHaveCount(0);
+  await expect(page.locator(".alb-offer-badge")).not.toContainText("[");
 });
 
 test("initial load requests only the first hero photo", async ({ page }) => {

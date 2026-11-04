@@ -4,9 +4,9 @@ The page intentionally retains the following placeholders. Do not publish the la
 
 ## Offer, response time, privacy, and urgency
 
-- [OFFER · e.g. Free 3D design] — hero form badge; replace with a real honoured offer or remove.
+- Hero form badge now reads "Free site visit" (Albedo offers free consultations and site visits). Confirm, or replace with another real, honoured offer.
 - [BONUS · e.g. Free 3D render of your living room] — consultation list; confirm before use.
-- [1 working day] — response-time promise; confirm the service level.
+- Response time: the form micro-copy and success message no longer promise a time. Add one (e.g. "Reply within 1 working day") only once Albedo confirms the service level.
 - [PRIVACY POLICY URL] — consent and footer links; replace with the live policy URL.
 - [URGENCY · e.g. Only 10 consultation slots left for November] — delete unless genuinely limited.
 - [URGENCY · e.g. Limited slots for November] — delete unless genuinely limited.
@@ -28,29 +28,24 @@ The page intentionally retains the following placeholders. Do not publish the la
 
 Supply official, current logo files and permission to display them.
 
-## Project imagery
+## Project details (Real landed homes section)
 
-- [IMAGE · 800×1000 · terrace project]
-- [IMAGE · 800×1000 · semi-detached project]
-- [IMAGE · 800×1000 · bungalow project]
-- [IMAGE · 800×1000 · shophouse project]
-- [IMAGE · BEFORE · 1000×800 · landed project]
-- [IMAGE · AFTER · 1000×800 · same view]
-- [IMAGE · 800×1100 · project 2]
-- [IMAGE · 1000×700 · kitchen]
-- [IMAGE · 1000×700 · master bedroom]
-- [IMAGE · 1000×700 · bathroom]
+Each property type (Terrace, Semi-D, Bungalow, Shophouse) has a project panel and a "View project details" dialog in `05-projects.html`. Fill these per project from verified Albedo records only:
 
-Supply rights-cleared landed-home photography in the requested crop or larger, exported as WebP at an appropriate web weight.
+- Panel facts: [Area] · [Size, e.g. 2,400 sq ft] · [Timeline, e.g. 16 weeks]
+- Dialog facts: [Area], [Size], [Full / partial renovation], [X weeks], [Style]
+- Story: [What the homeowners wanted] · [Layout, carpentry, materials and lighting changes] · [How the home works now]
+- Quote: [Client quote from this project, if approved]
+- Before/after: [BEFORE PHOTO · same angle] (the after side uses the project photo)
 
-## Project captions
+Gallery photos (4–6 per project, 1600×1200 WebP):
 
-- [Project name · e.g. Corner terrace, Serangoon Gardens]
-- [Full renovation · Modern warm style · X weeks]
-- [Project name · landed home]
-- [Scope · Style · Duration]
+- Terrace: [PHOTO · 1600×1200 · kitchen] · [PHOTO · 1600×1200 · master bedroom] · [PHOTO · 1600×1200 · staircase]
+- Semi-D: [PHOTO · 1600×1200 · dining area] · [PHOTO · 1600×1200 · family room] · [PHOTO · 1600×1200 · bedroom]
+- Bungalow: [PHOTO · 1600×1200 · kitchen] · [PHOTO · 1600×1200 · master suite] · [PHOTO · 1600×1200 · outdoor terrace]
+- Shophouse: [PHOTO · 1600×1200 · five-foot way facade] · [PHOTO · 1600×1200 · airwell] · [PHOTO · 1600×1200 · upper floor]
 
-Use verified project details only.
+The project photos currently reuse the four hero images (condo/residential work). Replace them with real landed projects, one project per property type, before launch.
 
 ## Reviews
 

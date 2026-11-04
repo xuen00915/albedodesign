@@ -42,7 +42,7 @@ for (const deferredHero of ["hero-2.webp", "hero-3.webp", "hero-4.webp"]) {
     'src="assets/hero-1-800.webp" data-src="assets/' + deferredHero + '"'
   );
 }
-for (const sectionIndex of [4, 7]) {
+for (const sectionIndex of [4]) {
   previewSections[sectionIndex] = previewSections[sectionIndex].replace(
     /src="assets\/(hero-[1-4]\.webp)"/g,
     'src="assets/hero-1-800.webp" data-src="assets/$1" data-alb-lazy'
@@ -72,9 +72,9 @@ const document = String.raw`<!doctype html>
   <div class="alb-lp alb-page">
 ${previewSections[0]}
     <main class="alb-main">
-${previewSections.slice(1, 13).join("\n")}
+${previewSections.slice(1, -2).join("\n")}
     </main>
-${previewSections.slice(13).join("\n")}
+${previewSections.slice(-2).join("\n")}
   </div>
   <script src="../elementor/alb-landing.js?v=${landingJsVersion}"></script>
   <script src="../elementor/alb-house3d.js?v=${houseJsVersion}"></script>

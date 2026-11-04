@@ -9,10 +9,9 @@ const sections = [
   ["hero", "02-hero.html"],
   ["trust", "03-trust-bar.html"],
   ["why-us", "04-why-us.html"],
-  ["property-types", "05-property-types.html"],
+  ["projects", "05-projects.html"],
   ["pricing", "06-pricing.html"],
   ["consultation-offer", "07-consultation-offer.html"],
-  ["projects", "08-projects.html"],
   ["testimonials", "09-testimonials.html"],
   ["process", "10-process.html"],
   ["comparison", "11-comparison.html"],
@@ -155,20 +154,31 @@ test("credentials section uses all supplied accreditation assets", async () => {
   assert.equal(duplicate?.querySelectorAll("img").length, 6, "running strip needs a seamless duplicate group");
 });
 
-test("property types and hero slides target their matching project showcases", async () => {
+test("project tabs, hero slides and detail dialogs target matching projects", async () => {
   const dom = await loadPreview();
-  const expected = ["#project-terrace", "#project-semi-detached", "#project-bungalow", "#project-shophouse"];
-  const propertyTargets = [...dom.window.document.querySelectorAll(".alb-property-grid .alb-property")]
-    .map((link) => link.getAttribute("href"));
-  const slideTargets = [...dom.window.document.querySelectorAll(".alb-slider .alb-slide")]
-    .map((slide) => slide.dataset.project);
-
-  assert.deepEqual(propertyTargets, expected);
+  const document = dom.window.document;
+  const keys = ["terrace", "semi-detached", "bungalow", "shophouse"];
+  const expected = keys.map((key) => "#project-" + key);
+  const tabs = [...document.querySelectorAll('.alb-project-tabs [role="tab"]')];
+  assert.deepEqual(tabs.map((tab) => "#" + tab.getAttribute("aria-controls")), expected);
+  assert.deepEqual(tabs.map((tab) => tab.textContent.trim()), ["Terrace", "Semi-D", "Bungalow", "Shophouse"]);
+  const slideTargets = [...document.querySelectorAll(".alb-slide")].map((slide) => slide.dataset.project);
   assert.deepEqual(slideTargets, expected);
-  assert.equal(dom.window.document.querySelector(".alb-slider__project-link")?.getAttribute("href"), expected[0]);
-  for (const selector of expected) {
-    const project = dom.window.document.querySelector(selector);
-    assert.ok(project, "missing project target " + selector);
-    assert.ok(project.querySelector("img"), "project target needs real imagery " + selector);
+  assert.equal(document.querySelector(".alb-slider__project-link")?.getAttribute("href"), expected[0]);
+  const formOptions = [...document.querySelectorAll('#enquire [name="property_type"] option')].map((option) => option.textContent);
+  for (const key of keys) {
+    const panel = document.querySelector("#project-" + key);
+    assert.ok(panel, "missing project panel " + key);
+    assert.equal(panel.getAttribute("role"), "tabpanel");
+    assert.ok(panel.querySelector("img"), "project panel needs imagery " + key);
+    const dialog = document.querySelector("#project-" + key + "-details");
+    assert.ok(dialog && dialog.tagName === "DIALOG", "missing detail dialog " + key);
+    assert.equal(panel.querySelector("[data-alb-dialog]").getAttribute("data-alb-dialog"), dialog.id);
+    assert.ok(dialog.querySelector("[data-alb-dialog-close]").getAttribute("aria-label"));
+    assert.ok(dialog.querySelector(".alb-compare__range").getAttribute("aria-label"));
+    const cta = dialog.querySelector("a[data-alb-property]");
+    assert.equal(cta.getAttribute("href"), "#enquire");
+    assert.ok(formOptions.includes(cta.dataset.albProperty), "CTA property must match a form option: " + cta.dataset.albProperty);
   }
+  assert.equal(document.querySelectorAll('[data-alb-section="property-types"]').length, 0, "property types are merged into projects");
 });

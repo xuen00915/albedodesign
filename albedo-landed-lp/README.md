@@ -48,9 +48,8 @@ Use the matching section file for each content change:
 | Hero, form, and project slider | `02-hero.html` | Slide controls, `data-project` values, and form field names |
 | Credential logo strip | `03-trust-bar.html` | Six-logo accessible group and matching `aria-hidden` duplicate group |
 | 3D house and why-us points | `04-why-us.html` + `alb-house3d.js` | `data-alb-house`, `data-three-src`, the three `.alb-why__step` items and their `data-label` badges, the illustration label |
-| Landed-home types | `05-property-types.html` | Links to the matching project IDs |
 | Consultation offer | `07-consultation-offer.html` | Consultation call to action |
-| Project showcases | `08-projects.html` | `project-terrace`, `project-semi-detached`, `project-bungalow`, and `project-shophouse` IDs |
+| Real landed homes (type tabs + project details) | `05-projects.html` | `project-terrace`, `project-semi-detached`, `project-bungalow`, and `project-shophouse` panel IDs, their `-details` dialogs, and each CTA's `data-alb-property` (must match a Property type option) |
 | Reviews | `09-testimonials.html` | Approved review and rating claims only |
 | Questions and answers | `12-faq.html` | Accessible question buttons and answer panels |
 | Footer contacts | `14-footer.html` | Phone, WhatsApp, address, and company details |

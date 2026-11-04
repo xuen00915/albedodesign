@@ -6,7 +6,7 @@
   <title>Landed Home Renovation Singapore | Albedo Design</title>
   <meta name="description" content="Terrace, semi-D, bungalow and shophouse renovation by one trusted design & build team. 800+ projects, BCA & HDB licensed. Book a free consultation.">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%2300325D'/%3E%3Cpath d='M16 45 30 15h5l14 30h-8l-3-7H27l-3 7zm14-14h6l-3-8z' fill='white'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="../elementor/alb-landing.css?v=77e6f3c8cf">
+  <link rel="stylesheet" href="../elementor/alb-landing.css?v=47ece5eeaf">
 </head>
 <body style="margin:0">
   <div class="alb-lp alb-page">
@@ -81,25 +81,25 @@
       <div class="alb-form-card" id="enquire">
         <div class="alb-form-card__head">
           <h2>Book a free consultation</h2>
-          <span class="alb-offer-badge">[OFFER · e.g. Free 3D design]</span>
+          <span class="alb-offer-badge">Free site visit</span>
         </div>
         <!-- FORM SLOT: In Elementor, place the Pro Form widget here using the same field IDs. -->
         <form class="alb-form" data-alb-preview-form>
           <div class="alb-form__grid">
-            <label>Name <span aria-hidden="true">*</span>
+            <label><span class="alb-form__label">Name <span class="alb-req" aria-hidden="true">*</span></span>
               <input id="form-field-name" name="name" type="text" autocomplete="name" placeholder="Your name" required>
             </label>
-            <label>Mobile / WhatsApp <span aria-hidden="true">*</span>
+            <label><span class="alb-form__label">Mobile / WhatsApp <span class="alb-req" aria-hidden="true">*</span></span>
               <input id="form-field-phone" name="phone" type="tel" autocomplete="tel" placeholder="+65 8123 4567" required>
             </label>
-            <label>Property type
+            <label><span class="alb-form__label">Property type</span>
               <select id="form-field-property_type" name="property_type">
                 <option value="">Select property type</option>
                 <option>Terrace</option><option>Corner terrace</option><option>Semi-detached</option>
                 <option>Bungalow / detached</option><option>Cluster house</option><option>Shophouse</option>
               </select>
             </label>
-            <label>Start renovation
+            <label><span class="alb-form__label">Start renovation</span>
               <select id="form-field-start_when" name="start_when">
                 <option value="">Select timeline</option>
                 <option>Within 3 months</option><option>3–6 months</option>
@@ -116,11 +116,10 @@
           <input name="gclid" type="hidden"><input name="landing_page" type="hidden" value="landed-renovation">
           <button class="alb-btn alb-btn--primary alb-btn--full" type="submit">
             Get My Free Consultation
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </button>
           <p class="alb-form__status" role="status" aria-live="polite"></p>
         </form>
-        <p class="alb-form-card__micro">No obligation · Reply within [1 working day] · or <a href="https://wa.me/6596699319">WhatsApp us</a></p>
+        <p class="alb-form-card__micro">No obligation · Prefer to chat? <a href="https://wa.me/6596699319">WhatsApp us</a></p>
       </div>
 
     </div>
@@ -186,30 +185,242 @@
   </div>
 </section>
 
-<section class="alb-lp alb-section alb-properties" data-alb-section="property-types" id="property-types">
+<section class="alb-lp alb-section alb-projects" data-alb-section="projects" id="projects">
   <div class="alb-container">
     <div class="alb-section-head">
-      <h2>Every type of landed home</h2>
+      <h2>Real landed homes, <span class="alb-hl">real transformations</span></h2>
       <a class="alb-text-link" href="#enquire">Get advice for my home <span aria-hidden="true">→</span></a>
     </div>
-    <div class="alb-property-grid">
-      <a class="alb-property" href="#project-terrace">
-        <img class="alb-property__image" src="assets/hero-1-800.webp" data-src="assets/hero-1.webp" data-alb-lazy alt="Terrace home renovation project" width="800" height="640" loading="lazy">
-        <h3>Terrace &amp; corner terrace</h3><p>Open, brighter layouts for long, narrow homes.</p>
-      </a>
-      <a class="alb-property" href="#project-semi-detached">
-        <img class="alb-property__image" src="assets/hero-1-800.webp" data-src="assets/hero-2.webp" data-alb-lazy alt="Semi-detached home renovation project" width="800" height="640" loading="lazy">
-        <h3>Semi-detached</h3><p>Spaces that work for every generation.</p>
-      </a>
-      <a class="alb-property" href="#project-bungalow">
-        <img class="alb-property__image" src="assets/hero-1-800.webp" data-src="assets/hero-3.webp" data-alb-lazy alt="Bungalow home renovation project" width="800" height="640" loading="lazy">
-        <h3>Bungalow / detached</h3><p>Whole-house interiors with custom details.</p>
-      </a>
-      <a class="alb-property" href="#project-shophouse">
-        <img class="alb-property__image" src="assets/hero-1-800.webp" data-src="assets/hero-4.webp" data-alb-lazy alt="Shophouse renovation project" width="800" height="640" loading="lazy">
-        <h3>Shophouse</h3><p>Character homes updated with care.</p>
-      </a>
+    <div class="alb-project-tabs" role="tablist" aria-label="Landed home types">
+      <button class="alb-project-tab" type="button" role="tab" id="tab-terrace" aria-controls="project-terrace" aria-selected="true">Terrace</button>
+      <button class="alb-project-tab" type="button" role="tab" id="tab-semi-detached" aria-controls="project-semi-detached" aria-selected="false" tabindex="-1">Semi-D</button>
+      <button class="alb-project-tab" type="button" role="tab" id="tab-bungalow" aria-controls="project-bungalow" aria-selected="false" tabindex="-1">Bungalow</button>
+      <button class="alb-project-tab" type="button" role="tab" id="tab-shophouse" aria-controls="project-shophouse" aria-selected="false" tabindex="-1">Shophouse</button>
     </div>
+    <article class="alb-project-panel is-active" id="project-terrace" role="tabpanel" aria-labelledby="tab-terrace" tabindex="0" data-project-key="terrace">
+      <button class="alb-project-panel__media" type="button" data-alb-dialog="project-terrace-details" aria-haspopup="dialog" aria-label="View project details: Open-plan living with warm timber accents">
+        <img src="assets/hero-1-800.webp" data-src="assets/hero-1.webp" data-alb-lazy alt="Open-plan terrace home living room with warm timber accents" width="1000" height="800" loading="lazy">
+        <span class="alb-project-panel__cue" aria-hidden="true">View project</span>
+      </button>
+      <div class="alb-project-panel__copy">
+        <span class="alb-project-panel__type">Terrace &amp; corner terrace</span>
+        <h3>Open-plan living with warm timber accents</h3>
+        <p class="alb-project-panel__benefit">Open, brighter layouts for long, narrow homes.</p>
+        <p>See how a long, narrow landed home can feel brighter, calmer and more connected.</p>
+        <ul class="alb-project-panel__facts">
+          <li>[Area]</li><li>[Size, e.g. 2,400 sq ft]</li><li>[Timeline, e.g. 16 weeks]</li>
+        </ul>
+        <button class="alb-btn alb-btn--navy alb-project-panel__open" type="button" data-alb-dialog="project-terrace-details" aria-haspopup="dialog">View project details</button>
+      </div>
+    </article>
+    <article class="alb-project-panel" id="project-semi-detached" role="tabpanel" aria-labelledby="tab-semi-detached" tabindex="0" data-project-key="semi-detached">
+      <button class="alb-project-panel__media" type="button" data-alb-dialog="project-semi-detached-details" aria-haspopup="dialog" aria-label="View project details: Feature wall and layered ceiling lighting">
+        <img src="assets/hero-1-800.webp" data-src="assets/hero-2.webp" data-alb-lazy alt="Semi-detached home living room with feature wall and layered ceiling lighting" width="1000" height="800" loading="lazy">
+        <span class="alb-project-panel__cue" aria-hidden="true">View project</span>
+      </button>
+      <div class="alb-project-panel__copy">
+        <span class="alb-project-panel__type">Semi-detached</span>
+        <h3>Feature wall and layered ceiling lighting</h3>
+        <p class="alb-project-panel__benefit">Spaces that work for every generation.</p>
+        <p>A considered family interior with clear zones, storage and room to gather.</p>
+        <ul class="alb-project-panel__facts">
+          <li>[Area]</li><li>[Size, e.g. 2,400 sq ft]</li><li>[Timeline, e.g. 16 weeks]</li>
+        </ul>
+        <button class="alb-btn alb-btn--navy alb-project-panel__open" type="button" data-alb-dialog="project-semi-detached-details" aria-haspopup="dialog">View project details</button>
+      </div>
+    </article>
+    <article class="alb-project-panel" id="project-bungalow" role="tabpanel" aria-labelledby="tab-bungalow" tabindex="0" data-project-key="bungalow">
+      <button class="alb-project-panel__media" type="button" data-alb-dialog="project-bungalow-details" aria-haspopup="dialog" aria-label="View project details: Bright living and dining, made for family">
+        <img src="assets/hero-1-800.webp" data-src="assets/hero-3.webp" data-alb-lazy alt="Bright bungalow living and dining space" width="1000" height="800" loading="lazy">
+        <span class="alb-project-panel__cue" aria-hidden="true">View project</span>
+      </button>
+      <div class="alb-project-panel__copy">
+        <span class="alb-project-panel__type">Bungalow / detached</span>
+        <h3>Bright living and dining, made for family</h3>
+        <p class="alb-project-panel__benefit">Whole-house interiors with custom details.</p>
+        <p>Whole-home planning that brings daylight, flow and custom details together.</p>
+        <ul class="alb-project-panel__facts">
+          <li>[Area]</li><li>[Size, e.g. 2,400 sq ft]</li><li>[Timeline, e.g. 16 weeks]</li>
+        </ul>
+        <button class="alb-btn alb-btn--navy alb-project-panel__open" type="button" data-alb-dialog="project-bungalow-details" aria-haspopup="dialog">View project details</button>
+      </div>
+    </article>
+    <article class="alb-project-panel" id="project-shophouse" role="tabpanel" aria-labelledby="tab-shophouse" tabindex="0" data-project-key="shophouse">
+      <button class="alb-project-panel__media" type="button" data-alb-dialog="project-shophouse-details" aria-haspopup="dialog" aria-label="View project details: Statement lounge with sculpted lighting">
+        <img src="assets/hero-1-800.webp" data-src="assets/hero-4.webp" data-alb-lazy alt="Shophouse lounge with sculpted lighting" width="1000" height="800" loading="lazy">
+        <span class="alb-project-panel__cue" aria-hidden="true">View project</span>
+      </button>
+      <div class="alb-project-panel__copy">
+        <span class="alb-project-panel__type">Shophouse</span>
+        <h3>Statement lounge with sculpted lighting</h3>
+        <p class="alb-project-panel__benefit">Character homes updated with care.</p>
+        <p>A character-led interior updated with a contemporary material and lighting palette.</p>
+        <ul class="alb-project-panel__facts">
+          <li>[Area]</li><li>[Size, e.g. 2,400 sq ft]</li><li>[Timeline, e.g. 16 weeks]</li>
+        </ul>
+        <button class="alb-btn alb-btn--navy alb-project-panel__open" type="button" data-alb-dialog="project-shophouse-details" aria-haspopup="dialog">View project details</button>
+      </div>
+    </article>
+    <dialog class="alb-project-dialog" id="project-terrace-details" aria-labelledby="project-terrace-title" data-project-key="terrace">
+      <div class="alb-project-dialog__inner">
+        <header class="alb-project-dialog__head">
+          <div><span class="alb-project-panel__type">Terrace &amp; corner terrace</span><h3 id="project-terrace-title">Open-plan living with warm timber accents</h3></div>
+          <button class="alb-project-dialog__close" type="button" aria-label="Close project details" data-alb-dialog-close><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
+        </header>
+        <div class="alb-gallery" aria-roledescription="carousel" aria-label="Terrace project photos">
+          <ul class="alb-gallery__track">
+            <li class="alb-gallery__item"><img src="assets/hero-1-800.webp" data-src="assets/hero-1.webp" data-alb-lazy alt="Open-plan terrace home living room with warm timber accents" width="1000" height="800" loading="lazy"></li>
+            <li class="alb-gallery__item"><div class="alb-placeholder">[PHOTO · 1600×1200 · kitchen]</div></li>
+            <li class="alb-gallery__item"><div class="alb-placeholder">[PHOTO · 1600×1200 · master bedroom]</div></li>
+            <li class="alb-gallery__item"><div class="alb-placeholder">[PHOTO · 1600×1200 · staircase]</div></li>
+          </ul>
+          <button class="alb-gallery__nav alb-gallery__prev" type="button" aria-label="Previous photo"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"></path></svg></button>
+          <button class="alb-gallery__nav alb-gallery__next" type="button" aria-label="Next photo"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></button>
+        </div>
+        <div class="alb-project-dialog__body">
+          <div class="alb-compare" style="--alb-compare:50%">
+            <div class="alb-compare__before"><div class="alb-placeholder">[BEFORE PHOTO · same angle]</div><span class="alb-compare__tag">Before</span></div>
+            <div class="alb-compare__after"><img src="assets/hero-1-800.webp" data-src="assets/hero-1.webp" data-alb-lazy alt="" width="1000" height="800" loading="lazy"><span class="alb-compare__tag">After</span></div>
+            <input class="alb-compare__range" type="range" min="0" max="100" value="50" aria-label="Drag to compare before and after">
+          </div>
+          <div class="alb-project-dialog__info">
+            <dl class="alb-project-facts">
+              <div><dt>Property</dt><dd>Terrace &amp; corner terrace</dd></div>
+              <div><dt>Area</dt><dd>[Area]</dd></div>
+              <div><dt>Size</dt><dd>[Size]</dd></div>
+              <div><dt>Scope</dt><dd>[Full / partial renovation]</dd></div>
+              <div><dt>Timeline</dt><dd>[X weeks]</dd></div>
+              <div><dt>Style</dt><dd>[Style]</dd></div>
+            </dl>
+            <h4>The brief</h4><p>[What the homeowners wanted]</p>
+            <h4>What we did</h4><p>[Layout, carpentry, materials and lighting changes]</p>
+            <h4>The result</h4><p>[How the home works now]</p>
+            <blockquote class="alb-project-quote">“[Client quote from this project, if approved]”</blockquote>
+            <a class="alb-btn alb-btn--primary" href="#enquire" data-alb-property="Terrace">Get a design like this</a>
+          </div>
+        </div>
+      </div>
+    </dialog>
+    <dialog class="alb-project-dialog" id="project-semi-detached-details" aria-labelledby="project-semi-detached-title" data-project-key="semi-detached">
+      <div class="alb-project-dialog__inner">
+        <header class="alb-project-dialog__head">
+          <div><span class="alb-project-panel__type">Semi-detached</span><h3 id="project-semi-detached-title">Feature wall and layered ceiling lighting</h3></div>
+          <button class="alb-project-dialog__close" type="button" aria-label="Close project details" data-alb-dialog-close><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
+        </header>
+        <div class="alb-gallery" aria-roledescription="carousel" aria-label="Semi-D project photos">
+          <ul class="alb-gallery__track">
+            <li class="alb-gallery__item"><img src="assets/hero-1-800.webp" data-src="assets/hero-2.webp" data-alb-lazy alt="Semi-detached home living room with feature wall and layered ceiling lighting" width="1000" height="800" loading="lazy"></li>
+            <li class="alb-gallery__item"><div class="alb-placeholder">[PHOTO · 1600×1200 · dining area]</div></li>
+            <li class="alb-gallery__item"><div class="alb-placeholder">[PHOTO · 1600×1200 · family room]</div></li>
+            <li class="alb-gallery__item"><div class="alb-placeholder">[PHOTO · 1600×1200 · bedroom]</div></li>
+          </ul>
+          <button class="alb-gallery__nav alb-gallery__prev" type="button" aria-label="Previous photo"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"></path></svg></button>
+          <button class="alb-gallery__nav alb-gallery__next" type="button" aria-label="Next photo"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></button>
+        </div>
+        <div class="alb-project-dialog__body">
+          <div class="alb-compare" style="--alb-compare:50%">
+            <div class="alb-compare__before"><div class="alb-placeholder">[BEFORE PHOTO · same angle]</div><span class="alb-compare__tag">Before</span></div>
+            <div class="alb-compare__after"><img src="assets/hero-1-800.webp" data-src="assets/hero-2.webp" data-alb-lazy alt="" width="1000" height="800" loading="lazy"><span class="alb-compare__tag">After</span></div>
+            <input class="alb-compare__range" type="range" min="0" max="100" value="50" aria-label="Drag to compare before and after">
+          </div>
+          <div class="alb-project-dialog__info">
+            <dl class="alb-project-facts">
+              <div><dt>Property</dt><dd>Semi-detached</dd></div>
+              <div><dt>Area</dt><dd>[Area]</dd></div>
+              <div><dt>Size</dt><dd>[Size]</dd></div>
+              <div><dt>Scope</dt><dd>[Full / partial renovation]</dd></div>
+              <div><dt>Timeline</dt><dd>[X weeks]</dd></div>
+              <div><dt>Style</dt><dd>[Style]</dd></div>
+            </dl>
+            <h4>The brief</h4><p>[What the homeowners wanted]</p>
+            <h4>What we did</h4><p>[Layout, carpentry, materials and lighting changes]</p>
+            <h4>The result</h4><p>[How the home works now]</p>
+            <blockquote class="alb-project-quote">“[Client quote from this project, if approved]”</blockquote>
+            <a class="alb-btn alb-btn--primary" href="#enquire" data-alb-property="Semi-detached">Get a design like this</a>
+          </div>
+        </div>
+      </div>
+    </dialog>
+    <dialog class="alb-project-dialog" id="project-bungalow-details" aria-labelledby="project-bungalow-title" data-project-key="bungalow">
+      <div class="alb-project-dialog__inner">
+        <header class="alb-project-dialog__head">
+          <div><span class="alb-project-panel__type">Bungalow / detached</span><h3 id="project-bungalow-title">Bright living and dining, made for family</h3></div>
+          <button class="alb-project-dialog__close" type="button" aria-label="Close project details" data-alb-dialog-close><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
+        </header>
+        <div class="alb-gallery" aria-roledescription="carousel" aria-label="Bungalow project photos">
+          <ul class="alb-gallery__track">
+            <li class="alb-gallery__item"><img src="assets/hero-1-800.webp" data-src="assets/hero-3.webp" data-alb-lazy alt="Bright bungalow living and dining space" width="1000" height="800" loading="lazy"></li>
+            <li class="alb-gallery__item"><div class="alb-placeholder">[PHOTO · 1600×1200 · kitchen]</div></li>
+            <li class="alb-gallery__item"><div class="alb-placeholder">[PHOTO · 1600×1200 · master suite]</div></li>
+            <li class="alb-gallery__item"><div class="alb-placeholder">[PHOTO · 1600×1200 · outdoor terrace]</div></li>
+          </ul>
+          <button class="alb-gallery__nav alb-gallery__prev" type="button" aria-label="Previous photo"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"></path></svg></button>
+          <button class="alb-gallery__nav alb-gallery__next" type="button" aria-label="Next photo"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></button>
+        </div>
+        <div class="alb-project-dialog__body">
+          <div class="alb-compare" style="--alb-compare:50%">
+            <div class="alb-compare__before"><div class="alb-placeholder">[BEFORE PHOTO · same angle]</div><span class="alb-compare__tag">Before</span></div>
+            <div class="alb-compare__after"><img src="assets/hero-1-800.webp" data-src="assets/hero-3.webp" data-alb-lazy alt="" width="1000" height="800" loading="lazy"><span class="alb-compare__tag">After</span></div>
+            <input class="alb-compare__range" type="range" min="0" max="100" value="50" aria-label="Drag to compare before and after">
+          </div>
+          <div class="alb-project-dialog__info">
+            <dl class="alb-project-facts">
+              <div><dt>Property</dt><dd>Bungalow / detached</dd></div>
+              <div><dt>Area</dt><dd>[Area]</dd></div>
+              <div><dt>Size</dt><dd>[Size]</dd></div>
+              <div><dt>Scope</dt><dd>[Full / partial renovation]</dd></div>
+              <div><dt>Timeline</dt><dd>[X weeks]</dd></div>
+              <div><dt>Style</dt><dd>[Style]</dd></div>
+            </dl>
+            <h4>The brief</h4><p>[What the homeowners wanted]</p>
+            <h4>What we did</h4><p>[Layout, carpentry, materials and lighting changes]</p>
+            <h4>The result</h4><p>[How the home works now]</p>
+            <blockquote class="alb-project-quote">“[Client quote from this project, if approved]”</blockquote>
+            <a class="alb-btn alb-btn--primary" href="#enquire" data-alb-property="Bungalow / detached">Get a design like this</a>
+          </div>
+        </div>
+      </div>
+    </dialog>
+    <dialog class="alb-project-dialog" id="project-shophouse-details" aria-labelledby="project-shophouse-title" data-project-key="shophouse">
+      <div class="alb-project-dialog__inner">
+        <header class="alb-project-dialog__head">
+          <div><span class="alb-project-panel__type">Shophouse</span><h3 id="project-shophouse-title">Statement lounge with sculpted lighting</h3></div>
+          <button class="alb-project-dialog__close" type="button" aria-label="Close project details" data-alb-dialog-close><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
+        </header>
+        <div class="alb-gallery" aria-roledescription="carousel" aria-label="Shophouse project photos">
+          <ul class="alb-gallery__track">
+            <li class="alb-gallery__item"><img src="assets/hero-1-800.webp" data-src="assets/hero-4.webp" data-alb-lazy alt="Shophouse lounge with sculpted lighting" width="1000" height="800" loading="lazy"></li>
+            <li class="alb-gallery__item"><div class="alb-placeholder">[PHOTO · 1600×1200 · five-foot way facade]</div></li>
+            <li class="alb-gallery__item"><div class="alb-placeholder">[PHOTO · 1600×1200 · airwell]</div></li>
+            <li class="alb-gallery__item"><div class="alb-placeholder">[PHOTO · 1600×1200 · upper floor]</div></li>
+          </ul>
+          <button class="alb-gallery__nav alb-gallery__prev" type="button" aria-label="Previous photo"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"></path></svg></button>
+          <button class="alb-gallery__nav alb-gallery__next" type="button" aria-label="Next photo"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></button>
+        </div>
+        <div class="alb-project-dialog__body">
+          <div class="alb-compare" style="--alb-compare:50%">
+            <div class="alb-compare__before"><div class="alb-placeholder">[BEFORE PHOTO · same angle]</div><span class="alb-compare__tag">Before</span></div>
+            <div class="alb-compare__after"><img src="assets/hero-1-800.webp" data-src="assets/hero-4.webp" data-alb-lazy alt="" width="1000" height="800" loading="lazy"><span class="alb-compare__tag">After</span></div>
+            <input class="alb-compare__range" type="range" min="0" max="100" value="50" aria-label="Drag to compare before and after">
+          </div>
+          <div class="alb-project-dialog__info">
+            <dl class="alb-project-facts">
+              <div><dt>Property</dt><dd>Shophouse</dd></div>
+              <div><dt>Area</dt><dd>[Area]</dd></div>
+              <div><dt>Size</dt><dd>[Size]</dd></div>
+              <div><dt>Scope</dt><dd>[Full / partial renovation]</dd></div>
+              <div><dt>Timeline</dt><dd>[X weeks]</dd></div>
+              <div><dt>Style</dt><dd>[Style]</dd></div>
+            </dl>
+            <h4>The brief</h4><p>[What the homeowners wanted]</p>
+            <h4>What we did</h4><p>[Layout, carpentry, materials and lighting changes]</p>
+            <h4>The result</h4><p>[How the home works now]</p>
+            <blockquote class="alb-project-quote">“[Client quote from this project, if approved]”</blockquote>
+            <a class="alb-btn alb-btn--primary" href="#enquire" data-alb-property="Shophouse">Get a design like this</a>
+          </div>
+        </div>
+      </div>
+    </dialog>
   </div>
 </section>
 
@@ -247,30 +458,6 @@
         <a class="alb-btn alb-btn--primary" href="#enquire">Claim My Free Consultation</a>
         <p class="alb-offer__urgency">[URGENCY · e.g. Only 10 consultation slots left for November]</p>
       </div>
-    </div>
-  </div>
-</section>
-
-<section class="alb-lp alb-section alb-projects" data-alb-section="projects" id="projects">
-  <div class="alb-container">
-    <h2>Real homes, <span class="alb-hl">real transformations</span></h2>
-    <div class="alb-project-grid">
-      <article class="alb-project-card" id="project-terrace">
-        <img src="assets/hero-1-800.webp" data-src="assets/hero-1.webp" data-alb-lazy alt="Open-plan terrace home living room" width="1000" height="800" loading="lazy">
-        <div><span>Terrace &amp; corner terrace</span><h3>Open-plan living with warm timber accents</h3><p>See how a long, narrow landed home can feel brighter, calmer and more connected.</p></div>
-      </article>
-      <article class="alb-project-card" id="project-semi-detached">
-        <img src="assets/hero-1-800.webp" data-src="assets/hero-2.webp" data-alb-lazy alt="Semi-detached home feature wall and ceiling lighting" width="1000" height="800" loading="lazy">
-        <div><span>Semi-detached</span><h3>Feature wall and layered ceiling lighting</h3><p>A considered family interior with clear zones, storage and room to gather.</p></div>
-      </article>
-      <article class="alb-project-card" id="project-bungalow">
-        <img src="assets/hero-1-800.webp" data-src="assets/hero-3.webp" data-alb-lazy alt="Bright bungalow living and dining space" width="1000" height="800" loading="lazy">
-        <div><span>Bungalow / detached</span><h3>Bright living and dining, made for family</h3><p>Whole-home planning that brings daylight, flow and custom details together.</p></div>
-      </article>
-      <article class="alb-project-card" id="project-shophouse">
-        <img src="assets/hero-1-800.webp" data-src="assets/hero-4.webp" data-alb-lazy alt="Shophouse lounge with sculpted lighting" width="1000" height="800" loading="lazy">
-        <div><span>Shophouse</span><h3>Statement lounge with sculpted lighting</h3><p>A character-led interior updated with a contemporary material and lighting palette.</p></div>
-      </article>
     </div>
   </div>
 </section>
@@ -414,7 +601,7 @@
 </nav>
 
   </div>
-  <script src="../elementor/alb-landing.js?v=e34e031562"></script>
+  <script src="../elementor/alb-landing.js?v=d9387054aa"></script>
   <script src="../elementor/alb-house3d.js?v=126d3d3b47"></script>
 </body>
 </html>
