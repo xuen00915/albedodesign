@@ -7,6 +7,7 @@ async function createPage({ reducedMotion = true, url, beforeScript } = {}) {
   const { window } = dom;
   if (url) window.history.replaceState({}, "", url);
   const intervals = new Map();
+  const timeouts = new Map();
   let nextInterval = 1;
   window.matchMedia = () => ({
     matches: reducedMotion,
@@ -19,6 +20,12 @@ async function createPage({ reducedMotion = true, url, beforeScript } = {}) {
     return id;
   };
   window.clearInterval = (id) => intervals.delete(id);
+  window.setTimeout = (callback) => {
+    const id = nextInterval++;
+    timeouts.set(id, callback);
+    return id;
+  };
+  window.clearTimeout = (id) => timeouts.delete(id);
   window.HTMLElement.prototype.scrollIntoView = function scrollIntoView(options) {
     this.dataset.scrolledWith = JSON.stringify(options || {});
   };
@@ -30,7 +37,7 @@ async function createPage({ reducedMotion = true, url, beforeScript } = {}) {
   if (beforeScript) beforeScript(window);
   const script = await readProject("elementor/alb-landing.js");
   if (script) window.eval(script);
-  return { dom, window, intervals };
+  return { dom, window, intervals, timeouts };
 }
 
 function requireApi(window) {
@@ -94,12 +101,15 @@ test("reduced motion prevents carousel autoplay", async () => {
   assert.equal(intervals.size, 0);
 });
 
-test("autoplay advances every cycle and pauses for hover, focus, and hidden tabs", async () => {
-  const { window, intervals } = await createPage({ reducedMotion: false });
+test("autoplay defers its first transition, then advances every six-second cycle and pauses", async () => {
+  const { window, intervals, timeouts } = await createPage({ reducedMotion: false });
   requireApi(window).initAll(window.document);
   const slider = window.document.querySelector(".alb-slider");
-  assert.equal(intervals.size, 1);
+  assert.equal(intervals.size, 0);
+  assert.equal(timeouts.size, 1);
 
+  [...timeouts.values()][0]();
+  assert.equal(intervals.size, 1);
   [...intervals.values()][0]();
   assert.equal(activeIndex(slider), 1);
 
@@ -256,4 +266,20 @@ test("Elementor submit_success bridge pushes the approved lead payload", async (
     JSON.parse(JSON.stringify(window.dataLayer.at(-1))),
     { event: "alb_lead_submit", property_type: "Semi-detached", start_when: "3–6 months" }
   );
+});
+
+test("deferred carousel images receive their real source after window load", async () => {
+  const { window } = await createPage({
+    beforeScript(pageWindow) {
+      const image = pageWindow.document.querySelectorAll(".alb-slide img")[1];
+      image.setAttribute("src", "assets/hero-1-800.webp");
+      image.setAttribute("data-src", "assets/hero-2.webp");
+    }
+  });
+  const image = window.document.querySelectorAll(".alb-slide img")[1];
+
+  window.dispatchEvent(new window.Event("load"));
+
+  assert.match(image.src, /assets\/hero-2\.webp$/);
+  assert.equal(image.hasAttribute("data-src"), false);
 });

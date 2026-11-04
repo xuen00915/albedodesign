@@ -18,9 +18,9 @@ From this directory:
 
     npm install
     npm run build:preview
-    python3 -m http.server 4173
+    python3 -m http.server 4187
 
-Open http://localhost:4173/preview/.
+Open http://localhost:4187/preview/.
 
 The preview references Albedo’s current WordPress media-library URLs, so an internet connection is required for those images. Project and accreditation slots intentionally remain labelled placeholders until Albedo supplies approved assets.
 
@@ -30,6 +30,8 @@ The preview references Albedo’s current WordPress media-library URLs, so an in
     npm run test:browser
 
 The unit/structure suite checks document order, field contracts, contact links, scoped CSS, carousel state, reduced-motion behavior, attribution persistence, tracking payloads, fallback-form behavior, and Elementor hooks. Browser tests add responsive overflow, console, and core-interaction checks.
+
+For performance, the first automatic carousel transition waits 9 seconds so it cannot replace the initial LCP candidate during page startup. After that, autoplay and all manual-interaction restarts use the specified 6-second cadence.
 
 ## Preview form boundary
 

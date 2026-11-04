@@ -90,3 +90,17 @@ test("every bracketed launch placeholder is registered", async () => {
     assert.ok(register.includes(placeholder), "unregistered placeholder " + placeholder);
   }
 });
+
+test("static preview uses local optimized copies of supplied media", async () => {
+  const dom = await loadPreview();
+  const images = [...dom.window.document.querySelectorAll("img")];
+  assert.ok(images.length >= 8, "expected supplied logo and project media");
+  for (const image of images) {
+    assert.ok(
+      image.getAttribute("src").startsWith("assets/"),
+      "preview image is not local: " + image.getAttribute("src")
+    );
+  }
+  const lcpImage = dom.window.document.querySelector(".alb-slide.is-active img");
+  assert.match(lcpImage.getAttribute("srcset") || "", /hero-1-800\.webp 800w/);
+});

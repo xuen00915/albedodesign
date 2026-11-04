@@ -34,6 +34,8 @@
       return slide.classList.contains("is-active");
     }));
     var timer = null;
+    var initialDelay = null;
+    var autoplayStarted = false;
     var pointerStart = null;
     var hovering = false;
     var focusing = false;
@@ -61,19 +63,30 @@
 
     function stop() {
       if (timer !== null) window.clearInterval(timer);
+      if (initialDelay !== null) window.clearTimeout(initialDelay);
       timer = null;
+      initialDelay = null;
     }
 
     function start() {
       stop();
       if (!prefersReducedMotion() && !isPaused() && slides.length > 1) {
-        timer = window.setInterval(function () {
-          show(index + 1);
-        }, 6000);
+        if (!autoplayStarted) {
+          initialDelay = window.setTimeout(function () {
+            initialDelay = null;
+            autoplayStarted = true;
+            start();
+          }, 9000);
+        } else {
+          timer = window.setInterval(function () {
+            show(index + 1);
+          }, 6000);
+        }
       }
     }
 
     function go(delta) {
+      autoplayStarted = true;
       show(index + delta);
       start();
     }
@@ -84,6 +97,7 @@
     if (next) next.addEventListener("click", function () { go(1); });
     segments.forEach(function (segment) {
       segment.addEventListener("click", function () {
+        autoplayStarted = true;
         show(Number(segment.dataset.slide));
         start();
       });
@@ -227,6 +241,19 @@
     });
   }
 
+  function scheduleDeferredImages() {
+    if (window.__albDeferredImagesReady) return;
+    window.__albDeferredImagesReady = true;
+    function hydrate() {
+      nodesWithin(document, "img[data-src]").forEach(function (image) {
+        image.src = image.dataset.src;
+        image.removeAttribute("data-src");
+      });
+    }
+    if (document.readyState === "complete") hydrate();
+    else window.addEventListener("load", hydrate, { once: true });
+  }
+
   function installElementorSuccessBridge() {
     if (!window.jQuery || window.__albElementorSuccessReady) return;
     window.__albElementorSuccessReady = true;
@@ -249,6 +276,7 @@
     nodesWithin(scope, "[data-alb-preview-form]").forEach(initPreviewForm);
     initAttribution(scope);
     initTracking();
+    scheduleDeferredImages();
     installElementorSuccessBridge();
   }
 

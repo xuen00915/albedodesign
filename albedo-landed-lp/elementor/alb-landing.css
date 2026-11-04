@@ -145,6 +145,7 @@
   background:var(--alb-orange);
   color:#fff;
   font-size:19px;
+  font-weight:700;
 }
 .alb-lp .alb-btn--primary:hover{
   background:var(--alb-orange-dark);
@@ -260,9 +261,11 @@
   box-shadow:var(--alb-shadow-hero);
   grid-area:media;
   min-height:420px;
+  min-width:0;
   overflow:hidden;
   position:relative;
   touch-action:pan-y;
+  width:100%;
 }
 .alb-lp .alb-slider__slides, .alb-lp .alb-slide{
   inset:0;
@@ -772,13 +775,14 @@
 .alb-lp .alb-quote-grid{
   display:grid;
   gap:24px;
-  grid-template-columns:repeat(3,1fr);
+  grid-template-columns:repeat(3,minmax(0,1fr));
 }
 .alb-lp .alb-quote-grid figure{
   background:#fff;
   border-radius:var(--alb-r-md);
   margin:0;
   min-height:260px;
+  min-width:0;
   padding:28px;
 }
 .alb-lp .alb-quote-grid blockquote{
@@ -1027,6 +1031,11 @@
 .alb-lp .alb-footer a:hover{
   color:#fff;
 }
+.alb-lp .alb-footer p a{
+  align-items:center;
+  display:inline-flex;
+  min-height:24px;
+}
 .alb-lp .alb-mbar{
   display:none;
 }
@@ -1054,6 +1063,13 @@
   .alb-lp .alb-editorial{
     gap:48px;
     grid-template-columns:1fr;
+  }
+  .alb-lp .alb-trust__inner{
+    align-items:flex-start;
+    flex-direction:column;
+    gap:18px;
+    padding-bottom:28px;
+    padding-top:28px;
   }
   .alb-lp .alb-offer__panel{
     grid-template-columns:1fr;
