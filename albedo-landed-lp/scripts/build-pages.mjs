@@ -24,3 +24,16 @@ await cp(
   path.join(root, "elementor", "alb-landing.js"),
   path.join(output, "elementor", "alb-landing.js")
 );
+await cp(
+  path.join(root, "elementor", "alb-house3d.js"),
+  path.join(output, "elementor", "alb-house3d.js")
+);
+await mkdir(path.join(output, "elementor", "vendor"), { recursive: true });
+await cp(
+  path.join(root, "elementor", "vendor", "three.min.js"),
+  path.join(output, "elementor", "vendor", "three.min.js")
+);
+await cp(
+  path.join(root, "elementor", "vendor", "three.LICENSE"),
+  path.join(output, "elementor", "vendor", "three.LICENSE")
+);

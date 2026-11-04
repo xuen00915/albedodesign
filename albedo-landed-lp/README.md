@@ -27,6 +27,8 @@ Edit the source files, then regenerate the preview:
 - `elementor/sections/01-header.html` through `15-mobile-bar.html`: page content and section markup, in display order
 - `elementor/alb-landing.css`: shared responsive styles, scoped under `.alb-lp`
 - `elementor/alb-landing.js`: slider behavior, lazy loading, attribution, form handling, and analytics events
+- `elementor/alb-house3d.js`: the scroll-driven 3D house in the why-us section (scene, scroll mapping, lazy three.js loading, static fallback)
+- `elementor/vendor/three.min.js`: self-hosted three.js r149 used by `alb-house3d.js`; do not upgrade without re-testing the scene
 - `preview/assets/`: optimized local images used by the static preview and GitHub Pages
 - `scripts/build-preview.mjs`: assembles the section files and maps WordPress image URLs to local preview assets
 - `scripts/build-pages.mjs`: creates the GitHub Pages artifact
@@ -45,6 +47,7 @@ Use the matching section file for each content change:
 | Header and navigation | `01-header.html` | Mobile label and consultation anchor |
 | Hero, form, and project slider | `02-hero.html` | Slide controls, `data-project` values, and form field names |
 | Credential logo strip | `03-trust-bar.html` | Six-logo accessible group and matching `aria-hidden` duplicate group |
+| 3D house and why-us points | `04-why-us.html` + `alb-house3d.js` | `data-alb-house`, `data-three-src`, the three `.alb-why__step` items and their `data-label` badges, the illustration label |
 | Landed-home types | `05-property-types.html` | Links to the matching project IDs |
 | Consultation offer | `07-consultation-offer.html` | Consultation call to action |
 | Project showcases | `08-projects.html` | `project-terrace`, `project-semi-detached`, `project-bungalow`, and `project-shophouse` IDs |

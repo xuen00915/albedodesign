@@ -1307,3 +1307,146 @@
     display:none;
   }
 }
+/* ---------------------------------------------------------------------------
+   Why us: scroll-driven 3D house (04-why-us.html + alb-house3d.js).
+   Without JavaScript/WebGL the section is a static illustration + list;
+   alb-house3d.js adds .is-3d, which turns the track into a pinned scroll scene.
+   --------------------------------------------------------------------------- */
+.alb-lp .alb-why__pin{
+  align-items:center;
+  display:grid;
+  gap:32px 56px;
+  grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);
+}
+.alb-lp .alb-why__visual{
+  display:flex;
+  flex-direction:column;
+  gap:24px;
+  min-width:0;
+}
+.alb-lp .alb-why__visual h2{
+  margin:0;
+}
+.alb-lp .alb-house{
+  background:#E9EEF3;
+  border-radius:var(--alb-r-xl);
+  box-shadow:0 24px 60px rgba(0,34,63,.12);
+  height:clamp(300px,calc(100vh - 300px),520px);
+  margin:0;
+  overflow:hidden;
+  position:relative;
+}
+.alb-lp .alb-house__fallback{
+  display:block;
+  height:100%;
+  object-fit:cover;
+  width:100%;
+}
+.alb-lp .alb-house__canvas{
+  display:block;
+  height:100%;
+  inset:0;
+  position:absolute;
+  width:100%;
+}
+.alb-lp .alb-house.is-live .alb-house__fallback{
+  visibility:hidden;
+}
+.alb-lp .alb-house__badge{
+  background:var(--alb-navy);
+  border-radius:var(--alb-pill);
+  color:#FFFFFF;
+  font-size:13px;
+  font-weight:600;
+  padding:6px 12px;
+  position:absolute;
+  right:14px;
+  top:12px;
+}
+.alb-lp .alb-house__label{
+  background:rgba(255,255,255,.92);
+  border-radius:var(--alb-pill);
+  bottom:12px;
+  color:var(--alb-muted);
+  font-size:12px;
+  font-weight:500;
+  left:14px;
+  padding:6px 12px;
+  position:absolute;
+}
+.alb-lp .alb-why__steps{
+  border-top:1px solid var(--alb-line-2);
+  list-style:none;
+  margin:0;
+  padding:0;
+}
+.alb-lp .alb-why__step{
+  border-bottom:1px solid var(--alb-line-2);
+  padding:26px 0;
+  transition:opacity .4s ease;
+}
+.alb-lp .alb-why__step h3{
+  margin:0 0 8px;
+}
+.alb-lp .alb-why__step p:last-child{
+  margin-bottom:0;
+  max-width:64ch;
+}
+.alb-lp.alb-why.is-3d .alb-why__track{
+  height:2600px;
+}
+.alb-lp.alb-why.is-3d .alb-why__pin{
+  position:sticky;
+  top:96px;
+}
+.alb-lp.alb-why.is-3d .alb-why__step{
+  opacity:.45;
+}
+.alb-lp.alb-why.is-3d .alb-why__step.is-active{
+  opacity:1;
+}
+@media (max-width:1024px){
+  .alb-lp .alb-why__pin{
+    gap:16px;
+    grid-template-columns:1fr;
+  }
+  .alb-lp .alb-house{
+    height:300px;
+  }
+  .alb-lp.alb-why.is-3d .alb-why__track{
+    height:2200px;
+  }
+  .alb-lp.alb-why.is-3d .alb-why__pin{
+    top:84px;
+  }
+  .alb-lp.alb-why.is-3d .alb-why__step{
+    padding:10px 0;
+  }
+  .alb-lp.alb-why.is-3d .alb-why__step:not(.is-active) p:last-child{
+    display:none;
+  }
+  .alb-lp.alb-why.is-3d .alb-why__step .alb-pain{
+    margin-bottom:4px;
+  }
+}
+@media (max-width:760px){
+  .alb-lp .alb-why__visual{
+    gap:12px;
+  }
+  .alb-lp .alb-why__visual h2{
+    font-size:26px;
+  }
+  .alb-lp .alb-house{
+    height:240px;
+  }
+  .alb-lp.alb-why.is-3d .alb-why__track{
+    height:2000px;
+  }
+  .alb-lp.alb-why.is-3d .alb-why__pin{
+    top:72px;
+  }
+  .alb-lp.alb-why.is-3d .alb-why__step h3{
+    font-size:19px;
+    margin-bottom:4px;
+  }
+}

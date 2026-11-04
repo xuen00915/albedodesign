@@ -129,6 +129,19 @@ The script:
 - pushes tracking events;
 - reinitializes Elementor HTML widgets in editor preview.
 
+### 5a. Add the 3D house for the "See your landed home" section
+
+The why-us snippet (`04-why-us.html`) pins a 3D house that builds itself as visitors scroll: floor plan and layout, then the furnished 3D interior, then the complete home. It needs two uploaded files and one more script.
+
+1. Upload these files to the WordPress media library or by SFTP into `/wp-content/uploads/alb/`:
+   - `elementor/vendor/three.min.js` (three.js r149, MIT licence in `elementor/vendor/three.LICENSE`)
+   - `preview/assets/house-3d-complete.webp` (the still illustration shown before the 3D loads and on devices without WebGL)
+2. If the files end up at different URLs, update `data-three-src` and the fallback `<img src>` in `04-why-us.html` before pasting it.
+3. Add `alb-house3d.js` in Elementor → Custom Code after `alb-landing.js`, with the same Body End location and this-page-only display condition.
+4. In the Container holding the why-us HTML widget, keep **Overflow: Default** and do not add Motion Effects or transforms. Overflow hidden or a transform on any parent stops the section from pinning.
+
+The script loads three.js only after the page has finished loading and the visitor is near the section. Without JavaScript, IntersectionObserver, or WebGL, the section stays a static illustration with all three points visible. Keep the "Illustration of our 3D design process" label: the model is illustrative and not an Albedo project.
+
 ## 6. Replace assets
 
 1. Upload approved WebP images at up to 1920px wide and no more than roughly 250 KB each.

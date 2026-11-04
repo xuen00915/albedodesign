@@ -286,3 +286,45 @@ test("Elementor snippets retain section-level styles without the preview wrapper
     mobileBarDisplay: "flex"
   });
 });
+
+test("why-us 3D house pins, follows the scroll, and loads three.js lazily", async ({ page }) => {
+  const threeRequests = [];
+  const errors = [];
+  page.on("request", (request) => {
+    if (/three\.min\.js$/.test(request.url())) threeRequests.push(request.url());
+  });
+  page.on("pageerror", (error) => errors.push(error.message));
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto(pageUrl, { waitUntil: "networkidle" });
+  expect(threeRequests).toHaveLength(0);
+
+  const section = page.locator('[data-alb-section="why-us"]');
+  const track = section.locator(".alb-why__track");
+  const top = await track.evaluate((node) => node.getBoundingClientRect().top + window.scrollY);
+  const span = await track.evaluate((node) => node.offsetHeight - window.innerHeight);
+  expect(span).toBeGreaterThan(800);
+
+  const expected = [
+    [0.1, 0, "Floor plan & layout"],
+    [0.5, 1, "3D interior design"],
+    [0.95, 2, "Your complete home"]
+  ];
+  for (const [fraction, index, label] of expected) {
+    await page.evaluate((y) => window.scrollTo(0, y), Math.round(top + fraction * span));
+    await expect(section.locator(".alb-why__step").nth(index)).toHaveClass(/is-active/);
+    await expect(section.locator(".alb-why__step").nth(index)).toHaveAttribute("aria-current", "step");
+    await expect(section.locator(".alb-house__badge")).toHaveText(label);
+    const pinTop = await section.locator(".alb-why__pin").evaluate((node) => node.getBoundingClientRect().top);
+    expect(pinTop).toBeGreaterThanOrEqual(60);
+    expect(pinTop).toBeLessThanOrEqual(80);
+    const activeBottom = await section.locator(".alb-why__step").nth(index)
+      .evaluate((node) => node.getBoundingClientRect().bottom);
+    const barTop = await page.locator(".alb-mbar").evaluate((node) => node.getBoundingClientRect().top);
+    expect(activeBottom).toBeLessThanOrEqual(barTop);
+  }
+
+  expect(threeRequests).toHaveLength(1);
+  await expect(section.locator(".alb-house")).toHaveClass(/is-live/);
+  await expect(section.locator(".alb-house__canvas")).toBeVisible();
+  expect(errors).toEqual([]);
+});

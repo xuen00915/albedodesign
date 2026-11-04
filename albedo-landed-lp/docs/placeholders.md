@@ -71,6 +71,12 @@ Use real landed-home Google reviews with permission. Do not convert the three pl
 - BCA, HDB, bizSAFE Star, and ISO credentials remain current.
 - The consultation and site visit are free with no obligation.
 
+## 3D house illustration
+
+- The why-us 3D house is a code-built illustration, not an Albedo project. Keep the "Illustration of our 3D design process" label.
+- Optional upgrade: export an image sequence (90–120 frames) or a lightweight model from Albedo's own SketchUp project to replace the illustrative house.
+- Confirm the step claims: in-house team, 3D interior design before works, itemised quote, one point of contact to handover.
+
 ## Asset upgrade
 
 Replace the current 100 × 50 pixel logo with an approved SVG or high-resolution transparent logo before launch.

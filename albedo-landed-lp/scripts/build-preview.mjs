@@ -23,7 +23,9 @@ const previewAssetMap = new Map([
   ["https://albedodesign.com.sg/wp-content/uploads/2026/01/1.png", "assets/credential-bizsafe.webp"],
   ["https://albedodesign.com.sg/wp-content/uploads/2026/01/7.png", "assets/credential-top-singapore.webp"],
   ["https://albedodesign.com.sg/wp-content/uploads/2026/01/5.png", "assets/credential-hafele.webp"],
-  ["https://albedodesign.com.sg/wp-content/uploads/2026/01/Albedo-HDB-Renovation-Licensed-contractor.jpg", "assets/credential-hdb.webp"]
+  ["https://albedodesign.com.sg/wp-content/uploads/2026/01/Albedo-HDB-Renovation-Licensed-contractor.jpg", "assets/credential-hdb.webp"],
+  ["https://albedodesign.com.sg/wp-content/uploads/alb/house-3d-complete.webp", "assets/house-3d-complete.webp"],
+  ["https://albedodesign.com.sg/wp-content/uploads/alb/three.min.js", "../elementor/vendor/three.min.js"]
 ]);
 const previewSections = sections.map((section) => {
   for (const [remoteUrl, localPath] of previewAssetMap) section = section.replaceAll(remoteUrl, localPath);
@@ -65,6 +67,7 @@ ${previewSections.slice(1, 13).join("\n")}
 ${previewSections.slice(13).join("\n")}
   </div>
   <script src="../elementor/alb-landing.js"></script>
+  <script src="../elementor/alb-house3d.js"></script>
 </body>
 </html>
 `;
