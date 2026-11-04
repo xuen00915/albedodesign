@@ -484,7 +484,7 @@ test("process title sits on one line on desktop and every step has an icon", asy
   expect(lines).toBeLessThanOrEqual(1);
 });
 
-for (const viewport of [{ width: 768, height: 1024 }, { width: 1024, height: 768 }]) {
+for (const viewport of [{ width: 768, height: 1024 }, { width: 820, height: 1180 }]) {
   test(`tablet ${viewport.width}px keeps photos within half the screen`, async ({ page }) => {
     await page.setViewportSize(viewport);
     await page.goto(pageUrl, { waitUntil: "networkidle" });
@@ -543,3 +543,19 @@ test("Google logo sits in the rating beside the heading and stays on one line on
     expect(rating.right).toBeLessThanOrEqual(width);
   }
 });
+
+for (const viewport of [{ width: 918, height: 800 }, { width: 1024, height: 640 }, { width: 1280, height: 720 }, { width: 1366, height: 768 }]) {
+  test(`laptop ${viewport.width}x${viewport.height}: form sits beside the photo and its button is above the fold`, async ({ page }) => {
+    await page.setViewportSize(viewport);
+    await page.goto(pageUrl, { waitUntil: "networkidle" });
+    const geo = await page.evaluate(() => {
+      const form = document.querySelector(".alb-form-card").getBoundingClientRect();
+      const slider = document.querySelector(".alb-slider").getBoundingClientRect();
+      const button = document.querySelector(".alb-form .alb-btn--full").getBoundingClientRect();
+      return { formRight: form.right, sliderLeft: slider.left, buttonBottom: button.bottom, formWidth: form.width };
+    });
+    expect(geo.formRight).toBeLessThanOrEqual(geo.sliderLeft);
+    expect(geo.formWidth).toBeLessThanOrEqual(600);
+    expect(geo.buttonBottom).toBeLessThanOrEqual(viewport.height);
+  });
+}

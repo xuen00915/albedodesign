@@ -1979,3 +1979,96 @@
     font-size:24px;
   }
 }
+/* Small laptops and zoomed browsers (861-1024px): keep the desktop hero, form beside the photo. */
+@media (min-width:861px) and (max-width:1024px){
+  .alb-lp.alb-hero{
+    align-items:center;
+    display:flex;
+    min-height:0;
+    padding:24px 0 48px;
+  }
+  .alb-lp .alb-hero__grid{
+    gap:28px;
+    grid-template-areas:"copy media";
+    grid-template-columns:minmax(400px,1fr) minmax(0,.9fr);
+  }
+  .alb-lp .alb-slider{
+    aspect-ratio:auto;
+    height:auto;
+    min-height:420px;
+  }
+  .alb-lp .alb-hero__copy{
+    max-width:none;
+  }
+  .alb-lp{
+    --alb-h1:34px;
+  }
+  .alb-lp .alb-hero__lead{
+    font-size:16px;
+  }
+}
+/* Short laptop screens: tighten the hero so the whole form and its button fit above the fold. */
+@media (min-width:861px) and (max-height:820px){
+  .alb-lp.alb-hero{
+    padding:14px 0 28px;
+  }
+  .alb-lp h1{
+    margin-bottom:10px;
+  }
+  .alb-lp .alb-hero__lead{
+    font-size:16px;
+    line-height:1.45;
+    margin-bottom:14px;
+  }
+  .alb-lp .alb-form-card{
+    padding:16px 18px;
+  }
+  .alb-lp .alb-form-card__head h2{
+    font-size:19px;
+  }
+  .alb-lp .alb-form__grid{
+    gap:8px 12px;
+  }
+  .alb-lp .alb-form input:not([type="checkbox"]):not([type="radio"]){
+    height:42px;
+  }
+  .alb-lp .alb-choice{
+    margin:10px 0 12px;
+  }
+  .alb-lp .alb-choice__pill span{
+    height:40px;
+  }
+  .alb-lp .alb-form .alb-btn--full{
+    min-height:46px;
+  }
+  .alb-lp .alb-form-card__micro{
+    margin-top:8px;
+  }
+}
+/* Small laptops: 3D house beside the steps, sized to the screen height. */
+@media (min-width:861px) and (max-width:1024px){
+  .alb-lp .alb-why__pin{
+    gap:24px 36px;
+    grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);
+  }
+  .alb-lp .alb-house{
+    height:clamp(260px,calc(100vh - 260px),460px);
+  }
+  .alb-lp .alb-why__visual h2{
+    font-size:30px;
+  }
+}
+@media (min-width:861px) and (max-height:700px){
+  .alb-lp.alb-why.is-3d .alb-why__pin{
+    top:84px;
+  }
+  .alb-lp .alb-house{
+    height:calc(100vh - 230px);
+  }
+  .alb-lp .alb-why__visual{
+    gap:12px;
+  }
+  .alb-lp.alb-why.is-3d .alb-why__step{
+    padding:12px 0;
+  }
+}
