@@ -1285,9 +1285,8 @@
   margin:0;
 }
 .alb-lp .alb-house{
-  background:#E9EEF3;
+  background:transparent;
   border-radius:var(--alb-r-xl);
-  box-shadow:0 24px 60px rgba(0,34,63,.12);
   height:clamp(300px,calc(100vh - 300px),520px);
   margin:0;
   overflow:hidden;

@@ -62,8 +62,8 @@
     }
 
     // site
-    var ground = new THREE.Mesh(new THREE.PlaneGeometry(90, 90), M.ground); ground.rotation.x = -Math.PI / 2; ground.receiveShadow = true; scene.add(ground);
-    var plot = new THREE.Mesh(new THREE.PlaneGeometry(W + 3, D + 8), M.grass); plot.rotation.x = -Math.PI / 2; plot.position.set(0, 0.01, 1); plot.receiveShadow = true; scene.add(plot);
+    // No floor or sky: a transparent ground that only receives a soft shadow.
+    var ground = new THREE.Mesh(new THREE.PlaneGeometry(90, 90), new THREE.ShadowMaterial({ opacity: 0.16 })); ground.rotation.x = -Math.PI / 2; ground.receiveShadow = true; scene.add(ground);
 
     // ---------- stage 1: floor plan ----------
     var slab0 = box(W, 0.2, D, M.slab, 0, 0, 0);
