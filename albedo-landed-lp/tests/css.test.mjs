@@ -7,6 +7,7 @@ test("shared stylesheet defines the approved token values", async () => {
   for (const declaration of [
     "--alb-navy:#00325D",
     "--alb-orange:#ED5930",
+    "--alb-orange-action:#C84B27",
     "--alb-bg:#F7F8FA",
     "--alb-max:1360px",
     "--alb-section-y:104px"
@@ -35,6 +36,7 @@ test("stylesheet includes required accessibility and responsive contracts", asyn
   assert.match(css, /@media \(max-width:1024px\)/);
   assert.match(css, /@media \(max-width:760px\)/);
   assert.match(css, /@media \(prefers-reduced-motion:reduce\)/);
-  assert.match(css, /\.alb-lp \.alb-is-hidden\s*\{[^}]*display:none/s);
+  assert.match(css, /\.alb-lp\.alb-is-hidden\s*\{[^}]*display:none/s);
   assert.match(css, /\.alb-lp \.alb-table-wrap\s*\{[^}]*overflow-x:auto/s);
+  assert.match(css, /\.alb-lp \.alb-slider\.is-ready \.alb-slide\s*\{[^}]*transition:/s);
 });

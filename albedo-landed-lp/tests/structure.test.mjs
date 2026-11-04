@@ -103,4 +103,33 @@ test("static preview uses local optimized copies of supplied media", async () =>
   }
   const lcpImage = dom.window.document.querySelector(".alb-slide.is-active img");
   assert.match(lcpImage.getAttribute("srcset") || "", /hero-1-800\.webp 800w/);
+
+  const deferredImages = [...dom.window.document.querySelectorAll(".alb-slide img[data-src]")];
+  assert.equal(deferredImages.length, 3, "only the first hero photo should load upfront");
+  for (const image of deferredImages) {
+    assert.equal(image.getAttribute("src"), "assets/hero-1-800.webp");
+    assert.match(image.dataset.src, /\.webp$/);
+  }
+});
+
+test("hero exposes an accessible playback control and balanced headline phrases", async () => {
+  const dom = await loadPreview();
+  const toggle = dom.window.document.querySelector(".alb-slider__toggle");
+  assert.ok(toggle, "missing slider pause/play control");
+  assert.equal(toggle.getAttribute("aria-pressed"), "false");
+  assert.equal(toggle.getAttribute("aria-label"), "Pause project slideshow");
+
+  const headlineLines = [...dom.window.document.querySelectorAll("#hero h1 .alb-h1-line")];
+  assert.equal(headlineLines.length, 3);
+  assert.equal(
+    headlineLines.map((line) => line.textContent.trim()).join(" "),
+    "Landed home renovation, crafted end to end."
+  );
+});
+
+test("mobile header keeps a concise consultation label", async () => {
+  const dom = await loadPreview();
+  const cta = dom.window.document.querySelector(".alb-header a[href='#enquire']");
+  assert.equal(cta.querySelector(".alb-header__cta-full")?.textContent.trim(), "Free consultation");
+  assert.equal(cta.querySelector(".alb-header__cta-short")?.textContent.trim(), "Free consult");
 });

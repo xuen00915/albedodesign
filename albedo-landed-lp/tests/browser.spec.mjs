@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { readFile } from "node:fs/promises";
 
 const pageUrl = "http://127.0.0.1:4187/preview/";
 
@@ -122,8 +123,7 @@ test("rendered page meets landmark, contrast, target-size, and favicon fundament
     });
   });
   for (const button of primaryButtons) {
-    const requiredRatio = button.size >= 18.66 && button.weight >= 700 ? 3 : 4.5;
-    expect(button.ratio, button.label).toBeGreaterThanOrEqual(requiredRatio);
+    expect(button.ratio, button.label).toBeGreaterThanOrEqual(4.5);
   }
 
   const footerTargets = await page.locator(".alb-footer a").evaluateAll((nodes) =>
@@ -132,4 +132,106 @@ test("rendered page meets landmark, contrast, target-size, and favicon fundament
   for (const target of footerTargets) {
     expect(target.height, target.label).toBeGreaterThanOrEqual(24);
   }
+});
+
+test("desktop hero keeps slider controls above the fold", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 800 });
+  await page.goto(pageUrl, { waitUntil: "networkidle" });
+
+  const geometry = await page.locator(".alb-slider").evaluate((slider) => {
+    const box = slider.getBoundingClientRect();
+    const nav = slider.querySelector(".alb-slider__nav").getBoundingClientRect();
+    return { sliderBottom: box.bottom, sliderHeight: box.height, navBottom: nav.bottom };
+  });
+  expect(geometry.sliderHeight).toBeLessThanOrEqual(620);
+  expect(geometry.sliderBottom).toBeLessThanOrEqual(800);
+  expect(geometry.navBottom).toBeLessThanOrEqual(800);
+});
+
+test("initial load requests only the first hero photo", async ({ page }) => {
+  const heroRequests = [];
+  page.on("request", (request) => {
+    if (/\/assets\/hero-[1-4](?:-800)?\.webp$/.test(request.url())) heroRequests.push(request.url());
+  });
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto(pageUrl, { waitUntil: "networkidle" });
+
+  expect(heroRequests.some((url) => /hero-1-800\.webp$/.test(url))).toBe(true);
+  expect(heroRequests.some((url) => /hero-[234]\.webp$/.test(url))).toBe(false);
+});
+
+test("mobile header and slider controls remain uncrowded", async ({ page }) => {
+  await page.setViewportSize({ width: 360, height: 800 });
+  await page.goto(pageUrl, { waitUntil: "networkidle" });
+
+  await expect(page.locator(".alb-header__cta-full")).toBeHidden();
+  await expect(page.locator(".alb-header__cta-short")).toBeVisible();
+  const geometry = await page.evaluate(() => {
+    const header = document.querySelector(".alb-header__inner").getBoundingClientRect();
+    const logo = document.querySelector(".alb-logo").getBoundingClientRect();
+    const cta = document.querySelector(".alb-header .alb-btn--navy").getBoundingClientRect();
+    const caption = document.querySelector(".alb-slider__caption").getBoundingClientRect();
+    const nav = document.querySelector(".alb-slider__nav").getBoundingClientRect();
+    const controls = [...document.querySelectorAll(".alb-slider__nav button")]
+      .filter((button) => getComputedStyle(button).display !== "none")
+      .map((button) => {
+        const box = button.getBoundingClientRect();
+        return { width: box.width, height: box.height };
+      });
+    return {
+      headerFits: logo.right <= cta.left && cta.right <= header.right + 1,
+      controlsClearCaption: caption.right + 8 <= nav.left,
+      controls
+    };
+  });
+  expect(geometry.headerFits).toBe(true);
+  expect(geometry.controlsClearCaption).toBe(true);
+  for (const control of geometry.controls) {
+    expect(control.width).toBeGreaterThanOrEqual(44);
+    expect(control.height).toBeGreaterThanOrEqual(44);
+  }
+});
+
+test("Elementor snippets retain section-level styles without the preview wrapper", async ({ page }) => {
+  const names = [
+    "01-header.html",
+    "02-hero.html",
+    "04-why-us.html",
+    "06-pricing.html",
+    "10-process.html",
+    "14-footer.html",
+    "15-mobile-bar.html"
+  ];
+  const snippets = await Promise.all(names.map((name) =>
+    readFile(new URL("../elementor/sections/" + name, import.meta.url), "utf8")
+  ));
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.setContent(
+    '<link rel="stylesheet" href="http://127.0.0.1:4187/elementor/alb-landing.css">' +
+    snippets.join("\n"),
+    { waitUntil: "networkidle" }
+  );
+
+  const styles = await page.evaluate(() => {
+    const style = (selector) => getComputedStyle(document.querySelector(selector));
+    return {
+      headerPosition: style(".alb-header").position,
+      heroBackground: style(".alb-hero").backgroundColor,
+      sectionPadding: parseFloat(style(".alb-why").paddingTop),
+      pricingDisplay: style(".alb-pricing").display,
+      processBackground: style(".alb-process").backgroundColor,
+      footerBackground: style(".alb-footer").backgroundColor,
+      mobileBarDisplay: style(".alb-mbar").display
+    };
+  });
+
+  expect(styles).toEqual({
+    headerPosition: "sticky",
+    heroBackground: "rgb(247, 248, 250)",
+    sectionPadding: 72,
+    pricingDisplay: "none",
+    processBackground: "rgb(0, 34, 63)",
+    footerBackground: "rgb(0, 26, 51)",
+    mobileBarDisplay: "flex"
+  });
 });

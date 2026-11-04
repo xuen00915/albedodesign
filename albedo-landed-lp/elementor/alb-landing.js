@@ -39,13 +39,33 @@
     var pointerStart = null;
     var hovering = false;
     var focusing = false;
+    var userPaused = false;
+    var playbackToggle = slider.querySelector(".alb-slider__toggle");
 
     function isPaused() {
-      return hovering || focusing || document.visibilityState === "hidden";
+      return userPaused || hovering || focusing || document.visibilityState === "hidden";
+    }
+
+    function updatePlaybackControl() {
+      if (!playbackToggle) return;
+      playbackToggle.setAttribute("aria-pressed", String(userPaused));
+      playbackToggle.setAttribute(
+        "aria-label",
+        userPaused ? "Play project slideshow" : "Pause project slideshow"
+      );
+      slider.classList.toggle("is-user-paused", userPaused);
+    }
+
+    function hydrateSlide(slide) {
+      var image = slide && slide.querySelector("img[data-src]");
+      if (!image) return;
+      image.src = image.dataset.src;
+      image.removeAttribute("data-src");
     }
 
     function show(nextIndex) {
       index = (nextIndex + slides.length) % slides.length;
+      hydrateSlide(slides[index]);
       slides.forEach(function (slide, slideIndex) {
         var active = slideIndex === index;
         slide.classList.toggle("is-active", active);
@@ -95,6 +115,15 @@
     var next = slider.querySelector(".alb-next");
     if (previous) previous.addEventListener("click", function () { go(-1); });
     if (next) next.addEventListener("click", function () { go(1); });
+    if (playbackToggle) {
+      playbackToggle.addEventListener("click", function () {
+        userPaused = !userPaused;
+        autoplayStarted = true;
+        updatePlaybackControl();
+        if (userPaused) stop();
+        else start();
+      });
+    }
     segments.forEach(function (segment) {
       segment.addEventListener("click", function () {
         autoplayStarted = true;
@@ -149,6 +178,8 @@
     });
 
     show(index);
+    updatePlaybackControl();
+    slider.classList.add("is-ready");
     start();
   }
 
@@ -157,18 +188,15 @@
     return section ? section.getAttribute("data-alb-section") : "unknown";
   }
 
-  function focusEnquiry(link) {
+  function scrollToEnquiry() {
     var target = document.querySelector("#enquire");
     if (!target) return;
-    link.addEventListener("click", function (event) {
-      event.preventDefault();
-      target.scrollIntoView({
-        behavior: prefersReducedMotion() ? "auto" : "smooth",
-        block: "start"
-      });
-      var firstField = target.querySelector("input:not([type='hidden']), select, textarea");
-      if (firstField) firstField.focus({ preventScroll: true });
+    target.scrollIntoView({
+      behavior: prefersReducedMotion() ? "auto" : "smooth",
+      block: "start"
     });
+    var firstField = target.querySelector("input:not([type='hidden']), select, textarea");
+    if (firstField) firstField.focus({ preventScroll: true });
   }
 
   function initTracking() {
@@ -185,14 +213,14 @@
       } else if (href.indexOf("tel:") === 0) {
         pushEvent({ event: "alb_call_click", location: findLocation(link) });
       } else if (href === "#enquire") {
+        event.preventDefault();
         pushEvent({
           event: "alb_cta_click",
           label: (link.textContent || "").trim().replace(/\s+/g, " ")
         });
+        scrollToEnquiry();
       }
     });
-
-    nodesWithin(document, 'a[href="#enquire"]').forEach(focusEnquiry);
   }
 
   function fieldSelector(name) {
@@ -241,19 +269,6 @@
     });
   }
 
-  function scheduleDeferredImages() {
-    if (window.__albDeferredImagesReady) return;
-    window.__albDeferredImagesReady = true;
-    function hydrate() {
-      nodesWithin(document, "img[data-src]").forEach(function (image) {
-        image.src = image.dataset.src;
-        image.removeAttribute("data-src");
-      });
-    }
-    if (document.readyState === "complete") hydrate();
-    else window.addEventListener("load", hydrate, { once: true });
-  }
-
   function installElementorSuccessBridge() {
     if (!window.jQuery || window.__albElementorSuccessReady) return;
     window.__albElementorSuccessReady = true;
@@ -276,7 +291,6 @@
     nodesWithin(scope, "[data-alb-preview-form]").forEach(initPreviewForm);
     initAttribution(scope);
     initTracking();
-    scheduleDeferredImages();
     installElementorSuccessBridge();
   }
 

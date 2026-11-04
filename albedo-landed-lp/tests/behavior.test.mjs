@@ -131,6 +131,32 @@ test("autoplay defers its first transition, then advances every six-second cycle
   assert.equal(intervals.size, 1);
 });
 
+test("slider pause button holds playback until the visitor explicitly resumes", async () => {
+  const { window, intervals, timeouts } = await createPage({ reducedMotion: false });
+  requireApi(window).initAll(window.document);
+  const slider = window.document.querySelector(".alb-slider");
+  const toggle = slider.querySelector(".alb-slider__toggle");
+
+  [...timeouts.values()][0]();
+  assert.equal(intervals.size, 1);
+
+  toggle.click();
+  assert.equal(intervals.size, 0);
+  assert.equal(toggle.getAttribute("aria-pressed"), "true");
+  assert.equal(toggle.getAttribute("aria-label"), "Play project slideshow");
+  assert.ok(slider.classList.contains("is-user-paused"));
+
+  slider.querySelector(".alb-next").click();
+  assert.equal(activeIndex(slider), 1);
+  assert.equal(intervals.size, 0, "manual navigation must not override the pause choice");
+
+  toggle.click();
+  assert.equal(intervals.size, 1);
+  assert.equal(toggle.getAttribute("aria-pressed"), "false");
+  assert.equal(toggle.getAttribute("aria-label"), "Pause project slideshow");
+  assert.ok(!slider.classList.contains("is-user-paused"));
+});
+
 test("carousel responds to scoped arrow keys and horizontal swipe", async () => {
   const { window } = await createPage();
   requireApi(window).initAll(window.document);
@@ -268,7 +294,7 @@ test("Elementor submit_success bridge pushes the approved lead payload", async (
   );
 });
 
-test("deferred carousel images receive their real source after window load", async () => {
+test("deferred carousel images receive their real source only when selected", async () => {
   const { window } = await createPage({
     beforeScript(pageWindow) {
       const image = pageWindow.document.querySelectorAll(".alb-slide img")[1];
@@ -279,7 +305,24 @@ test("deferred carousel images receive their real source after window load", asy
   const image = window.document.querySelectorAll(".alb-slide img")[1];
 
   window.dispatchEvent(new window.Event("load"));
+  assert.match(image.src, /assets\/hero-1-800\.webp$/);
+
+  window.document.querySelector('[data-slide="1"]').click();
 
   assert.match(image.src, /assets\/hero-2\.webp$/);
   assert.equal(image.hasAttribute("data-src"), false);
+});
+
+test("an enquiry CTA inserted after initialization still scrolls and focuses the form", async () => {
+  const { window } = await createPage();
+  requireApi(window).initAll(window.document);
+  const dynamicCta = window.document.createElement("a");
+  dynamicCta.href = "#enquire";
+  dynamicCta.textContent = "Dynamic consultation CTA";
+  window.document.querySelector("#footer").append(dynamicCta);
+
+  dynamicCta.click();
+
+  assert.match(window.document.querySelector("#enquire").dataset.scrolledWith, /"block":"start"/);
+  assert.equal(window.document.activeElement, window.document.querySelector('[name="name"]'));
 });
