@@ -162,9 +162,9 @@ test("project cards, hero slides and detail dialogs target matching projects", a
   const cards = [...document.querySelectorAll(".alb-project-grid .alb-project-card")];
   assert.deepEqual(cards.map((card) => "#" + card.id), expected);
   for (const card of cards) {
-    assert.ok(card.querySelector(".alb-flip__front img"), "card front needs a photo");
-    assert.ok(card.querySelector(".alb-flip__front h3"), "card front needs a title");
-    assert.equal(card.querySelector(".alb-flip__more").textContent.trim(), "View more");
+    assert.ok(card.querySelector(".alb-project-card__media img"), "card front needs a photo");
+    assert.ok(card.querySelector(".alb-project-card__media h3"), "card front needs a title");
+    assert.equal(card.querySelector(".alb-project-card__more").textContent.trim(), "View more");
   }
   const slideTargets = [...document.querySelectorAll(".alb-slide")].map((slide) => slide.dataset.project);
   assert.deepEqual(slideTargets, expected);

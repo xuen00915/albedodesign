@@ -190,9 +190,32 @@
     return section ? section.getAttribute("data-alb-section") : "unknown";
   }
 
+  // The 3D house section is several screens tall and plays as you scroll through it.
+  // When a link jumps across it, hop over it instantly so the animation doesn't replay.
+  function skipPinnedSection(target) {
+    var why = document.querySelector(".alb-why.is-3d");
+    if (!why || !target || typeof window.scrollTo !== "function") return;
+    var y = window.pageYOffset || document.documentElement.scrollTop || 0;
+    var view = window.innerHeight || 0;
+    var whyBox = why.getBoundingClientRect();
+    var whyTop = whyBox.top + y;
+    var whyBottom = whyBox.bottom + y;
+    var targetTop = target.getBoundingClientRect().top + y;
+    var jumpTo = null;
+    if (targetTop < whyTop && y > whyTop - view) jumpTo = Math.max(targetTop, whyTop - view);
+    else if (targetTop > whyBottom && y < whyBottom) jumpTo = Math.min(targetTop, whyBottom);
+    if (jumpTo === null || Math.abs(jumpTo - y) < 2) return;
+    var root = document.documentElement;
+    var previous = root.style.scrollBehavior;
+    root.style.scrollBehavior = "auto";
+    window.scrollTo(0, Math.max(0, jumpTo));
+    root.style.scrollBehavior = previous;
+  }
+
   function scrollToEnquiry() {
     var target = document.querySelector("#enquire");
     if (!target) return;
+    skipPinnedSection(target);
     target.scrollIntoView({
       behavior: prefersReducedMotion() ? "auto" : "smooth",
       block: "start"
@@ -396,28 +419,23 @@
     if (section.dataset.albReady === "true") return;
     section.dataset.albReady = "true";
     var cards = Array.prototype.slice.call(section.querySelectorAll(".alb-project-card"));
-    var canHover = typeof window.matchMedia === "function" && window.matchMedia("(hover: hover)").matches;
 
     nodesWithin(section, "dialog.alb-project-dialog").forEach(initDialog);
     section.addEventListener("click", function (event) {
+      // The "View more" button opens the details; a click anywhere on the photo does the same.
       var opener = event.target.closest("[data-alb-dialog]");
-      if (opener) {
-        openDialog(document.getElementById(opener.getAttribute("data-alb-dialog")), opener);
-        return;
+      if (!opener) {
+        var card = event.target.closest(".alb-project-card");
+        opener = card && card.querySelector("[data-alb-dialog]");
       }
-      // Touch screens have no hover: a tap on the card turns it over.
-      var card = event.target.closest(".alb-project-card");
-      if (card && !canHover) {
-        var flip = !card.classList.contains("is-flipped");
-        cards.forEach(function (other) { other.classList.remove("is-flipped"); });
-        card.classList.toggle("is-flipped", flip);
-      }
+      if (opener) openDialog(document.getElementById(opener.getAttribute("data-alb-dialog")), opener);
     });
 
     function showProject(hash, scroll) {
       var card = cards.filter(function (item) { return "#" + item.id === hash; })[0];
       if (!card) return false;
-      cards.forEach(function (other) { other.classList.toggle("is-flipped", other === card); });
+      cards.forEach(function (other) { other.classList.toggle("is-active", other === card); });
+      if (scroll) skipPinnedSection(card);
       if (scroll) card.scrollIntoView({ behavior: prefersReducedMotion() ? "auto" : "smooth", block: "center" });
       return true;
     }

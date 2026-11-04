@@ -153,10 +153,12 @@ test("desktop hero and slider controls fit within the first screen", async ({ pa
     const box = slider.getBoundingClientRect();
     const nav = slider.querySelector(".alb-slider__nav").getBoundingClientRect();
     const hero = document.querySelector("#hero").getBoundingClientRect();
-    return { heroBottom: hero.bottom, sliderBottom: box.bottom, sliderHeight: box.height, navBottom: nav.bottom };
+    const copy = document.querySelector(".alb-hero__copy");
+    return { heroBottom: hero.bottom, sliderBottom: box.bottom, sliderTop: slider.offsetTop, copyTop: copy.offsetTop, sliderHeight: slider.offsetHeight, copyHeight: copy.offsetHeight, navBottom: nav.bottom };
   });
   expect(geometry.heroBottom).toBeLessThanOrEqual(800);
-  expect(geometry.sliderHeight).toBeLessThanOrEqual(560);
+  expect(Math.abs(geometry.sliderTop - geometry.copyTop)).toBeLessThanOrEqual(1);
+  expect(Math.abs(geometry.sliderHeight - geometry.copyHeight)).toBeLessThanOrEqual(1);
   expect(geometry.sliderBottom).toBeLessThanOrEqual(800);
   expect(geometry.navBottom).toBeLessThanOrEqual(800);
 });
@@ -188,7 +190,7 @@ test("credential motion stops when reduced motion is requested", async ({ page }
   await expect(page.locator(".alb-trust__track")).toHaveCSS("animation-name", "none");
 });
 
-test("project cards sit four in a row, flip on hover and open details", async ({ page }) => {
+test("project cards sit four in a row, fill one screen, reveal View more on hover and open details", async ({ page }) => {
   const events = [];
   await page.exposeFunction("albEvent", (payload) => events.push(payload));
   await page.addInitScript(() => {
@@ -204,11 +206,23 @@ test("project cards sit four in a row, flip on hover and open details", async ({
   expect(tops).toHaveLength(4);
   expect(new Set(tops).size).toBe(1);
 
+  const fit = await page.evaluate(() => {
+    const head = document.querySelector("#projects h2").getBoundingClientRect();
+    const grid = document.querySelector(".alb-project-grid").getBoundingClientRect();
+    const header = document.querySelector(".alb-header").getBoundingClientRect();
+    return grid.bottom - head.top + header.height + 40;
+  });
+  expect(fit).toBeLessThanOrEqual(1000);
+
   const card = page.locator("#project-bungalow");
+  const more = card.locator(".alb-project-card__more");
   await card.scrollIntoViewIfNeeded();
+  await page.mouse.move(5, 5);
+  await expect.poll(() => more.evaluate((node) => getComputedStyle(node).opacity)).toBe("0");
   await card.hover();
-  await expect.poll(() => card.locator(".alb-flip").evaluate((node) => getComputedStyle(node).transform)).not.toBe("none");
-  await card.locator(".alb-flip__more").click();
+  await expect.poll(() => more.evaluate((node) => getComputedStyle(node).opacity)).toBe("1");
+  expect(await card.locator(".alb-project-card__media").evaluate((node) => getComputedStyle(node).transform)).toBe("none");
+  await more.click();
   const dialog = page.locator("#project-bungalow-details");
   await expect(dialog).toBeVisible();
   await expect(dialog.locator(".alb-project-dialog__close")).toBeFocused();
@@ -216,9 +230,9 @@ test("project cards sit four in a row, flip on hover and open details", async ({
     images.every((image) => image.complete && image.naturalWidth > 0))).toBe(true);
   await page.keyboard.press("Escape");
   await expect(dialog).toBeHidden();
-  await expect(card.locator(".alb-flip__more")).toBeFocused();
+  await expect(card.locator(".alb-project-card__more")).toBeFocused();
 
-  await card.locator(".alb-flip__more").click();
+  await card.locator(".alb-project-card__more").click();
   await dialog.locator("a[data-alb-property]").click();
   await expect(dialog).toBeHidden();
   await expect(page.locator('#enquire [name="property_type"]')).toHaveValue("Bungalow / detached");
@@ -229,7 +243,7 @@ test("project cards sit four in a row, flip on hover and open details", async ({
   expect(events.some((event) => event.event === "alb_project_view" && event.project === "bungalow")).toBe(true);
 });
 
-test("project cards stack on phones and a tap turns a card over", async ({ browser }) => {
+test("project cards stack on phones and always show View more", async ({ browser }) => {
   const context = await browser.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
   const page = await context.newPage();
   await page.goto(pageUrl, { waitUntil: "networkidle" });
@@ -238,9 +252,8 @@ test("project cards stack on phones and a tap turns a card over", async ({ brows
   expect(new Set(lefts).size).toBe(1);
   const card = page.locator("#project-terrace");
   await card.scrollIntoViewIfNeeded();
-  await card.locator(".alb-flip__front").tap();
-  await expect(card).toHaveClass(/is-flipped/);
-  await card.locator(".alb-flip__more").tap();
+  await expect(card.locator(".alb-project-card__more")).toBeVisible();
+  await card.locator(".alb-project-card__more").tap();
   await expect(page.locator("#project-terrace-details")).toBeVisible();
   await context.close();
 });
@@ -250,7 +263,7 @@ test("hero View project link scrolls to the matching card", async ({ page }) => 
   await page.goto(pageUrl, { waitUntil: "networkidle" });
   await page.locator('.alb-slider [data-slide="2"]').click();
   await page.locator(".alb-slider__project-link").click();
-  await expect(page.locator("#project-bungalow")).toHaveClass(/is-flipped/);
+  await expect(page.locator("#project-bungalow")).toHaveClass(/is-active/);
   await expect(page).toHaveURL(/#project-bungalow$/);
   await expect.poll(() => page.locator("#project-bungalow").evaluate((node) => {
     const rect = node.getBoundingClientRect();
@@ -412,4 +425,50 @@ test("project cards and the consultation offer keep one section gap", async ({ p
     });
     expect(gap).toBe(expected);
   }
+});
+
+test("FAQ contact buttons carry icons and share one size", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto(pageUrl, { waitUntil: "networkidle" });
+  const buttons = page.locator("#faq .alb-contact-card .alb-btn");
+  await expect(buttons).toHaveCount(2);
+  await expect(buttons.nth(0).locator("svg.alb-icon-whatsapp")).toHaveCount(1);
+  await expect(buttons.nth(1).locator("svg")).toHaveCount(1);
+  const sizes = await buttons.evaluateAll((nodes) => nodes.map((node) => {
+    const rect = node.getBoundingClientRect();
+    return [Math.round(rect.width), Math.round(rect.height)];
+  }));
+  expect(sizes[0]).toEqual(sizes[1]);
+});
+
+test("jumping to the form or a project hops over the 3D section", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto(pageUrl, { waitUntil: "networkidle" });
+  await expect(page.locator(".alb-why")).toHaveClass(/is-3d/);
+  const watch = () => page.evaluate(() => {
+    const why = document.querySelector(".alb-why");
+    const top = why.getBoundingClientRect().top + scrollY;
+    window.albWhy = [top, top + why.offsetHeight - innerHeight];
+    window.albSeen = [];
+    window.addEventListener("scroll", () => window.albSeen.push(scrollY));
+  });
+  const crossed = () => page.evaluate(() =>
+    window.albSeen.filter((y) => y > window.albWhy[0] + 2 && y < window.albWhy[1] - 2).length);
+
+  await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+  await page.waitForTimeout(300);
+  await watch();
+  await page.locator('#final-cta a[href="#enquire"]').click();
+  await expect.poll(() => page.evaluate(() => Math.round(document.getElementById("enquire").getBoundingClientRect().top))).toBeLessThan(200);
+  expect(await crossed()).toBe(0);
+
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await page.waitForTimeout(300);
+  await watch();
+  await page.locator(".alb-slider__project-link").click();
+  await expect.poll(() => page.evaluate(() => {
+    const rect = document.querySelector("#project-terrace").getBoundingClientRect();
+    return rect.top > 0 && rect.bottom < innerHeight + 200;
+  })).toBe(true);
+  expect(await crossed()).toBe(0);
 });

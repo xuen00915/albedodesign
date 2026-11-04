@@ -328,35 +328,22 @@ test("an enquiry CTA inserted after initialization still scrolls and focuses the
   assert.equal(window.document.activeElement, window.document.querySelector('[name="name"]'));
 });
 
-test("on touch screens a tap turns a project card over, one card at a time", async () => {
-  const { window } = await createPage({
-    beforeScript(window) {
-      window.matchMedia = (query) => ({
-        matches: query.includes("reduce"),
-        addEventListener() {},
-        removeEventListener() {}
-      });
-    }
-  });
+test("a click anywhere on a project photo opens its details", async () => {
+  const { window } = await createPage();
   const document = window.document;
-  const cards = [...document.querySelectorAll(".alb-project-card")];
-  cards[0].querySelector(".alb-flip__front").click();
-  assert.equal(cards[0].classList.contains("is-flipped"), true);
-  cards[1].querySelector(".alb-flip__front").click();
-  assert.equal(cards[0].classList.contains("is-flipped"), false);
-  assert.equal(cards[1].classList.contains("is-flipped"), true);
-  cards[1].querySelector(".alb-flip__front").click();
-  assert.equal(cards[1].classList.contains("is-flipped"), false);
+  document.querySelector("#project-bungalow .alb-project-card__media img").click();
+  const dialog = document.getElementById("project-bungalow-details");
+  assert.ok(dialog.open || dialog.hasAttribute("open"), "dialog should open from the photo");
 });
 
-test("hero View project link scrolls to and turns over the matching card", async () => {
+test("hero View project link scrolls to and highlights the matching card", async () => {
   const { window } = await createPage();
   const document = window.document;
   const link = document.querySelector(".alb-slider__project-link");
   link.setAttribute("href", "#project-shophouse");
   link.click();
   const card = document.getElementById("project-shophouse");
-  assert.equal(card.classList.contains("is-flipped"), true);
+  assert.equal(card.classList.contains("is-active"), true);
   assert.ok(card.dataset.scrolledWith);
 });
 
@@ -384,7 +371,7 @@ test("Get a design like this pre-selects the property type and scrolls to the fo
   const { window } = await createPage();
   const document = window.document;
   window.dataLayer = [];
-  document.querySelector('#project-semi-detached .alb-flip__more').click();
+  document.querySelector('#project-semi-detached .alb-project-card__more').click();
   const dialog = document.getElementById("project-semi-detached-details");
   dialog.querySelector("a[data-alb-property]").click();
   assert.equal(dialog.open || dialog.hasAttribute("open"), false);
