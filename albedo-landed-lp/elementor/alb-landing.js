@@ -394,53 +394,33 @@
   function initProjects(section) {
     if (section.dataset.albReady === "true") return;
     section.dataset.albReady = "true";
-    var tabs = Array.prototype.slice.call(section.querySelectorAll('[role="tab"]'));
-    var panels = tabs.map(function (tab) { return document.getElementById(tab.getAttribute("aria-controls")); });
-    if (!tabs.length || panels.some(function (panel) { return !panel; })) return;
-    section.classList.add("is-tabbed");
-
-    function activate(index, focus) {
-      tabs.forEach(function (tab, i) {
-        var selected = i === index;
-        tab.setAttribute("aria-selected", selected ? "true" : "false");
-        tab.tabIndex = selected ? 0 : -1;
-        panels[i].classList.toggle("is-active", selected);
-        panels[i].hidden = !selected;
-      });
-      if (focus) tabs[index].focus();
-    }
-
-    tabs.forEach(function (tab, index) {
-      tab.addEventListener("click", function () { activate(index, false); });
-      tab.addEventListener("keydown", function (event) {
-        var target = null;
-        if (event.key === "ArrowRight") target = (index + 1) % tabs.length;
-        if (event.key === "ArrowLeft") target = (index - 1 + tabs.length) % tabs.length;
-        if (event.key === "Home") target = 0;
-        if (event.key === "End") target = tabs.length - 1;
-        if (target === null) return;
-        event.preventDefault();
-        activate(target, true);
-      });
-    });
+    var cards = Array.prototype.slice.call(section.querySelectorAll(".alb-project-card"));
+    var canHover = typeof window.matchMedia === "function" && window.matchMedia("(hover: hover)").matches;
 
     nodesWithin(section, "dialog.alb-project-dialog").forEach(initDialog);
     section.addEventListener("click", function (event) {
       var opener = event.target.closest("[data-alb-dialog]");
-      if (!opener) return;
-      openDialog(document.getElementById(opener.getAttribute("data-alb-dialog")), opener);
+      if (opener) {
+        openDialog(document.getElementById(opener.getAttribute("data-alb-dialog")), opener);
+        return;
+      }
+      // Touch screens have no hover: a tap on the card turns it over.
+      var card = event.target.closest(".alb-project-card");
+      if (card && !canHover) {
+        var flip = !card.classList.contains("is-flipped");
+        cards.forEach(function (other) { other.classList.remove("is-flipped"); });
+        card.classList.toggle("is-flipped", flip);
+      }
     });
 
     function showProject(hash, scroll) {
-      var index = panels.findIndex(function (panel) { return "#" + panel.id === hash; });
-      if (index < 0) return false;
-      activate(index, false);
-      if (scroll) panels[index].scrollIntoView({ behavior: prefersReducedMotion() ? "auto" : "smooth", block: "start" });
+      var card = cards.filter(function (item) { return "#" + item.id === hash; })[0];
+      if (!card) return false;
+      cards.forEach(function (other) { other.classList.toggle("is-flipped", other === card); });
+      if (scroll) card.scrollIntoView({ behavior: prefersReducedMotion() ? "auto" : "smooth", block: "center" });
       return true;
     }
     section._albShowProject = showProject;
-    var initialIndex = panels.findIndex(function (panel) { return "#" + panel.id === window.location.hash; });
-    activate(initialIndex >= 0 ? initialIndex : 0, false);
   }
 
   function initProjectLinks() {

@@ -1,76 +1,68 @@
-# Launch Placeholders
+# Launch content: placeholders and sign-off
 
-The page intentionally retains the following placeholders. Do not publish the landing page until the responsible Albedo or AdCendes owner supplies and approves each applicable value.
+All visible bracketed placeholders have been replaced with real or neutral wording. The only bracketed values left are in the **hidden** pricing section. Before launch, Albedo should still confirm the items under "Confirm with Albedo".
 
-## Offer, response time, privacy, and urgency
+## Still bracketed (hidden pricing section, `06-pricing.html`)
 
-- Hero form badge now reads "Free site visit" (Albedo offers free consultations and site visits). Confirm, or replace with another real, honoured offer.
-- [BONUS · e.g. Free 3D render of your living room] — consultation list; confirm before use.
-- Response time: the form micro-copy and success message no longer promise a time. Add one (e.g. "Reply within 1 working day") only once Albedo confirms the service level.
-- [PRIVACY POLICY URL] — consent and footer links; replace with the live policy URL.
-- [URGENCY · e.g. Only 10 consultation slots left for November] — delete unless genuinely limited.
-- [URGENCY · e.g. Limited slots for November] — delete unless genuinely limited.
-
-## Pricing and timing
+The section is hidden with `alb-is-hidden`. Keep it hidden until Albedo approves real prices.
 
 - [X] and [Y] — approved landed-renovation price ranges.
 - [Prices include/exclude GST] — confirm treatment of GST.
-- [TYPICAL DURATION, e.g. X–Y months for a full renovation] — approved FAQ duration.
-- [TYPICAL BUDGET RANGE] — approved FAQ budget guidance.
+
+## Replaced wording (confirm with Albedo)
+
+| Where | Now reads | Confirm |
+|---|---|---|
+| Hero form badge | Free site visit | Albedo still offers free site visits |
+| Form micro-copy / success message | No obligation · Prefer to chat? WhatsApp us; "contact you shortly" | Add a response time (e.g. "within 1 working day") only if Albedo commits to it |
+| Consultation offer list | Advice on materials, carpentry and finishes | Included in the free consultation |
+| Consultation offer note | Free and no obligation. Meet us at your home or our Little Road showroom. | Both meeting options are available |
+| Final call to action | Prefer to talk first? WhatsApp us at 9669 9319. | — |
+| FAQ: how long | No fixed duration; schedule agreed with the quotation | Add typical durations only from Albedo's records |
+| FAQ: how much | No one-size price; itemised quotation after a free site visit | Add ranges only once approved (see pricing) |
+| Privacy links | https://albedodesign.com.sg/privacy-policy/ | Page is live and current |
+
+## Reviews (`09-testimonials.html`)
+
+The rating card shows Albedo's **4.9 Google rating** (supplied by AdCendes). Add the Google review count and a link to the Google Business Profile once confirmed, and re-check the rating before launch.
+
+The three quotes come from Albedo's public HomeRenoGuru profile (https://homerenoguru.sg/interior-designer/albedo-design-pte-ltd-920/reviews), checked November 2026, and each links to that source:
+
+- Yuen Teng (Condominium, 2024): "The Albedo Design team is very professional and efficient."
+- Yong En (Shophouse, 2017): "Excellent workmanship, and they delivered whatever it is promised by them."
+- Kee Heng (Condominium, 2017): "You can feel the level of details in their work and the quality of the build is top notch."
+
+Each quote links to the source. Ask Albedo to confirm they're happy to feature these reviewers, and replace them with landed-home reviews (Google or HomeRenoGuru) when available. Re-check the rating before launch.
+
+## Project details (`05-projects.html`)
+
+The four project cards and their "View more" dialogs show only what is known: the project photo, its title, the property type, Albedo's approach for that home type, and the one-team service. Unverified facts (area, size, timeline, style, the homeowner's brief, before photos and project quotes) were removed rather than shown as placeholders.
+
+To enrich a project later, add to its dialog from verified Albedo records:
+
+- Gallery photos (4–6 per project, 1600×1200 WebP) as extra `alb-gallery__item` entries; add the gallery arrow buttons back when there is more than one photo.
+- Key facts (area, size, scope, timeline, style) as a `<dl class="alb-project-facts">` list.
+- A before photo: the before/after slider styles and script are kept, ready for an `.alb-compare` block.
+- A client quote from that project, with permission.
+
+The project photos currently reuse the four hero images, which show condo and residential work. Replace them with real landed projects, one per property type, before launch.
 
 ## Trust marks
 
-- [BCA LOGO]
-- [HDB LICENSED LOGO]
-- [bizSAFE STAR LOGO]
-- [ISO LOGO]
-- [GOOGLE REVIEWS]
-
-Supply official, current logo files and permission to display them.
-
-## Project details (Real landed homes section)
-
-Each property type (Terrace, Semi-D, Bungalow, Shophouse) has a project panel and a "View project details" dialog in `05-projects.html`. Fill these per project from verified Albedo records only:
-
-- Panel facts: [Area] · [Size, e.g. 2,400 sq ft] · [Timeline, e.g. 16 weeks]
-- Dialog facts: [Area], [Size], [Full / partial renovation], [X weeks], [Style]
-- Story: [What the homeowners wanted] · [Layout, carpentry, materials and lighting changes] · [How the home works now]
-- Quote: [Client quote from this project, if approved]
-- Before/after: [BEFORE PHOTO · same angle] (the after side uses the project photo)
-
-Gallery photos (4–6 per project, 1600×1200 WebP):
-
-- Terrace: [PHOTO · 1600×1200 · kitchen] · [PHOTO · 1600×1200 · master bedroom] · [PHOTO · 1600×1200 · staircase]
-- Semi-D: [PHOTO · 1600×1200 · dining area] · [PHOTO · 1600×1200 · family room] · [PHOTO · 1600×1200 · bedroom]
-- Bungalow: [PHOTO · 1600×1200 · kitchen] · [PHOTO · 1600×1200 · master suite] · [PHOTO · 1600×1200 · outdoor terrace]
-- Shophouse: [PHOTO · 1600×1200 · five-foot way facade] · [PHOTO · 1600×1200 · airwell] · [PHOTO · 1600×1200 · upper floor]
-
-The project photos currently reuse the four hero images (condo/residential work). Replace them with real landed projects, one project per property type, before launch.
-
-## Reviews
-
-- [4.9] — current Google Business Profile rating.
-- [XX] — current Google review count.
-- [Paste a real landed-home Google review with permission.]
-- [Client name]
-- [Property type · Area]
-
-Use real landed-home Google reviews with permission. Do not convert the three placeholders into invented testimonials.
+The credential strip uses Albedo-supplied logos. Confirm each credential (BCA, HDB Licensed Renovation Contractor, bizSAFE Star, ISO and the partner logos) is current before launch.
 
 ## Claims requiring sign-off
 
-- 3D renders before works.
-- Designers, engineers, and project managers working in-house.
-- Clear itemised quotations and fixed work schedules.
+- 3D design before works start.
+- Designers, engineers and project managers working in-house; one point of contact to handover.
+- Clear itemised quotations and agreed work schedules.
 - The comparison-table claims.
-- BCA, HDB, bizSAFE Star, and ISO credentials remain current.
 - The consultation and site visit are free with no obligation.
 
 ## 3D house illustration
 
 - The why-us 3D house is a code-built illustration, not an Albedo project. Keep the "Illustration of our 3D design process" label.
 - Optional upgrade: export an image sequence (90–120 frames) or a lightweight model from Albedo's own SketchUp project to replace the illustrative house.
-- Confirm the step claims: in-house team, 3D interior design before works, itemised quote, one point of contact to handover.
 
 ## Asset upgrade
 

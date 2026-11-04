@@ -188,7 +188,7 @@ test("credential motion stops when reduced motion is requested", async ({ page }
   await expect(page.locator(".alb-trust__track")).toHaveCSS("animation-name", "none");
 });
 
-test("project tabs, details dialog and design CTA work in the rendered browser", async ({ page }) => {
+test("project cards sit four in a row, flip on hover and open details", async ({ page }) => {
   const events = [];
   await page.exposeFunction("albEvent", (payload) => events.push(payload));
   await page.addInitScript(() => {
@@ -199,11 +199,16 @@ test("project tabs, details dialog and design CTA work in the rendered browser",
   await page.setViewportSize({ width: 1440, height: 1000 });
   await page.goto(pageUrl, { waitUntil: "networkidle" });
 
-  await page.locator("#tab-bungalow").click();
-  await expect(page.locator("#project-bungalow")).toBeVisible();
-  await expect(page.locator("#project-terrace")).toBeHidden();
+  const tops = await page.locator(".alb-project-card").evaluateAll((cards) =>
+    cards.map((card) => Math.round(card.getBoundingClientRect().top)));
+  expect(tops).toHaveLength(4);
+  expect(new Set(tops).size).toBe(1);
 
-  await page.locator("#project-bungalow .alb-project-panel__open").click();
+  const card = page.locator("#project-bungalow");
+  await card.scrollIntoViewIfNeeded();
+  await card.hover();
+  await expect.poll(() => card.locator(".alb-flip").evaluate((node) => getComputedStyle(node).transform)).not.toBe("none");
+  await card.locator(".alb-flip__more").click();
   const dialog = page.locator("#project-bungalow-details");
   await expect(dialog).toBeVisible();
   await expect(dialog.locator(".alb-project-dialog__close")).toBeFocused();
@@ -211,10 +216,9 @@ test("project tabs, details dialog and design CTA work in the rendered browser",
     images.every((image) => image.complete && image.naturalWidth > 0))).toBe(true);
   await page.keyboard.press("Escape");
   await expect(dialog).toBeHidden();
-  await expect(page.locator("#project-bungalow .alb-project-panel__open")).toBeFocused();
+  await expect(card.locator(".alb-flip__more")).toBeFocused();
 
-  await page.locator("#project-bungalow .alb-project-panel__media").click();
-  await expect(dialog).toBeVisible();
+  await card.locator(".alb-flip__more").click();
   await dialog.locator("a[data-alb-property]").click();
   await expect(dialog).toBeHidden();
   await expect(page.locator('#enquire [name="property_type"]')).toHaveValue("Bungalow / detached");
@@ -225,14 +229,33 @@ test("project tabs, details dialog and design CTA work in the rendered browser",
   expect(events.some((event) => event.event === "alb_project_view" && event.project === "bungalow")).toBe(true);
 });
 
-test("hero View project link opens the matching project tab", async ({ page }) => {
+test("project cards stack on phones and a tap turns a card over", async ({ browser }) => {
+  const context = await browser.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
+  const page = await context.newPage();
+  await page.goto(pageUrl, { waitUntil: "networkidle" });
+  const lefts = await page.locator(".alb-project-card").evaluateAll((cards) =>
+    cards.map((card) => Math.round(card.getBoundingClientRect().left)));
+  expect(new Set(lefts).size).toBe(1);
+  const card = page.locator("#project-terrace");
+  await card.scrollIntoViewIfNeeded();
+  await card.locator(".alb-flip__front").tap();
+  await expect(card).toHaveClass(/is-flipped/);
+  await card.locator(".alb-flip__more").tap();
+  await expect(page.locator("#project-terrace-details")).toBeVisible();
+  await context.close();
+});
+
+test("hero View project link scrolls to the matching card", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto(pageUrl, { waitUntil: "networkidle" });
   await page.locator('.alb-slider [data-slide="2"]').click();
   await page.locator(".alb-slider__project-link").click();
-  await expect(page.locator("#tab-bungalow")).toHaveAttribute("aria-selected", "true");
-  await expect(page.locator("#project-bungalow")).toBeVisible();
+  await expect(page.locator("#project-bungalow")).toHaveClass(/is-flipped/);
   await expect(page).toHaveURL(/#project-bungalow$/);
+  await expect.poll(() => page.locator("#project-bungalow").evaluate((node) => {
+    const rect = node.getBoundingClientRect();
+    return rect.top < window.innerHeight && rect.bottom > 0;
+  })).toBe(true);
 });
 
 test("form labels keep the required star inline and buttons carry no arrow", async ({ page }) => {
