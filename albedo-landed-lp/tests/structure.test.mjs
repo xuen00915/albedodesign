@@ -120,7 +120,7 @@ test("hero exposes an accessible playback control and balanced headline phrases"
   assert.equal(toggle.getAttribute("aria-label"), "Pause project slideshow");
 
   const headlineLines = [...dom.window.document.querySelectorAll("#hero h1 .alb-h1-line")];
-  assert.equal(headlineLines.length, 3);
+  assert.equal(headlineLines.length, 2);
   assert.equal(
     headlineLines.map((line) => line.textContent.trim()).join(" "),
     "Landed home renovation, crafted end to end."
@@ -132,4 +132,39 @@ test("mobile header keeps a concise consultation label", async () => {
   const cta = dom.window.document.querySelector(".alb-header a[href='#enquire']");
   assert.equal(cta.querySelector(".alb-header__cta-full")?.textContent.trim(), "Free consultation");
   assert.equal(cta.querySelector(".alb-header__cta-short")?.textContent.trim(), "Free consult");
+});
+
+test("credentials section uses all supplied accreditation assets", async () => {
+  const snippet = await readProject("elementor/sections/03-trust-bar.html");
+  for (const filename of ["4.png", "2.png", "1.png", "7.png", "5.png", "Albedo-HDB-Renovation-Licensed-contractor.jpg"]) {
+    assert.ok(snippet.includes("/2026/01/" + filename), "missing credential asset " + filename);
+  }
+
+  const dom = await loadPreview();
+  const section = dom.window.document.querySelector("#trust");
+  assert.match(section.querySelector("h2")?.textContent || "", /Industry Credentials, Certifications & Recognition/);
+  const images = [...section.querySelectorAll("img")];
+  assert.equal(images.length, 6);
+  for (const image of images) {
+    assert.match(image.getAttribute("src") || "", /^assets\/credential-.+\.webp$/);
+    assert.ok(image.getAttribute("alt")?.trim(), "credential image needs useful alternative text");
+  }
+});
+
+test("property types and hero slides target their matching project showcases", async () => {
+  const dom = await loadPreview();
+  const expected = ["#project-terrace", "#project-semi-detached", "#project-bungalow", "#project-shophouse"];
+  const propertyTargets = [...dom.window.document.querySelectorAll(".alb-property-grid .alb-property")]
+    .map((link) => link.getAttribute("href"));
+  const slideTargets = [...dom.window.document.querySelectorAll(".alb-slider .alb-slide")]
+    .map((slide) => slide.dataset.project);
+
+  assert.deepEqual(propertyTargets, expected);
+  assert.deepEqual(slideTargets, expected);
+  assert.equal(dom.window.document.querySelector(".alb-slider__project-link")?.getAttribute("href"), expected[0]);
+  for (const selector of expected) {
+    const project = dom.window.document.querySelector(selector);
+    assert.ok(project, "missing project target " + selector);
+    assert.ok(project.querySelector("img"), "project target needs real imagery " + selector);
+  }
 });

@@ -30,6 +30,7 @@
     var segments = Array.prototype.slice.call(slider.querySelectorAll(".alb-slider-segment"));
     var counter = slider.querySelector(".alb-slider__counter");
     var caption = slider.querySelector(".alb-slider__caption-text");
+    var projectLink = slider.querySelector(".alb-slider__project-link");
     var index = Math.max(0, slides.findIndex(function (slide) {
       return slide.classList.contains("is-active");
     }));
@@ -79,6 +80,7 @@
           String(slides.length).padStart(2, "0") + " · Albedo project";
       }
       if (caption) caption.textContent = slides[index].dataset.caption || "";
+      if (projectLink) projectLink.href = slides[index].dataset.project || "#projects";
     }
 
     function stop() {
@@ -269,6 +271,28 @@
     });
   }
 
+  function initLazyImages(root) {
+    nodesWithin(root, "img[data-alb-lazy]").forEach(function (image) {
+      if (image.dataset.albLazyReady === "true") return;
+      image.dataset.albLazyReady = "true";
+      function hydrate() {
+        image.src = image.dataset.src;
+        image.removeAttribute("data-src");
+        image.removeAttribute("data-alb-lazy");
+      }
+      if (typeof window.IntersectionObserver !== "function") {
+        hydrate();
+        return;
+      }
+      var observer = new window.IntersectionObserver(function (entries) {
+        if (!entries.some(function (entry) { return entry.isIntersecting; })) return;
+        observer.disconnect();
+        hydrate();
+      }, { rootMargin: "300px 0px" });
+      observer.observe(image);
+    });
+  }
+
   function installElementorSuccessBridge() {
     if (!window.jQuery || window.__albElementorSuccessReady) return;
     window.__albElementorSuccessReady = true;
@@ -289,6 +313,7 @@
     var scope = root || document;
     nodesWithin(scope, ".alb-slider").forEach(initSlider);
     nodesWithin(scope, "[data-alb-preview-form]").forEach(initPreviewForm);
+    initLazyImages(scope);
     initAttribution(scope);
     initTracking();
     installElementorSuccessBridge();

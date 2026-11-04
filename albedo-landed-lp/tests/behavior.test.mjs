@@ -80,6 +80,7 @@ test("carousel segment selection updates the slide, segment, and live caption", 
     slider.querySelector(".alb-slider__caption-text").textContent,
     "Bright living and dining, made for family"
   );
+  assert.equal(slider.querySelector(".alb-slider__project-link").getAttribute("href"), "#project-bungalow");
 });
 
 test("repeated initialization does not duplicate carousel handlers", async () => {

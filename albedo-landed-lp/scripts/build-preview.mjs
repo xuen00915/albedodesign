@@ -17,7 +17,13 @@ const previewAssetMap = new Map([
   ["https://albedodesign.com.sg/wp-content/uploads/2026/09/Condominium-Interior-design-singapore.webp", "assets/hero-3.webp"],
   ["https://albedodesign.com.sg/wp-content/uploads/2026/09/slider-3-1605243418.webp", "assets/hero-4.webp"],
   ["https://albedodesign.com.sg/wp-content/uploads/2026/01/1612427144.jpg", "assets/consultation-offer.webp"],
-  ["https://albedodesign.com.sg/wp-content/uploads/2026/09/Heritage-View-Condo-Interior-Design-Singapore.webp", "assets/final-cta.webp"]
+  ["https://albedodesign.com.sg/wp-content/uploads/2026/09/Heritage-View-Condo-Interior-Design-Singapore.webp", "assets/final-cta.webp"],
+  ["https://albedodesign.com.sg/wp-content/uploads/2026/01/4.png", "assets/credential-nippon.webp"],
+  ["https://albedodesign.com.sg/wp-content/uploads/2026/01/2.png", "assets/credential-sac.webp"],
+  ["https://albedodesign.com.sg/wp-content/uploads/2026/01/1.png", "assets/credential-bizsafe.webp"],
+  ["https://albedodesign.com.sg/wp-content/uploads/2026/01/7.png", "assets/credential-top-singapore.webp"],
+  ["https://albedodesign.com.sg/wp-content/uploads/2026/01/5.png", "assets/credential-hafele.webp"],
+  ["https://albedodesign.com.sg/wp-content/uploads/2026/01/Albedo-HDB-Renovation-Licensed-contractor.jpg", "assets/credential-hdb.webp"]
 ]);
 const previewSections = sections.map((section) => {
   for (const [remoteUrl, localPath] of previewAssetMap) section = section.replaceAll(remoteUrl, localPath);
@@ -31,6 +37,12 @@ for (const deferredHero of ["hero-2.webp", "hero-3.webp", "hero-4.webp"]) {
   previewSections[1] = previewSections[1].replace(
     'src="assets/' + deferredHero + '"',
     'src="assets/hero-1-800.webp" data-src="assets/' + deferredHero + '"'
+  );
+}
+for (const sectionIndex of [4, 7]) {
+  previewSections[sectionIndex] = previewSections[sectionIndex].replace(
+    /src="assets\/(hero-[1-4]\.webp)"/g,
+    'src="assets/hero-1-800.webp" data-src="assets/$1" data-alb-lazy'
   );
 }
 

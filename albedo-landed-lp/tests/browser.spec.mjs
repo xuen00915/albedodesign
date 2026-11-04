@@ -3,6 +3,15 @@ import { readFile } from "node:fs/promises";
 
 const pageUrl = "http://127.0.0.1:4187/preview/";
 
+async function revealLazyImages(page) {
+  const height = await page.evaluate(() => document.documentElement.scrollHeight);
+  for (let y = 0; y < height; y += 600) {
+    await page.evaluate((top) => window.scrollTo(0, top), y);
+    await page.waitForTimeout(20);
+  }
+  await page.evaluate(() => window.scrollTo(0, 0));
+}
+
 test("core landing-page interactions work in the rendered browser", async ({ page }) => {
   const consoleErrors = [];
   page.on("console", (message) => {
@@ -87,10 +96,12 @@ for (const viewport of [
 test("capture QA screenshots", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 1000 });
   await page.goto(pageUrl, { waitUntil: "networkidle" });
+  await revealLazyImages(page);
   await page.screenshot({ path: "preview/qa-desktop.png", fullPage: true });
 
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto(pageUrl, { waitUntil: "networkidle" });
+  await revealLazyImages(page);
   await page.screenshot({ path: "preview/qa-mobile.png", fullPage: true });
 });
 
@@ -134,18 +145,31 @@ test("rendered page meets landmark, contrast, target-size, and favicon fundament
   }
 });
 
-test("desktop hero keeps slider controls above the fold", async ({ page }) => {
+test("desktop hero and slider controls fit within the first screen", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 800 });
   await page.goto(pageUrl, { waitUntil: "networkidle" });
 
   const geometry = await page.locator(".alb-slider").evaluate((slider) => {
     const box = slider.getBoundingClientRect();
     const nav = slider.querySelector(".alb-slider__nav").getBoundingClientRect();
-    return { sliderBottom: box.bottom, sliderHeight: box.height, navBottom: nav.bottom };
+    const hero = document.querySelector("#hero").getBoundingClientRect();
+    return { heroBottom: hero.bottom, sliderBottom: box.bottom, sliderHeight: box.height, navBottom: nav.bottom };
   });
-  expect(geometry.sliderHeight).toBeLessThanOrEqual(620);
+  expect(geometry.heroBottom).toBeLessThanOrEqual(800);
+  expect(geometry.sliderHeight).toBeLessThanOrEqual(560);
   expect(geometry.sliderBottom).toBeLessThanOrEqual(800);
   expect(geometry.navBottom).toBeLessThanOrEqual(800);
+});
+
+test("property cards navigate to matching project showcases", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto(pageUrl, { waitUntil: "networkidle" });
+
+  await page.locator('.alb-property[href="#project-bungalow"]').click();
+  await expect(page).toHaveURL(/#project-bungalow$/);
+  const targetTop = await page.locator("#project-bungalow").evaluate((node) => node.getBoundingClientRect().top);
+  expect(targetTop).toBeGreaterThanOrEqual(70);
+  expect(targetTop).toBeLessThanOrEqual(180);
 });
 
 test("initial load requests only the first hero photo", async ({ page }) => {
