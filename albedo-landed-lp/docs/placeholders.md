@@ -24,15 +24,15 @@ The section is hidden with `alb-is-hidden`. Keep it hidden until Albedo approves
 
 ## Reviews (`09-testimonials.html`)
 
-The rating card shows Albedo's **4.9 Google rating** (supplied by AdCendes). Add the Google review count and a link to the Google Business Profile once confirmed, and re-check the rating before launch.
+The rating card shows Albedo's Google Business Profile rating: **4.6 from 71 Google reviews** (checked 4 November 2026). Re-check it before launch, and add a link to the Google profile if Albedo wants one.
 
-The three quotes come from Albedo's public HomeRenoGuru profile (https://homerenoguru.sg/interior-designer/albedo-design-pte-ltd-920/reviews), checked November 2026, and each links to that source:
+The three quotes are five-star Google reviews shown on Albedo's own homepage (albedodesign.com.sg, checked November 2026), copied word for word:
 
-- Yuen Teng (Condominium, 2024): "The Albedo Design team is very professional and efficient."
-- Yong En (Shophouse, 2017): "Excellent workmanship, and they delivered whatever it is promised by them."
-- Kee Heng (Condominium, 2017): "You can feel the level of details in their work and the quality of the build is top notch."
+- 吴婷: "Albedo Design did a great job for my renovation. The team was professional, responsive, and very easy to work with."
+- Jason Lim: "Very professional renovation team with great workmanship and responsive support throughout the process."
+- Lim Family: "We love the final design. Clean layout, quality workmanship and good customer service throughout the renovation process."
 
-Each quote links to the source. Ask Albedo to confirm they're happy to feature these reviewers, and replace them with landed-home reviews (Google or HomeRenoGuru) when available. Re-check the rating before launch.
+Confirm with Albedo that these reviewers can be featured, and swap in landed-home reviews when available.
 
 ## Project details (`05-projects.html`)
 

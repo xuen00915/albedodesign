@@ -59,25 +59,18 @@
             <label><span class="alb-form__label">Mobile / WhatsApp <span class="alb-req" aria-hidden="true">*</span></span>
               <input id="form-field-phone" name="phone" type="tel" autocomplete="tel" placeholder="+65 8123 4567" required>
             </label>
-            <label><span class="alb-form__label">Property type</span>
-              <select id="form-field-property_type" name="property_type">
-                <option value="">Select property type</option>
-                <option>Terrace</option><option>Corner terrace</option><option>Semi-detached</option>
-                <option>Bungalow / detached</option><option>Cluster house</option><option>Shophouse</option>
-              </select>
-            </label>
-            <label><span class="alb-form__label">Start renovation</span>
-              <select id="form-field-start_when" name="start_when">
-                <option value="">Select timeline</option>
-                <option>Within 3 months</option><option>3–6 months</option>
-                <option>6+ months</option><option>Just exploring</option>
-              </select>
+            <label class="alb-form__wide"><span class="alb-form__label">Email <span class="alb-req" aria-hidden="true">*</span></span>
+              <input id="form-field-email" name="email" type="email" autocomplete="email" placeholder="you@email.com" required>
             </label>
           </div>
-          <label class="alb-consent">
-            <input name="pdpa_consent" type="checkbox" required>
-            <span>I agree to be contacted by Albedo Design about my enquiry, in line with the <a href="https://albedodesign.com.sg/privacy-policy/" target="_blank" rel="noopener">privacy policy</a>.</span>
-          </label>
+          <fieldset class="alb-choice">
+            <legend class="alb-form__label">Would you like to receive our promotions and free gift offers? <span class="alb-req" aria-hidden="true">*</span></legend>
+            <div class="alb-choice__options">
+              <label class="alb-choice__pill"><input id="form-field-promo_opt_in-yes" name="promo_opt_in" type="radio" value="Yes" required><span>Yes</span></label>
+              <label class="alb-choice__pill"><input id="form-field-promo_opt_in-no" name="promo_opt_in" type="radio" value="No"><span>No</span></label>
+            </div>
+          </fieldset>
+          <input id="form-field-property_type" name="property_type" type="hidden">
           <input name="utm_source" type="hidden"><input name="utm_medium" type="hidden">
           <input name="utm_campaign" type="hidden"><input name="utm_term" type="hidden">
           <input name="gclid" type="hidden"><input name="landing_page" type="hidden" value="landed-renovation">

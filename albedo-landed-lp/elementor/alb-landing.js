@@ -249,11 +249,11 @@
 
   function leadPayload(form) {
     var propertyType = form.querySelector(fieldSelector("property_type"));
-    var startWhen = form.querySelector(fieldSelector("start_when"));
+    var promo = form.querySelector('[name="promo_opt_in"]:checked, [name="form_fields[promo_opt_in]"]:checked');
     return {
       event: "alb_lead_submit",
       property_type: propertyType ? propertyType.value : "",
-      start_when: startWhen ? startWhen.value : ""
+      promo_opt_in: promo ? promo.value : ""
     };
   }
 
@@ -317,7 +317,8 @@
   function selectPropertyType(value) {
     if (!value) return;
     nodesWithin(document, fieldSelector("property_type")).forEach(function (field) {
-      var match = Array.prototype.slice.call(field.options || []).some(function (option) {
+      // Hidden field: store the project type that the visitor clicked from.
+      var match = !field.options || Array.prototype.slice.call(field.options).some(function (option) {
         return (option.value || option.textContent) === value;
       });
       if (match) {

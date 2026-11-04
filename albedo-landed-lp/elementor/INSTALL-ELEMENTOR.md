@@ -70,11 +70,12 @@ If Elementor will not place a native Form widget between parts of the HTML snipp
 |---|---|---|---|---|
 | Name | name | Text | Yes | Placeholder: Your name |
 | Mobile / WhatsApp | phone | Tel | Yes | Placeholder: +65 8123 4567 |
-| Property type | property_type | Select | No | Terrace; Corner terrace; Semi-detached; Bungalow / detached; Cluster house; Shophouse |
-| Start renovation | start_when | Select | No | Within 3 months; 3–6 months; 6+ months; Just exploring |
-| Consent | pdpa_consent | Acceptance | Yes | Use the approved consent copy and live privacy-policy link |
+| Email | email | Email | Yes | Placeholder: you@email.com; width 100% |
+| Would you like to receive our promotions and free gift offers? | promo_opt_in | Radio | Yes | Yes; No (inline) |
 
-Keep visible labels. Set the paired field widths to 50% on desktop and 100% on mobile.
+Keep visible labels. Set Name and Mobile to 50% on desktop and 100% on mobile; Email and the Yes/No question are always 100%.
+
+The Yes/No answer is the visitor's marketing opt-in. Only send promotions or free-gift offers to leads who answered Yes.
 
 ### Hidden fields
 
@@ -86,6 +87,7 @@ Add hidden fields with these exact IDs:
 - utm_term
 - gclid
 - landing_page, default value landed-renovation
+- property_type, empty by default. The "Get a design like this" button in each project popup fills it (Terrace, Semi-detached, Bungalow / detached or Shophouse).
 
 alb-landing.js copies URL attribution into sessionStorage and populates matching hidden fields on page load and Elementor reinitialization.
 
@@ -105,12 +107,12 @@ Replace the response-time placeholder only after Albedo confirms it. A dedicated
 4. Add a CRM or Google Sheet webhook only after the destination and privacy handling are approved.
 5. Enable Elementor Honeypot and reCAPTCHA v3.
 
-If Elementor Pro is unavailable, use Fluent Forms or WPForms with the same field names, visual classes, consent requirement, and hidden attribution fields. Connect its documented success hook to:
+If Elementor Pro is unavailable, use Fluent Forms or WPForms with the same field names, visual classes, required Yes/No question, and hidden attribution fields. Connect its documented success hook to:
 
     window.dataLayer.push({
       event: "alb_lead_submit",
       property_type: "...",
-      start_when: "..."
+      promo_opt_in: "Yes or No"
     });
 
 ## 5. Add the JavaScript
@@ -177,7 +179,7 @@ alb-landing.js pushes:
 | #enquire CTA | alb_cta_click | Diagnostic/engagement unless the media plan says otherwise |
 | Project detail dialog opened | alb_project_view (project: terrace, semi-detached, bungalow or shophouse) | Engagement only; shows which home types interest visitors |
 
-Click events include the originating section where applicable. Form events include property_type and start_when.
+Click events include the originating section where applicable. Form events include property_type and promo_opt_in.
 
 In GTM:
 

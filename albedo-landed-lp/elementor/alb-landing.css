@@ -471,7 +471,7 @@
   color:var(--alb-orange-text);
   margin-left:2px;
 }
-.alb-lp .alb-form input:not([type="checkbox"]), .alb-lp .alb-form select{
+.alb-lp .alb-form input:not([type="checkbox"]):not([type="radio"]), .alb-lp .alb-form select{
   background:var(--alb-field);
   border:1px solid var(--alb-input-border);
   border-radius:var(--alb-r-sm);
@@ -502,21 +502,66 @@
 .alb-lp .alb-form input:focus, .alb-lp .alb-form select:focus{
   border-color:var(--alb-navy);
 }
-.alb-lp .alb-consent{
-  align-items:flex-start;
-  flex-direction:row!important;
-  font-weight:400!important;
+.alb-lp .alb-form__wide{
+  grid-column:1 / -1;
+}
+.alb-lp .alb-choice{
+  border:0;
+  margin:14px 0 16px;
+  min-width:0;
+  padding:0;
+}
+.alb-lp .alb-choice legend{
+  color:var(--alb-text-2);
+  font-size:13px;
+  font-weight:600;
   line-height:1.45;
-  margin:10px 0;
+  margin-bottom:8px;
+  padding:0;
+  white-space:normal;
 }
-.alb-lp .alb-consent input{
-  accent-color:var(--alb-navy);
-  flex:0 0 auto;
-  height:18px;
-  margin:2px 4px 0 0;
-  width:18px;
+.alb-lp .alb-choice__options{
+  display:grid;
+  gap:10px;
+  grid-template-columns:repeat(2,minmax(0,1fr));
 }
-.alb-lp .alb-consent a, .alb-lp .alb-form-card__micro a{
+.alb-lp .alb-form .alb-choice__pill{
+  cursor:pointer;
+  display:block;
+  position:relative;
+}
+.alb-lp .alb-choice__pill input{
+  height:1px;
+  opacity:0;
+  position:absolute;
+  width:1px;
+}
+.alb-lp .alb-choice__pill span{
+  align-items:center;
+  background:var(--alb-field);
+  border:1px solid var(--alb-input-border);
+  border-radius:var(--alb-r-sm);
+  color:var(--alb-text);
+  display:flex;
+  font-size:15px;
+  font-weight:600;
+  height:44px;
+  justify-content:center;
+  transition:background-color .15s ease, border-color .15s ease, color .15s ease;
+}
+.alb-lp .alb-choice__pill:hover span{
+  border-color:var(--alb-navy);
+}
+.alb-lp .alb-choice__pill input:checked + span{
+  background:var(--alb-navy);
+  border-color:var(--alb-navy);
+  color:#fff;
+}
+.alb-lp .alb-choice__pill input:focus-visible + span{
+  outline:2px solid var(--alb-orange);
+  outline-offset:2px;
+}
+.alb-lp .alb-form-card__micro a{
   color:var(--alb-navy);
   text-decoration:underline;
   text-underline-offset:2px;
@@ -746,6 +791,9 @@
   height:18px;
   width:18px;
 }
+.alb-lp .alb-stars .alb-star-part{
+  color:var(--alb-orange-dark);
+}
 .alb-lp .alb-quote-grid{
   display:grid;
   gap:24px;
@@ -763,6 +811,7 @@
   color:var(--alb-text-2);
   font-size:18px;
   line-height:1.55;
+  margin:0 0 20px;
 }
 .alb-lp .alb-quote-grid figcaption{
   align-items:center;

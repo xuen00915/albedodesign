@@ -229,9 +229,9 @@ test("preview form provides a local success state and lead payload", async () =>
   const form = window.document.querySelector("[data-alb-preview-form]");
   form.querySelector('[name="name"]').value = "Jamie";
   form.querySelector('[name="phone"]').value = "+65 8123 4567";
+  form.querySelector('[name="email"]').value = "jamie@example.com";
   form.querySelector('[name="property_type"]').value = "Terrace";
-  form.querySelector('[name="start_when"]').value = "Within 3 months";
-  form.querySelector('[name="pdpa_consent"]').checked = true;
+  form.querySelector('[name="promo_opt_in"][value="Yes"]').checked = true;
 
   form.dispatchEvent(new window.Event("submit", { bubbles: true, cancelable: true }));
 
@@ -241,7 +241,7 @@ test("preview form provides a local success state and lead payload", async () =>
     {
       event: "alb_lead_submit",
       property_type: "Terrace",
-      start_when: "Within 3 months"
+      promo_opt_in: "Yes"
     }
   );
 });
@@ -282,7 +282,7 @@ test("Elementor submit_success bridge pushes the approved lead payload", async (
   requireApi(window).initAll(window.document);
   const form = window.document.querySelector("[data-alb-preview-form]");
   form.querySelector('[name="property_type"]').value = "Semi-detached";
-  form.querySelector('[name="start_when"]').value = "3–6 months";
+  form.querySelector('[name="promo_opt_in"][value="No"]').checked = true;
 
   assert.ok(submitRegistration, "expected Elementor submit_success registration");
   submitRegistration.callback.call(form);
@@ -291,7 +291,7 @@ test("Elementor submit_success bridge pushes the approved lead payload", async (
   assert.equal(submitRegistration.selector, ".elementor-form");
   assert.deepEqual(
     JSON.parse(JSON.stringify(window.dataLayer.at(-1))),
-    { event: "alb_lead_submit", property_type: "Semi-detached", start_when: "3–6 months" }
+    { event: "alb_lead_submit", property_type: "Semi-detached", promo_opt_in: "No" }
   );
 });
 

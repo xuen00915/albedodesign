@@ -105,9 +105,9 @@ Do not rename these form fields without updating the JavaScript, production form
 
 - `name`
 - `phone`
-- `property_type`
-- `start_when`
-- `pdpa_consent`
+- `email`
+- `promo_opt_in` (Yes / No)
+- `property_type` (hidden, filled by project buttons)
 - `utm_source`
 - `utm_medium`
 - `utm_campaign`

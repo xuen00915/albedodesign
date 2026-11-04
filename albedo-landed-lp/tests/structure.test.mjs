@@ -51,9 +51,9 @@ test("enquiry form uses the approved visible and hidden field names", async () =
   for (const required of [
     "name",
     "phone",
+    "email",
+    "promo_opt_in",
     "property_type",
-    "start_when",
-    "pdpa_consent",
     "utm_source",
     "utm_medium",
     "utm_campaign",
@@ -169,7 +169,8 @@ test("project cards, hero slides and detail dialogs target matching projects", a
   const slideTargets = [...document.querySelectorAll(".alb-slide")].map((slide) => slide.dataset.project);
   assert.deepEqual(slideTargets, expected);
   assert.equal(document.querySelector(".alb-slider__project-link")?.getAttribute("href"), expected[0]);
-  const formOptions = [...document.querySelectorAll('#enquire [name="property_type"] option')].map((option) => option.textContent);
+  const propertyTypes = ["Terrace", "Semi-detached", "Bungalow / detached", "Shophouse"];
+  assert.equal(document.querySelector('#enquire [name="property_type"]').type, "hidden");
   for (const key of keys) {
     const panel = document.querySelector("#project-" + key);
     assert.ok(panel, "missing project card " + key);
@@ -180,7 +181,7 @@ test("project cards, hero slides and detail dialogs target matching projects", a
     assert.equal(dialog.querySelectorAll(".alb-placeholder").length, 0, "dialogs carry no placeholder boxes");
     const cta = dialog.querySelector("a[data-alb-property]");
     assert.equal(cta.getAttribute("href"), "#enquire");
-    assert.ok(formOptions.includes(cta.dataset.albProperty), "CTA property must match a form option: " + cta.dataset.albProperty);
+    assert.ok(propertyTypes.includes(cta.dataset.albProperty), "CTA property must be a known type: " + cta.dataset.albProperty);
   }
   assert.equal(document.querySelectorAll('[data-alb-section="property-types"]').length, 0, "property types are merged into projects");
 });

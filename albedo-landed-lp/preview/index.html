@@ -6,7 +6,7 @@
   <title>Landed Home Renovation Singapore | Albedo Design</title>
   <meta name="description" content="Terrace, semi-D, bungalow and shophouse renovation by one trusted design & build team. 800+ projects, BCA & HDB licensed. Book a free consultation.">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%2300325D'/%3E%3Cpath d='M16 45 30 15h5l14 30h-8l-3-7H27l-3 7zm14-14h6l-3-8z' fill='white'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="../elementor/alb-landing.css?v=ab22f1b1d6">
+  <link rel="stylesheet" href="../elementor/alb-landing.css?v=14e243a572">
 </head>
 <body style="margin:0">
   <div class="alb-lp alb-page">
@@ -92,25 +92,18 @@
             <label><span class="alb-form__label">Mobile / WhatsApp <span class="alb-req" aria-hidden="true">*</span></span>
               <input id="form-field-phone" name="phone" type="tel" autocomplete="tel" placeholder="+65 8123 4567" required>
             </label>
-            <label><span class="alb-form__label">Property type</span>
-              <select id="form-field-property_type" name="property_type">
-                <option value="">Select property type</option>
-                <option>Terrace</option><option>Corner terrace</option><option>Semi-detached</option>
-                <option>Bungalow / detached</option><option>Cluster house</option><option>Shophouse</option>
-              </select>
-            </label>
-            <label><span class="alb-form__label">Start renovation</span>
-              <select id="form-field-start_when" name="start_when">
-                <option value="">Select timeline</option>
-                <option>Within 3 months</option><option>3–6 months</option>
-                <option>6+ months</option><option>Just exploring</option>
-              </select>
+            <label class="alb-form__wide"><span class="alb-form__label">Email <span class="alb-req" aria-hidden="true">*</span></span>
+              <input id="form-field-email" name="email" type="email" autocomplete="email" placeholder="you@email.com" required>
             </label>
           </div>
-          <label class="alb-consent">
-            <input name="pdpa_consent" type="checkbox" required>
-            <span>I agree to be contacted by Albedo Design about my enquiry, in line with the <a href="https://albedodesign.com.sg/privacy-policy/" target="_blank" rel="noopener">privacy policy</a>.</span>
-          </label>
+          <fieldset class="alb-choice">
+            <legend class="alb-form__label">Would you like to receive our promotions and free gift offers? <span class="alb-req" aria-hidden="true">*</span></legend>
+            <div class="alb-choice__options">
+              <label class="alb-choice__pill"><input id="form-field-promo_opt_in-yes" name="promo_opt_in" type="radio" value="Yes" required><span>Yes</span></label>
+              <label class="alb-choice__pill"><input id="form-field-promo_opt_in-no" name="promo_opt_in" type="radio" value="No"><span>No</span></label>
+            </div>
+          </fieldset>
+          <input id="form-field-property_type" name="property_type" type="hidden">
           <input name="utm_source" type="hidden"><input name="utm_medium" type="hidden">
           <input name="utm_campaign" type="hidden"><input name="utm_term" type="hidden">
           <input name="gclid" type="hidden"><input name="landing_page" type="hidden" value="landed-renovation">
@@ -391,21 +384,21 @@
     <div class="alb-section-head">
       <h2>What homeowners <span class="alb-hl">say about us</span></h2>
       <div class="alb-rating">
-        <strong>4.9</strong>
-        <span class="alb-stars" role="img" aria-label="Rated 4.9 out of 5 on Google">
+        <strong>4.6</strong>
+        <span class="alb-stars" role="img" aria-label="Rated 4.6 out of 5 on Google">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2.8 2.8 5.7 6.3.9-4.6 4.4 1.1 6.3-5.6-3-5.6 3 1.1-6.3-4.6-4.4 6.3-.9L12 2.8Z"/></svg>
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2.8 2.8 5.7 6.3.9-4.6 4.4 1.1 6.3-5.6-3-5.6 3 1.1-6.3-4.6-4.4 6.3-.9L12 2.8Z"/></svg>
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2.8 2.8 5.7 6.3.9-4.6 4.4 1.1 6.3-5.6-3-5.6 3 1.1-6.3-4.6-4.4 6.3-.9L12 2.8Z"/></svg>
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2.8 2.8 5.7 6.3.9-4.6 4.4 1.1 6.3-5.6-3-5.6 3 1.1-6.3-4.6-4.4 6.3-.9L12 2.8Z"/></svg>
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2.8 2.8 5.7 6.3.9-4.6 4.4 1.1 6.3-5.6-3-5.6 3 1.1-6.3-4.6-4.4 6.3-.9L12 2.8Z"/></svg>
+          <svg class="alb-star-part" viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="alb-star-part-fill"><stop offset="60%" stop-color="currentColor"/><stop offset="60%" stop-color="currentColor" stop-opacity=".25"/></linearGradient></defs><path fill="url(#alb-star-part-fill)" d="m12 2.8 2.8 5.7 6.3.9-4.6 4.4 1.1 6.3-5.6-3-5.6 3 1.1-6.3-4.6-4.4 6.3-.9L12 2.8Z"/></svg>
         </span>
-        <span>Google reviews</span>
+        <span>71 Google reviews</span>
       </div>
     </div>
     <div class="alb-quote-grid">
-      <figure><blockquote>“The Albedo Design team is very professional and efficient.”</blockquote><figcaption><span class="alb-avatar" aria-hidden="true">YT</span><span><strong>Yuen Teng</strong><small>Condominium · 2024 · <a href="https://homerenoguru.sg/interior-designer/albedo-design-pte-ltd-920/reviews" target="_blank" rel="noopener">HomeRenoGuru review</a></small></span></figcaption></figure>
-      <figure><blockquote>“Excellent workmanship, and they delivered whatever it is promised by them.”</blockquote><figcaption><span class="alb-avatar" aria-hidden="true">YE</span><span><strong>Yong En</strong><small>Shophouse · 2017 · <a href="https://homerenoguru.sg/interior-designer/albedo-design-pte-ltd-920/reviews" target="_blank" rel="noopener">HomeRenoGuru review</a></small></span></figcaption></figure>
-      <figure><blockquote>“You can feel the level of details in their work and the quality of the build is top notch.”</blockquote><figcaption><span class="alb-avatar" aria-hidden="true">KH</span><span><strong>Kee Heng</strong><small>Condominium · 2017 · <a href="https://homerenoguru.sg/interior-designer/albedo-design-pte-ltd-920/reviews" target="_blank" rel="noopener">HomeRenoGuru review</a></small></span></figcaption></figure>
+      <figure><blockquote>“Albedo Design did a great job for my renovation. The team was professional, responsive, and very easy to work with.”</blockquote><figcaption><span class="alb-avatar" aria-hidden="true">吴</span><span><strong>吴婷</strong><small>5-star Google review</small></span></figcaption></figure>
+      <figure><blockquote>“Very professional renovation team with great workmanship and responsive support throughout the process.”</blockquote><figcaption><span class="alb-avatar" aria-hidden="true">JL</span><span><strong>Jason Lim</strong><small>5-star Google review</small></span></figcaption></figure>
+      <figure><blockquote>“We love the final design. Clean layout, quality workmanship and good customer service throughout the renovation process.”</blockquote><figcaption><span class="alb-avatar" aria-hidden="true">LF</span><span><strong>Lim Family</strong><small>5-star Google review</small></span></figcaption></figure>
     </div>
   </div>
 </section>
@@ -531,7 +524,7 @@
 </nav>
 
   </div>
-  <script src="../elementor/alb-landing.js?v=b05237c9b6"></script>
+  <script src="../elementor/alb-landing.js?v=d8f6be1500"></script>
   <script src="../elementor/alb-house3d.js?v=e87eca3b5a"></script>
 </body>
 </html>

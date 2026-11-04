@@ -41,9 +41,9 @@ test("core landing-page interactions work in the rendered browser", async ({ pag
 
   await page.locator('[name="name"]').fill("Preview test");
   await page.locator('[name="phone"]').fill("+65 8123 4567");
-  await page.locator('[name="property_type"]').selectOption({ label: "Terrace" });
-  await page.locator('[name="start_when"]').selectOption({ label: "Within 3 months" });
-  await page.locator('[name="pdpa_consent"]').check();
+  await page.locator('[name="email"]').fill("preview@example.com");
+  await page.locator("#enquire .alb-choice__pill").filter({ hasText: "Yes" }).click();
+  await expect(page.locator('[name="promo_opt_in"][value="Yes"]')).toBeChecked();
   await page.locator("[data-alb-preview-form]").evaluate((form) => form.requestSubmit());
   await expect(page.locator(".alb-form__status")).toContainText("Thank you!");
 
