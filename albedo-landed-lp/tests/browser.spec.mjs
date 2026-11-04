@@ -400,3 +400,16 @@ test("why-us 3D house pins, follows the scroll, and loads three.js lazily", asyn
   await expect(section.locator(".alb-house__canvas")).toBeVisible();
   expect(errors).toEqual([]);
 });
+
+test("project cards and the consultation offer keep one section gap", async ({ page }) => {
+  for (const [width, expected] of [[1440, 104], [390, 72]]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto(pageUrl, { waitUntil: "networkidle" });
+    const gap = await page.evaluate(() => {
+      const grid = document.querySelector(".alb-project-grid").getBoundingClientRect();
+      const panel = document.querySelector(".alb-offer__panel").getBoundingClientRect();
+      return Math.round(panel.top - grid.bottom);
+    });
+    expect(gap).toBe(expected);
+  }
+});

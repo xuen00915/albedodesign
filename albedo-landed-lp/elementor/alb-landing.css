@@ -661,6 +661,7 @@
 }
 .alb-lp.alb-offer{
   padding-bottom:var(--alb-section-y-sm);
+  padding-top:0;
 }
 .alb-lp .alb-offer__panel{
   background:var(--alb-navy-deep);
