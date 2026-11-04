@@ -148,6 +148,10 @@ The why-us snippet (`04-why-us.html`) pins a 3D house that builds itself as visi
 
 The script loads three.js only after the page has finished loading and the visitor is near the section. Without JavaScript, IntersectionObserver, or WebGL, the section stays a static illustration with all three points visible. Keep the "Illustration of our 3D design process" label: the model is illustrative and not an Albedo project.
 
+### 5b. Google logo in the reviews rating
+
+Upload `preview/assets/google-logo.png` to `/wp-content/uploads/alb/google-logo.png` (same folder as the 3D files). The reviews snippet (`09-testimonials.html`) shows it beside the 4.6 rating. If it ends up at a different URL, update the `<img src>` there.
+
 ## 6. Replace assets
 
 1. Upload approved WebP images at up to 1920px wide and no more than roughly 250 KB each.

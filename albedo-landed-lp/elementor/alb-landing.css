@@ -791,6 +791,7 @@
 .alb-lp .alb-rating > span:last-child{
   color:var(--alb-muted);
   font-size:13px;
+  white-space:nowrap;
 }
 .alb-lp .alb-stars{
   display:flex;
@@ -1964,5 +1965,17 @@
   }
   .alb-lp .alb-contact-card .alb-btn{
     max-width:none;
+  }
+}
+@media (max-width:400px){
+  .alb-lp .alb-rating{
+    gap:8px;
+    padding:10px 16px;
+  }
+  .alb-lp .alb-rating__logo{
+    height:20px;
+  }
+  .alb-lp .alb-rating > strong{
+    font-size:24px;
   }
 }

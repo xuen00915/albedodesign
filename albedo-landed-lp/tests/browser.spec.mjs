@@ -526,3 +526,20 @@ for (const viewport of [{ width: 1440, height: 900 }, { width: 390, height: 844 
     await expect(steps.nth(0)).toHaveClass(/is-active/);
   });
 }
+
+test("Google logo sits in the rating beside the heading and stays on one line on phones", async ({ page }) => {
+  for (const width of [1440, 320]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto(pageUrl, { waitUntil: "networkidle" });
+    const logo = page.locator("#testimonials .alb-rating__logo");
+    await logo.scrollIntoViewIfNeeded();
+    await expect.poll(() => logo.evaluate((img) => img.complete && img.naturalWidth > 0)).toBe(true);
+    await expect(logo).toHaveAttribute("alt", "Google");
+    const rating = await page.locator("#testimonials .alb-rating").evaluate((node) => ({
+      labelHeight: node.querySelector(":scope > span:last-child").getBoundingClientRect().height,
+      right: node.getBoundingClientRect().right
+    }));
+    expect(rating.labelHeight).toBeLessThan(26);
+    expect(rating.right).toBeLessThanOrEqual(width);
+  }
+});

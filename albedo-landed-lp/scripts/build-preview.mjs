@@ -26,6 +26,7 @@ const previewAssetMap = new Map([
   ["https://albedodesign.com.sg/wp-content/uploads/2026/01/5.png", "assets/credential-hafele.webp"],
   ["https://albedodesign.com.sg/wp-content/uploads/2026/01/Albedo-HDB-Renovation-Licensed-contractor.jpg", "assets/credential-hdb.webp"],
   ["https://albedodesign.com.sg/wp-content/uploads/alb/house-3d-complete.webp", "assets/house-3d-complete.webp"],
+  ["https://albedodesign.com.sg/wp-content/uploads/alb/google-logo.png", "assets/google-logo.png"],
   ["https://albedodesign.com.sg/wp-content/uploads/alb/three.min.js", "../elementor/vendor/three.min.js"]
 ]);
 const previewSections = sections.map((section) => {

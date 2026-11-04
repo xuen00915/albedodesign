@@ -24,7 +24,7 @@ The section is hidden with `alb-is-hidden`. Keep it hidden until Albedo approves
 
 ## Reviews (`09-testimonials.html`)
 
-The rating card shows Albedo's Google Business Profile rating: **4.6 from 71 Google reviews** (checked 4 November 2026). Re-check it before launch, and add a link to the Google profile if Albedo wants one.
+The rating card shows the Google logo (supplied by AdCendes, from a "Google Reviews" badge) and Albedo's Google Business Profile rating: **4.6 from 71 reviews** (checked 4 November 2026). Re-check it before launch, and add a link to the Google profile if Albedo wants one.
 
 The three quotes are five-star Google reviews shown on Albedo's own homepage (albedodesign.com.sg, checked November 2026), copied word for word:
 
