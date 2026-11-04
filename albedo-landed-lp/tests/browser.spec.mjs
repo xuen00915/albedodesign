@@ -472,3 +472,27 @@ test("jumping to the form or a project hops over the 3D section", async ({ page 
   })).toBe(true);
   expect(await crossed()).toBe(0);
 });
+
+test("process title sits on one line on desktop and every step has an icon", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto(pageUrl, { waitUntil: "networkidle" });
+  await expect(page.locator("#process .alb-process__grid article svg.alb-process__icon")).toHaveCount(6);
+  const lines = await page.locator("#process h2").evaluate((node) =>
+    Math.round(node.getBoundingClientRect().height / parseFloat(getComputedStyle(node).lineHeight || "0") || 0));
+  const fits = await page.locator("#process h2").evaluate((node) => node.scrollWidth <= node.clientWidth + 1);
+  expect(fits).toBe(true);
+  expect(lines).toBeLessThanOrEqual(1);
+});
+
+for (const viewport of [{ width: 768, height: 1024 }, { width: 1024, height: 768 }]) {
+  test(`tablet ${viewport.width}px keeps photos within half the screen`, async ({ page }) => {
+    await page.setViewportSize(viewport);
+    await page.goto(pageUrl, { waitUntil: "networkidle" });
+    const heights = await page.evaluate(() =>
+      [".alb-slider", ".alb-project-card__media", ".alb-offer__panel > img", ".alb-final__panel"].map((selector) =>
+        [selector, document.querySelector(selector).getBoundingClientRect().height]));
+    for (const [selector, height] of heights) {
+      expect(height, selector).toBeLessThanOrEqual(Math.max(440, viewport.height * 0.58));
+    }
+  });
+}
