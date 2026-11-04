@@ -142,13 +142,17 @@ test("credentials section uses all supplied accreditation assets", async () => {
 
   const dom = await loadPreview();
   const section = dom.window.document.querySelector("#trust");
-  assert.match(section.querySelector("h2")?.textContent || "", /Industry Credentials, Certifications & Recognition/);
-  const images = [...section.querySelectorAll("img")];
+  assert.match(section.querySelector("h2")?.textContent || "", /Industry credentials/i);
+  const primaryGroup = section.querySelector(".alb-trust__group:not([aria-hidden='true'])");
+  assert.ok(primaryGroup, "credential strip needs an accessible primary logo group");
+  const images = [...primaryGroup.querySelectorAll("img")];
   assert.equal(images.length, 6);
   for (const image of images) {
     assert.match(image.getAttribute("src") || "", /^assets\/credential-.+\.webp$/);
     assert.ok(image.getAttribute("alt")?.trim(), "credential image needs useful alternative text");
   }
+  const duplicate = section.querySelector(".alb-trust__group[aria-hidden='true']");
+  assert.equal(duplicate?.querySelectorAll("img").length, 6, "running strip needs a seamless duplicate group");
 });
 
 test("property types and hero slides target their matching project showcases", async () => {

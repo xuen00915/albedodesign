@@ -161,6 +161,33 @@ test("desktop hero and slider controls fit within the first screen", async ({ pa
   expect(geometry.navBottom).toBeLessThanOrEqual(800);
 });
 
+test("credentials render as one compact running strip that pauses for interaction", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 800 });
+  await page.goto(pageUrl, { waitUntil: "networkidle" });
+  await page.locator("#trust").scrollIntoViewIfNeeded();
+
+  const sectionHeight = await page.locator("#trust").evaluate((node) => node.getBoundingClientRect().height);
+  expect(sectionHeight).toBeLessThanOrEqual(220);
+
+  const track = page.locator(".alb-trust__track");
+  const firstTransform = await track.evaluate((node) => getComputedStyle(node).transform);
+  await page.waitForTimeout(450);
+  const secondTransform = await track.evaluate((node) => getComputedStyle(node).transform);
+  expect(secondTransform).not.toBe(firstTransform);
+
+  const marquee = page.locator(".alb-trust__marquee");
+  await marquee.hover();
+  await expect(track).toHaveCSS("animation-play-state", "paused");
+  await marquee.focus();
+  await expect(track).toHaveCSS("animation-play-state", "paused");
+});
+
+test("credential motion stops when reduced motion is requested", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto(pageUrl, { waitUntil: "networkidle" });
+  await expect(page.locator(".alb-trust__track")).toHaveCSS("animation-name", "none");
+});
+
 test("property cards navigate to matching project showcases", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto(pageUrl, { waitUntil: "networkidle" });
