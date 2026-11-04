@@ -8,7 +8,7 @@ The user-supplied build specification is the content and behavior authority. The
 
 - Concept: design/concept-overview.png
 - Canvas: long desktop page with a 2:3 aspect ratio.
-- Background character: true white sections alternating with #F7F8FA or #EEF2F7 bands and deep navy moments.
+- Background character: white sections throughout, a soft blue band (#E9F0F8 to #F3F7FB) behind the 3D house section, and deep navy moments.
 - Container: broad centered editorial frame; production uses the specified 1360px maximum and 24px gutters.
 - First viewport: quiet header, left conversion copy/form, right dominant photography-led carousel, followed immediately by a narrow proof band.
 - Typography: Inter-like sans serif, weight 600 for headings, very tight display tracking, compact readable controls, navy body hierarchy.
@@ -19,9 +19,9 @@ The user-supplied build specification is the content and behavior authority. The
 ## Color lock
 
 - True white remains #FFFFFF.
-- Page neutral remains #F7F8FA; proof/testimonial neutral remains #EEF2F7.
+- Page and section background is white (#FFFFFF); the 3D why-us section carries the only tinted band.
 - Heading navy remains #00325D; deep panels #00223F; footer #001A33.
-- Primary orange remains #ED5930; small-text orange uses the darker accessible token.
+- One orange everywhere: #C84B27 (--alb-orange), for buttons, highlights, stars, links, focus rings and the 3D accent. #B03F1F is used only as the button hover shade. It passes 4.5:1 with white text and on white, and 3:1 for headlines on navy.
 - No cream, beige, decorative gradients, or orange color wash over photography.
 
 ## Container and component families

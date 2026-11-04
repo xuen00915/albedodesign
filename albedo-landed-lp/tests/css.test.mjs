@@ -6,9 +6,9 @@ test("shared stylesheet defines the approved token values", async () => {
   const css = await readProject("elementor/alb-landing.css");
   for (const declaration of [
     "--alb-navy:#00325D",
-    "--alb-orange:#ED5930",
-    "--alb-orange-action:#C84B27",
-    "--alb-bg:#F7F8FA",
+    "--alb-orange:#C84B27",
+    "--alb-orange-hover:#B03F1F",
+    "--alb-bg:#FFFFFF",
     "--alb-max:1360px",
     "--alb-section-y:104px"
   ]) {

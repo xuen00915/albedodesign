@@ -9,7 +9,7 @@
 
   function albBuildHouse(THREE, canvas, opts) {
     opts = opts || {};
-    var accent = opts.accent || '#ED5930';
+    var accent = opts.accent || '#C84B27';
     if (THREE.ColorManagement) THREE.ColorManagement.legacyMode = false;
     var renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));

@@ -3,12 +3,9 @@
   --alb-navy-deep:#00223F;
   --alb-navy-ink:#001A33;
   --alb-steel:#4F7CA7;
-  --alb-orange:#ED5930;
-  --alb-orange-action:#C84B27;
-  --alb-orange-dark:#C2410C;
-  --alb-orange-tint:#FDEDE8;
-  --alb-orange-text:#A8381A;
-  --alb-bg:#F7F8FA;
+  --alb-orange:#C84B27;
+  --alb-orange-hover:#B03F1F;
+  --alb-bg:#FFFFFF;
   --alb-surface:#FFFFFF;
   --alb-surface-2:#EEF2F7;
   --alb-field:#FBFCFD;
@@ -121,7 +118,7 @@
   padding:var(--alb-section-y) 0;
 }
 .alb-lp .alb-hl{
-  color:var(--alb-orange-dark);
+  color:var(--alb-orange);
 }
 .alb-lp .alb-btn{
   align-items:center;
@@ -150,13 +147,13 @@
   width:20px;
 }
 .alb-lp .alb-btn--primary{
-  background:var(--alb-orange-action);
+  background:var(--alb-orange);
   color:#fff;
   font-size:19px;
   font-weight:700;
 }
 .alb-lp .alb-btn--primary:hover{
-  background:var(--alb-orange-dark);
+  background:var(--alb-orange-hover);
 }
 .alb-lp .alb-btn--navy{
   background:var(--alb-navy);
@@ -368,7 +365,7 @@
 }
 .alb-lp .alb-slider__project-link{
   align-items:center;
-  color:var(--alb-orange-text);
+  color:var(--alb-orange);
   display:inline-flex;
   font-size:13px;
   font-weight:700;
@@ -399,7 +396,7 @@
   width:52px;
 }
 .alb-lp .alb-slider__arrow--next{
-  background:var(--alb-orange-action);
+  background:var(--alb-orange);
   color:#fff;
 }
 .alb-lp .alb-slider__toggle .alb-icon--play{
@@ -442,9 +439,9 @@
   margin:0;
 }
 .alb-lp .alb-offer-badge{
-  background:var(--alb-orange-tint);
+  background:var(--alb-orange);
   border-radius:var(--alb-pill);
-  color:var(--alb-orange-text);
+  color:#FFFFFF;
   font-size:12px;
   font-weight:600;
   padding:6px 10px;
@@ -467,7 +464,7 @@
   white-space:nowrap;
 }
 .alb-lp .alb-req{
-  color:var(--alb-orange-text);
+  color:var(--alb-orange);
   margin-left:2px;
 }
 .alb-lp .alb-form input:not([type="checkbox"]):not([type="radio"]), .alb-lp .alb-form select{
@@ -678,7 +675,7 @@
   text-align:center;
 }
 .alb-lp.alb-pricing{
-  background:var(--alb-surface-2);
+  background:var(--alb-surface);
 }
 .alb-lp .alb-price-grid{
   display:grid;
@@ -729,7 +726,7 @@
   font-size:var(--alb-h2-sm);
 }
 .alb-lp .alb-offer__copy .alb-hl{
-  color:#FF8B68;
+  color:var(--alb-orange);
 }
 .alb-lp .alb-check-list{
   display:grid;
@@ -763,7 +760,7 @@
   padding-top:var(--alb-section-y-sm);
 }
 .alb-lp.alb-testimonials{
-  background:var(--alb-surface-2);
+  background:var(--alb-surface);
 }
 .alb-lp .alb-rating{
   align-items:center;
@@ -786,12 +783,12 @@
   gap:2px;
 }
 .alb-lp .alb-stars svg{
-  fill:var(--alb-orange-dark);
+  fill:var(--alb-orange);
   height:18px;
   width:18px;
 }
 .alb-lp .alb-stars .alb-star-part{
-  color:var(--alb-orange-dark);
+  color:var(--alb-orange);
 }
 .alb-lp .alb-quote-grid{
   display:grid;
@@ -800,6 +797,7 @@
 }
 .alb-lp .alb-quote-grid figure{
   background:#fff;
+  border:1px solid var(--alb-line-2);
   border-radius:var(--alb-r-md);
   margin:0;
   min-height:260px;
@@ -859,7 +857,7 @@
   max-width:720px;
 }
 .alb-lp.alb-process .alb-hl{
-  color:#FF8B68;
+  color:var(--alb-orange);
 }
 .alb-lp .alb-process__grid{
   display:grid;
@@ -1023,7 +1021,7 @@
   font-size:var(--alb-cta-h2);
 }
 .alb-lp .alb-final__content .alb-hl{
-  color:#FF8B68;
+  color:var(--alb-orange);
 }
 .alb-lp .alb-final__content > p{
   color:var(--alb-on-dark);
@@ -1274,7 +1272,7 @@
     width:20px;
   }
   .alb-lp.alb-mbar .alb-btn--primary{
-    background:var(--alb-orange-dark);
+    background:var(--alb-orange);
     flex:1.3;
     font-size:14px;
   }
@@ -1322,6 +1320,12 @@
    Without JavaScript/WebGL the section is a static illustration + list;
    alb-house3d.js adds .is-3d, which turns the track into a pinned scroll scene.
    --------------------------------------------------------------------------- */
+.alb-lp.alb-why{
+  background:linear-gradient(180deg,#E9F0F8 0%,#F3F7FB 100%);
+}
+.alb-lp.alb-why .alb-why__step{
+  border-bottom-color:#C9D6E4;
+}
 .alb-lp .alb-why__pin{
   align-items:center;
   display:grid;

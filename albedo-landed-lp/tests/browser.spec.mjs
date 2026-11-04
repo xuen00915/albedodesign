@@ -363,7 +363,7 @@ test("Elementor snippets retain section-level styles without the preview wrapper
 
   expect(styles).toEqual({
     headerPosition: "sticky",
-    heroBackground: "rgb(247, 248, 250)",
+    heroBackground: "rgb(255, 255, 255)",
     sectionPadding: 72,
     pricingDisplay: "none",
     processBackground: "rgb(0, 34, 63)",
