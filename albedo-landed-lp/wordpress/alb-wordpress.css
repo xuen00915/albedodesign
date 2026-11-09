@@ -1,0 +1,76 @@
+/* WordPress-only adapter. The design source remains elementor/alb-landing.css. */
+.alb-wp-page.e-con {
+  --container-max-width:100%;
+  --content-width:100%;
+  --container-widget-width:100%;
+  --container-widget-flex-grow:0;
+  --padding-top:0;
+  --padding-right:0;
+  --padding-bottom:0;
+  --padding-left:0;
+  --gap:0;
+  display:block;
+  width:100%;
+  max-width:none;
+  margin:0;
+  padding:0;
+}
+/* Avoid wrappers breaking the header and 3D sticky positioning. */
+.alb-wp-page > .alb-wp-section,
+.alb-wp-page > .alb-wp-section > .elementor-widget-container,
+.alb-wp-page > .alb-wp-section .elementor-shortcode {
+  display:contents;
+}
+.alb-wp-page .wpcf7 { margin:0; }
+.alb-wp-page .wpcf7 form { margin:0; }
+.alb-wp-page .wpcf7-form-control-wrap { display:block; }
+.alb-wp-page .wpcf7-not-valid-tip {
+  color:#9e2514;
+  font-size:13px;
+  margin-top:5px;
+}
+.alb-wp-page .wpcf7-response-output {
+  font-size:14px;
+  margin:12px 0 0!important;
+  padding:10px!important;
+}
+.alb-wp-page .wpcf7-spinner { margin:8px; }
+.alb-wp-page .wpcf7 .alb-form__grid p,
+.alb-wp-page .wpcf7 .alb-choice p { margin:0; }
+/* CF7 wraps adjacent labels in a paragraph; keep labels as grid items. */
+.alb-wp-page .wpcf7 .alb-form__grid > p { display:contents; }
+.alb-wp-page .wpcf7 .alb-form__grid br,
+.alb-wp-page .wpcf7 .alb-choice br { display:none; }
+.alb-wp-page .wpcf7 .wpcf7-list-item { margin:0; }
+.alb-wp-page .wpcf7 .wpcf7-radio {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+}
+.alb-wp-page .wpcf7 .wpcf7-radio label {
+  align-items:center;
+  flex-direction:row;
+  gap:8px;
+  padding:10px 12px;
+  border:1px solid var(--alb-input-border);
+  border-radius:var(--alb-r-sm);
+  cursor:pointer;
+}
+.alb-wp-page .wpcf7 .wpcf7-radio input { accent-color:var(--alb-navy); }
+.alb-wp-page .wpcf7 .wpcf7-radio label:has(input:checked) {
+  background:var(--alb-surface-2);
+  border-color:var(--alb-navy);
+}
+.alb-wp-page .alb-form .wpcf7 input.wpcf7-submit[type="submit"] {
+  cursor:pointer;
+  background:var(--alb-orange);
+  color:#fff;
+  font-weight:700;
+  font-size:19px;
+  border:0;
+  border-radius:var(--alb-pill);
+  min-height:50px;
+  width:100%;
+}
+.alb-wp-page .alb-form .wpcf7 input.wpcf7-submit[type="submit"]:hover { background:var(--alb-orange-hover); }
+.alb-wp-page .wpcf7 form.submitting input[type="submit"] { opacity:.65; }

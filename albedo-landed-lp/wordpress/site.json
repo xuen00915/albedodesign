@@ -1,0 +1,10 @@
+{
+  "site_url": "https://albedodesign.com.sg",
+  "target_path": "/landed-home-renovation/",
+  "form_shortcode": "[contact-form-7 id=\"2ff5e90\" title=\"Landed Home Consultation\"]",
+  "form_post_id": 10973,
+  "form_fields": ["your-name", "your-phone", "your-email", "promo_opt_in"],
+  "mail_recipient": "[_site_admin_email]",
+  "verified_on": "2026-11-05",
+  "verification": "Main-site WordPress Contact Forms list in the authenticated browser. Delivery not tested."
+}

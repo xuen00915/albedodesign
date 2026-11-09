@@ -1,0 +1,23 @@
+<div class="alb-form__grid">
+  <label><span class="alb-form__label">Name <span class="alb-req" aria-hidden="true">*</span></span>
+    [text* your-name id:form-field-name autocomplete:name placeholder "Your name"]
+  </label>
+  <label><span class="alb-form__label">Mobile / WhatsApp <span class="alb-req" aria-hidden="true">*</span></span>
+    [tel* your-phone id:form-field-phone autocomplete:tel placeholder "+65 8123 4567"]
+  </label>
+  <label class="alb-form__wide"><span class="alb-form__label">Email <span class="alb-req" aria-hidden="true">*</span></span>
+    [email* your-email id:form-field-email autocomplete:email placeholder "you@email.com"]
+  </label>
+</div>
+<fieldset class="alb-choice">
+  <legend>Would you like to receive our promotions and free gift offers? <span class="alb-req" aria-hidden="true">*</span></legend>
+  [radio promo_opt_in use_label_element "Yes" "No"]
+</fieldset>
+[hidden property_type id:form-field-property_type]
+[hidden utm_source]
+[hidden utm_medium]
+[hidden utm_campaign]
+[hidden utm_term]
+[hidden gclid]
+[hidden landing_page "landed-renovation"]
+[submit class:alb-btn class:alb-btn--primary class:alb-btn--full "Get My Free Consultation"]

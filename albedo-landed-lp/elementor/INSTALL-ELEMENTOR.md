@@ -1,5 +1,7 @@
 # Install in Elementor
 
+**Main-site integration verified 5 November 2026:** a published landed page and the Contact Form 7 form **Landed Home Consultation** already exist. Use [`../wordpress/PUBLISH.md`](../wordpress/PUBLISH.md) and `npm run build:wordpress` to prepare an update that preserves that form. The manual Elementor Pro form instructions below are an alternative for a new installation; do not replace the existing live form with them without reviewing its delivery and tracking configuration.
+
 ## 1. Create the page
 
 1. In WordPress, open Pages → Add New.

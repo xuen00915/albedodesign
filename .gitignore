@@ -5,3 +5,7 @@ albedo-landed-lp/test-results/
 albedo-landed-lp/playwright-report/
 albedo-landed-lp/preview/qa-*.png
 albedo-landed-lp/pages-dist/
+albedo-landed-lp/wordpress-dist/
+albedo-landed-lp/wordpress-release.zip
+albedo-landed-lp/.wordpress-qa/
+backups/

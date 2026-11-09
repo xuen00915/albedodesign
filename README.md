@@ -6,6 +6,7 @@ This repository contains Albedo Design’s landed-home renovation landing page, 
 - **Detailed editing guide**: [`albedo-landed-lp/README.md`](albedo-landed-lp/README.md)
 - **Elementor installation guide**: [`albedo-landed-lp/elementor/INSTALL-ELEMENTOR.md`](albedo-landed-lp/elementor/INSTALL-ELEMENTOR.md)
 - **Unresolved launch content**: [`albedo-landed-lp/docs/placeholders.md`](albedo-landed-lp/docs/placeholders.md)
+- **WordPress release package**: [`albedo-landed-lp/wordpress/PUBLISH.md`](albedo-landed-lp/wordpress/PUBLISH.md) — `npm run build:wordpress` bundles the current design with the existing main-site Contact Form 7 form for draft review.
 
 ## Preview the page
 

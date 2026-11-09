@@ -1,0 +1,73 @@
+/* Keep the landing page self-contained alongside the main site's WPCode chrome. */
+body:has(.alb-wp-page) .albedo-header,
+body:has(.alb-wp-page) .albedo-footer,
+body:has(.alb-wp-page) .floating-contact-icons { display:none!important; }
+body:has(.alb-wp-page) { padding-top:0!important; }
+.alb-wp-page header.alb-header {
+  display:block!important;
+  top:var(--wp-admin--admin-bar--height,0px);
+  background:#fff;
+}
+.alb-wp-page.alb-lp,
+.alb-wp-page .alb-lp {
+  --alb-section-y:clamp(64px,6.5vw,96px);
+  --alb-r-xl:16px;
+  --alb-r-lg:16px;
+  --alb-r-md:16px;
+  --alb-shadow-hero:0 16px 40px rgba(0,34,63,.12);
+}
+.alb-wp-page h2,
+.alb-wp-page h3 { text-wrap:balance; }
+.alb-wp-page p { text-wrap:pretty; }
+.alb-wp-page a { text-underline-offset:4px; }
+.alb-wp-page input { caret-color:var(--alb-navy); }
+.alb-wp-page .alb-form-card {
+  border-radius:16px;
+  box-shadow:none;
+  padding:22px;
+}
+.alb-wp-page .alb-form-card__head { margin-bottom:16px; }
+.alb-wp-page .wpcf7 .alb-form__grid { gap:12px 14px; }
+.alb-wp-page .wpcf7 form > p { margin:0; }
+.alb-wp-page .wpcf7 form:not(.submitting) .wpcf7-spinner { display:none; }
+.alb-wp-page .wpcf7 input.wpcf7-submit { transition:background-color .2s ease; }
+.alb-wp-page .wpcf7 .wpcf7-radio label { min-height:44px; }
+/* Hide only WP Armour's administrator test UI, never its honeypot or validation. */
+.alb-wp-page .wpa-test-msg { display:none!important; }
+.alb-wp-page #enquire,
+.alb-wp-page .alb-project-card,
+.alb-wp-page section[id] { scroll-margin-top:calc(96px + var(--wp-admin--admin-bar--height,0px)); }
+.alb-wp-page .alb-hero__copy { animation-timing-function:cubic-bezier(.16,1,.3,1); }
+.alb-wp-page .alb-slider__caption { border-radius:12px; }
+.alb-wp-page .alb-project-card__media { border-radius:16px; }
+.alb-wp-page .alb-form-card__micro { margin:12px 0 0; }
+.alb-wp-page .alb-table-wrap { scrollbar-color:var(--alb-steel) var(--alb-surface-2); }
+.alb-wp-page .alb-table-wrap td { font-variant-numeric:tabular-nums; }
+@media (min-width:861px) {
+  .alb-wp-page .alb-hero { min-height:0; padding:32px 0 48px; }
+  .alb-wp-page .alb-slider { min-height:560px; }
+  .alb-wp-page .alb-hero__lead { margin-bottom:24px; }
+}
+@media (min-width:861px) and (max-height:820px) {
+  .alb-wp-page .alb-hero { padding:20px 0 32px; }
+  .alb-wp-page .alb-form-card { padding:18px; }
+  .alb-wp-page .alb-slider { min-height:480px; }
+}
+@media (max-width:860px) {
+  .alb-wp-page .alb-hero { padding-top:24px; }
+  .alb-wp-page .alb-form-card { padding:20px; }
+}
+@media (max-width:560px) {
+  .alb-wp-page.alb-lp,
+  .alb-wp-page .alb-lp { --alb-section-y:56px; }
+  .alb-wp-page .alb-form-card { padding:18px 16px; }
+  .alb-wp-page .alb-form-card__head { gap:10px; }
+  .alb-wp-page .alb-form-card__head h2 { font-size:20px; }
+  .alb-wp-page .alb-form__label { white-space:normal; }
+  .alb-wp-page .alb-header__inner { min-height:68px; }
+  .alb-wp-page .alb-mobilebar { padding-bottom:calc(10px + env(safe-area-inset-bottom,0px)); }
+}
+@media (prefers-reduced-motion:reduce) {
+  .alb-wp-page .alb-hero__copy { animation:none; }
+  .alb-wp-page .wpcf7 input.wpcf7-submit { transition:none; }
+}
