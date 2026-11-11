@@ -637,6 +637,14 @@
 .alb-lp .alb-editorial > div:first-child{
   max-width:520px;
 }
+/* Desktop: the FAQ heading and contact card stay in view while the questions scroll. */
+@media (min-width:1025px){
+  .alb-lp .alb-editorial > div:first-child{
+    align-self:start;
+    position:sticky;
+    top:120px;
+  }
+}
 .alb-lp .alb-divided-list article{
   border-top:1px solid var(--alb-line-2);
   padding:28px 0;
